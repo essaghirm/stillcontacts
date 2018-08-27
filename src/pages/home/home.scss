@@ -1,0 +1,143 @@
+page-home {
+
+	.header{
+		.toolbar-content{
+			position: relative;
+			.title{
+				.toolbar-title{
+					// text-align: center;
+
+					span{
+						color: #ffffff;
+					    padding: 5px 5px;
+					    /* background: white; */
+					    font-size: 12px;
+					    line-height: 12px;
+					    border-radius: 10px;
+					    display: inline-block;
+					    border: 1px solid;
+					    margin-left: 10px;
+					}
+				}
+			}
+
+			button.search{
+				display: table;
+			    position: absolute;
+			    right: 10px;
+			    top: 50%;
+			    -webkit-transform: translateY(-50%);
+			    transform: translateY(-50%);
+			    float: right;
+			    background: transparent;
+			    box-shadow: 0 0 0;
+			    padding: 0 0;
+			    margin: 0 0;
+			    width: 20px;
+			    height: 20px;
+
+				img{
+					max-width: 20px;
+					max-height: 20px;
+				}
+			}
+		}
+		
+	}
+	.list{
+		
+		.item-wrapper{
+			&.active-slide .item .item-inner .name span{
+			    // left: auto;
+			    // right: 0px;
+			    // transition: all .3s;
+			}
+
+			&:last-child .item{
+				border-bottom: 1px solid #F5F5F5;
+			}
+
+			&:nth-child(2n) .item{
+				background: #eee;
+			}
+
+			.item{
+				padding-left: 0px;
+
+
+
+				.item-inner{
+					padding-left: 16px;
+					border-bottom: 1px solid #F5F5F5;
+
+					h2.name {
+					    color: color($colors, mauve);
+					    /* font-weight:  bold; */
+					    height: 20px;
+					    font-size: 16px;
+					    position: relative;
+						
+						span{
+							float: right;
+							margin-left: 5px;
+						    border: 1px solid;
+						    padding: 1px 5px;
+						    font-size: 13px;
+						    line-height: 13px;
+						    color: #9E9E9E;
+						    border-radius: 3px;
+						}
+
+					    .city{
+
+					    }
+
+					    .id{
+						    background: color($colors, mauve);
+						    color: #fafafa;
+						    border: 1px solid color($colors, mauve);
+					    }
+
+					}
+
+					p.email {
+					    font-size: 14px;
+					    display: inline-block;
+					    float: left;
+					    width: calc(100% - 160px);
+					    white-space: nowrap;
+					    overflow: hidden;
+					    text-overflow: ellipsis;
+					}
+
+					p.tel {
+					    font-size: 14px;
+					    display: inline-block;
+					    float: right;
+					    width: 140px;
+					    text-align:  right;
+					    font-weight: bold;
+					}
+				}
+			}
+
+			.options{
+				border-bottom: 1px solid #F5F5F5;
+
+				.button{
+					background-color: #fafafa;
+				}
+
+				span.button-inner{
+				    display:  table;
+				    width:  30px;
+				    max-height: 25px;
+
+				    img{
+				    	width: 25px;
+				    }
+				}
+			}
+		}
+	}
+}

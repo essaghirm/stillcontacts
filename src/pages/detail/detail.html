@@ -1,0 +1,90 @@
+<!--
+  Generated template for the DetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>{{ contact.FirstName }} {{ contact.LastName }}</ion-title>
+		<button *ngIf="lvl > 3" (click)="homePage()" class="homepage" ion-button><img src="assets/icon/homepage.svg" alt=""></button>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ul class="infos">
+		<li *ngIf="contact.City">
+			<span class="label">Ville</span>
+			<span class="value">{{ contact.City }}</span>
+		</li>
+		<li *ngIf="contact.WebSite" (click)="presentActionSheet(contact.WebSite, 'WebSite')">
+			<span class="label">Site web</span>
+			<span class="value">{{ contact.WebSite }}</span>
+		</li>
+		<li *ngIf="contact.Email" (click)="presentActionSheet(contact.Email, 'Email')">
+			<span class="label">E-mail</span>
+			<span class="value">{{ contact.Email }}</span>
+		</li>
+		<li *ngIf="contact.Notes">
+			<span class="label">Notes</span>
+			{{ contact.Notes }}
+			<ion-textarea hidden class="note-input" rows="5" placeholder="Ajouter des notes"></ion-textarea>
+			<button hidden ion-button class="add-btn">Envoyer</button>
+		</li>
+		<li class="title" *ngIf="contact.infos"><h2>Informations</h2></li>
+		<li *ngFor="let i of contact.infos">
+			<span class="label">{{ i.InfoType }}</span>
+			<span class="value" (click)="presentActionSheet(i.InfoValue, i.InfoType)">{{ i.InfoValue }}</span>
+		</li>
+		<li class="title" *ngIf="rel_companies?.length"><h2>Relations <span>Entreprises</span></h2></li>
+		<li class="relations" *ngFor="let r of rel_companies"  (click)="details(r)">
+			<p class="name">{{ r.LastName }} {{ r.FirstName }}</p>
+			<span class="id">{{ r.IdContact }}</span>
+			<span class="occupation">{{ r.Occupation }}</span>
+		</li>
+		<li class="title" *ngIf="rel_contacts?.length"><h2>Relations <span>Contactes</span></h2></li>
+		<li class="relations" *ngFor="let r of rel_contacts"  (click)="details(r)">
+			<p class="name">{{ r.LastName }} {{ r.FirstName }}</p>
+			<span class="id">{{ r.IdContact }}</span>
+			<span class="occupation">{{ r.Occupation }}</span>
+		</li>
+		<li class="title" *ngIf="categories"><h2>Categories</h2></li>
+		<li *ngIf="categories" class="categories">
+			<span class="">{{ categories[0].catname0 }}</span>
+			<span class="">{{ categories[0].catname1 }}</span>
+			<span class="">{{ categories[0].catname2 }}</span>
+			<span class="">{{ categories[0].catname3 }}</span>
+			<span class="">{{ categories[0].catname4 }}</span>
+		</li>
+
+
+
+
+
+
+
+		<li hidden *ngIf="contact.Mobile">
+			<span class="label">Mobile</span>
+			<span class="value">{{ contact.Mobile }}</span>
+			<div class="icons">
+				<ul>
+					<li class="mail" (click)="mail()">
+						<img src="assets/icon/mail-1.svg" alt="">
+					</li>
+					<li class="sms">
+						<img src="assets/icon/sms-1.svg" alt="" (click)="sms()">
+					</li>
+					<li class="whatsapp">
+						<img src="assets/icon/whatsapp-1.svg" alt="" (click)="whatsapp()">
+					</li>
+					<li class="call">
+						<img src="assets/icon/call-3.svg" alt="" (click)="call('+212 661 145 888')">
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</ion-content>

@@ -1,0 +1,120 @@
+<!--
+  Generated template for the SearchPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+	<ion-navbar>
+		<ion-searchbar
+		[(ngModel)]="inputSearch"
+		[showCancelButton]="shouldShowCancel"
+		(ionInput)="onInput($event)"
+		(ionCancel)="onCancel($event)"
+		type="{{ inputType }}">
+	</ion-searchbar>
+</ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="filter">
+		<div class="row">
+			<div class="check">
+				<ion-list radio-group [(ngModel)]="searchOn">
+					<ion-item>
+						<ion-label>Nom</ion-label>
+						<ion-radio (ionSelect)="radioChecked('name', type='text')" value="name"></ion-radio>
+					</ion-item>
+					<ion-item>
+						<ion-label>Téléphone</ion-label>
+						<ion-radio (ionSelect)="radioChecked('phone', type='tel')" value="phone"></ion-radio>
+					</ion-item>
+					<ion-item>
+						<ion-label>Fulltext</ion-label>
+						<ion-radio (ionSelect)="radioChecked('fulltext', type='text')" value="fulltext"></ion-radio>
+					</ion-item>
+					<ion-item>
+						<ion-label>Id</ion-label>
+						<ion-radio (ionSelect)="radioChecked('id', type='number')" value="id"></ion-radio>
+					</ion-item>
+					<ion-item *ngIf="total > 0" class="total">
+						<ion-label>{{ total }}</ion-label>
+					</ion-item>
+				</ion-list>
+			</div>
+			<!-- <button class="more-options">
+				<img src="assets/icon/filter.svg" alt="">
+			</button> -->
+		</div>
+		<div class="row">
+			<div class="select">
+				<ion-item>
+					<!-- <ion-label></ion-label> -->
+					<ion-select #c1 interface="action-sheet" [(ngModel)]="cat_1" placeholder="Catégrie" (ionChange)="onChange(c1.value, 1)">
+						<ion-option *ngFor="let o of categories_lvl_1" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item *ngIf="categories_lvl_2">
+					<ion-select #c2 interface="action-sheet" [(ngModel)]="cat_2" placeholder="Sous-catégorie" (ionChange)="onChange(c2.value, 2)">
+						<ion-option *ngFor="let o of categories_lvl_2" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item *ngIf="categories_lvl_3">
+					<ion-select #c3 interface="action-sheet" [(ngModel)]="cat_3" placeholder="Sous-catégorie" (ionChange)="onChange(c3.value, 3)">
+						<ion-option *ngFor="let o of categories_lvl_3" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item *ngIf="categories_lvl_4">
+					<ion-select #c4 interface="action-sheet" [(ngModel)]="cat_4" placeholder="Sous-catégorie" (ionChange)="onChange(c4.value, 4)">
+						<ion-option *ngFor="let o of categories_lvl_4" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item *ngIf="categories_lvl_5">
+					<ion-select #c5 interface="action-sheet" [(ngModel)]="cat_5" placeholder="Sous-catégorie" (ionChange)="onChange(c5.value, 5)">
+						<ion-option *ngFor="let o of categories_lvl_5" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+					</ion-select>
+				</ion-item>
+			</div>
+		</div>
+	</div>
+	<div class="result">
+		<ion-list>
+			<ion-item-sliding *ngFor="let item of contacts">
+				<ion-item (click)="details(item)">
+					<h2 class="name">{{ item.LastName }} {{ item.FirstName }}
+						<span class="id">{{ item.IdContact }}</span>
+						<span class="city" *ngIf="item.City">{{ item.City }}</span>
+					</h2>
+					<p class="email">{{ item.Email }}</p>
+					<p class="email" *ngIf="!item.Email">{{ item.WebSite }}</p>
+					<p class="tel" *ngIf="item.Mobile">{{ item.Mobile }}</p>
+					<p class="tel" *ngIf="!item.Mobile">{{ item.LandLine }}</p>
+				</ion-item>
+				<ion-item-options class="options" side="right">
+					<button ion-button class="mail" (click)="mail(item.Email)" *ngIf="item.Email">
+						<img src="assets/icon/mail-1.svg" alt="">
+					</button>
+					<button ion-button class="sms" (click)="sms(item.Mobile)" *ngIf="item.Mobile">
+						<img src="assets/icon/sms-1.svg" alt="">
+					</button>
+					<button ion-button class="whatsapp" (click)="whatsapp(item.Mobile)" *ngIf="item.Mobile">
+						<img src="assets/icon/whatsapp-1.svg" alt="">
+					</button>
+					<button ion-button class="call" (click)="call(item.Mobile)" *ngIf="item.Mobile">
+						<img src="assets/icon/call-3.svg" alt="">
+					</button>
+					<button ion-button class="call" (click)="call(item.LandLine)" *ngIf="!item.Mobile">
+						<img src="assets/icon/call-3.svg" alt="">
+					</button>
+				</ion-item-options>
+			</ion-item-sliding>
+		</ion-list>
+	</div>
+
+	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+	   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>

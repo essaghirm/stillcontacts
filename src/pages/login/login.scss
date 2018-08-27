@@ -1,0 +1,72 @@
+page-login {
+	.content{
+		background: color($colors, mauve);
+		position: relative;
+
+		.error{
+			color: #fafafa;
+			width: 250px;
+			padding: 10px;
+			text-align: center;
+			background: #E53935;
+			border-radius: 3px;
+			position: absolute;
+			top: 100px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+	.form{
+		width: 300px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		.item{
+			background: transparent;
+			
+			&.item-input.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+			&.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
+				border-bottom: 0;
+				box-shadow: 0 0 0;
+			}
+
+			&:last-child{
+				border-bottom: 0px;
+
+				.label{
+					margin: 0 8px;
+				}
+			}
+
+			.item-inner{
+				border-bottom: 0px;
+				.label{
+					color: #fff;
+				}
+				input{
+					height: 40px;
+				    // border-radius: 3px;
+				    padding: 10px;
+				    background: #fff;
+				    margin: 0px 8px;
+				    color: color($colors, mauve);
+
+				}
+			}
+
+			button{
+				display: table;
+				width: 100%;
+				height: 40px;
+				background: #66bb6a;
+				box-shadow: 0 0 0;
+				border-radius: 0px;
+				margin: 0 0 0 0;
+			}
+
+
+		}
+	}
+	
+}
