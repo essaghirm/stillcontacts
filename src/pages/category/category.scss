@@ -1,0 +1,49 @@
+page-category {
+
+    ul{
+        padding-left: 0px;
+        padding: 10px;
+        margin-top: 0;
+
+        li{
+            list-style: none;
+
+            &.categoy{
+                border: 1px solid lighten(color($colors, mauve), 40%);
+                border-radius: 5px;
+                overflow: hidden;
+                .item{
+                    background-color: lighten(color($colors, mauve), 50%);
+                    padding-left: 0;
+
+                    .item-inner{
+                        padding-left: 3px;
+                    }
+
+                    ion-select.select{
+                        padding-left: 8px;
+                        width: 100%;
+                        max-width: 100%;
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    ion-fab{
+        > button.fab{
+            color: #f1f1f1;
+            background: color($colors, dark);
+            width: 40px;
+            height: 40px;
+
+            .icon{
+                line-height: 40px;
+                font-size: 20px;
+            }
+        }
+    }
+
+}

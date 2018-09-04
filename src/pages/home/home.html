@@ -1,44 +1,49 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle right>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
     <ion-title>Still Industrial Contacts <span *ngIf="total > 0">{{ total }}</span></ion-title>
+    <button ion-button class="_icon add-contact" (click)="addNewContact()"></button>
     <button (click)="searchPage()" class="search" ion-button><img src="assets/icon/search.svg" alt=""></button>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-  <ion-item-sliding *ngFor="let item of contacts">
-    <ion-item (click)="details(item)">
-      <h2 class="name">{{ item.LastName }} {{ item.FirstName }}
-        <span class="id">{{ item.IdContact }}</span>
-        <span class="city" *ngIf="item.City">{{ item.City }}</span>
-      </h2>
-      <p class="email">{{ item.Email }}</p>
-      <p class="email" *ngIf="!item.Email">{{ item.WebSite }}</p>
-      <p class="tel" *ngIf="item.Mobile">{{ item.Mobile }}</p>
-      <p class="tel" *ngIf="!item.Mobile">{{ item.LandLine }}</p>
-    </ion-item>
-    <ion-item-options class="options" side="right">
-      <button ion-button class="mail" (click)="mail(item.Email)" *ngIf="item.Email">
-        <img src="assets/icon/mail-1.svg" alt="">
-      </button>
-      <button ion-button class="sms" (click)="sms(item.Mobile)" *ngIf="item.Mobile">
-        <img src="assets/icon/sms-1.svg" alt="">
-      </button>
-      <button ion-button class="whatsapp" (click)="whatsapp(item.Mobile)" *ngIf="item.Mobile">
-        <img src="assets/icon/whatsapp-1.svg" alt="">
-      </button>
-      <button ion-button class="call" (click)="call(item.Mobile)" *ngIf="item.Mobile">
-        <img src="assets/icon/call-3.svg" alt="">
-      </button>
-      <button ion-button class="call" (click)="call(item.LandLine)" *ngIf="!item.Mobile">
-        <img src="assets/icon/call-3.svg" alt="">
-      </button>
-    </ion-item-options>
-  </ion-item-sliding>
-</ion-list>
+    <ion-item-sliding *ngFor="let item of contacts">
+      <ion-item (click)="details(item)">
+        <h2 class="name">{{ item.lname }} {{ item.fname }}
+          <span class="id">{{ item.id }}</span>
+          <span class="city" *ngIf="item.City">{{ item.city }}</span>
+        </h2>
+        <p class="email">{{ item.email }}</p>
+        <p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
+        <p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
+        <p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
+      </ion-item>
+      <ion-item-options class="options" side="right">
+        <button ion-button class="mail" (click)="mail(item.email)" *ngIf="item.email">
+          <img src="assets/icon/mail-1.svg" alt="">
+        </button>
+        <button ion-button class="sms" (click)="sms(item.mobile)" *ngIf="item.mobile">
+          <img src="assets/icon/sms-1.svg" alt="">
+        </button>
+        <button ion-button class="whatsapp" (click)="whatsapp(item.mobile)" *ngIf="item.mobile">
+          <img src="assets/icon/whatsapp-1.svg" alt="">
+        </button>
+        <button ion-button class="call" (click)="call(item.mobile)" *ngIf="item.mobile">
+          <img src="assets/icon/call-3.svg" alt="">
+        </button>
+        <button ion-button class="call" (click)="call(item.landline)" *ngIf="!item.mobile">
+          <img src="assets/icon/call-3.svg" alt="">
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-  <ion-infinite-scroll-content></ion-infinite-scroll-content>
-</ion-infinite-scroll>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

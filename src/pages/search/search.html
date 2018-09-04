@@ -7,14 +7,13 @@
 <ion-header>
 
 	<ion-navbar>
-		<ion-searchbar
-		[(ngModel)]="inputSearch"
-		[showCancelButton]="shouldShowCancel"
-		(ionInput)="onInput($event)"
-		(ionCancel)="onCancel($event)"
-		type="{{ inputType }}">
-	</ion-searchbar>
-</ion-navbar>
+		<button ion-button menuToggle right>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-searchbar [(ngModel)]="inputSearch" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"
+		 type="{{ inputType }}">
+		</ion-searchbar>
+	</ion-navbar>
 
 </ion-header>
 
@@ -115,6 +114,6 @@
 	</div>
 
 	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-	   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+		<ion-infinite-scroll-content></ion-infinite-scroll-content>
 	</ion-infinite-scroll>
 </ion-content>

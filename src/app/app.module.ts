@@ -11,6 +11,10 @@ import { DetailPage } from '../pages/detail/detail';
 import { SearchPage } from '../pages/search/search';
 import { LoginPage } from '../pages/login/login';
 
+import { EditInfoPage } from '../pages/edit-info/edit-info';
+import { AddRelationPage } from '../pages/add-relation/add-relation';
+import { EditContactPage } from '../pages/edit-contact/edit-contact';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -19,6 +23,9 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { CallNumber } from '@ionic-native/call-number';
 import { Clipboard } from '@ionic-native/clipboard';
 import { IonicStorageModule } from '@ionic/storage';
+import { ContactServicesProvider } from '../providers/contact-services/contact-services';
+import { CategoryPage } from '../pages/category/category';
+import { UsersPage } from '../pages/users/users';
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +35,12 @@ import { IonicStorageModule } from '@ionic/storage';
     // TabsPage,
     DetailPage,
     SearchPage,
-    LoginPage
+    LoginPage,
+    EditInfoPage,
+    AddRelationPage,
+    EditContactPage,
+    CategoryPage,
+    UsersPage
   ],
   imports: [
     BrowserModule,
@@ -45,7 +57,12 @@ import { IonicStorageModule } from '@ionic/storage';
     // TabsPage,
     DetailPage,
     SearchPage,
-    LoginPage
+    LoginPage,
+    EditInfoPage,
+    AddRelationPage,
+    EditContactPage,
+    CategoryPage,
+    UsersPage
   ],
   providers: [
     StatusBar,
@@ -53,7 +70,8 @@ import { IonicStorageModule } from '@ionic/storage';
     SocialSharing,
     CallNumber,
     Clipboard,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ContactServicesProvider
   ]
 })
 export class AppModule {}

@@ -1,5 +1,14 @@
 page-detail {
 
+	._icon.add{
+		background-color: color($colors, dark);
+		-webkit-mask-image: url(../assets/icon/add.svg);
+		mask-image: url(../assets/icon/add.svg);
+		right: 0px;
+		top: 0;
+		// transform: translateY(-50%);
+	}
+
 	.header{
 		.toolbar-content{
 			position: relative;
@@ -31,6 +40,13 @@ page-detail {
 			}
 		}
 		
+		._icon.edit{
+			right: 16px;
+			width: 20px;
+			height: 20px;
+		}
+
+		
 	}
 
 	.infos{
@@ -51,13 +67,42 @@ page-detail {
 			margin-bottom: 10px;
 			position: relative;
 
+			._icon.edit{
+				right: 30px;
+				background: color($colors, dark);
+				width: 16px;
+				height: 16px;
+				top: 0px;
+				transform: translateY(0%);
+			}
+
+			._icon.delete{
+				background-color: color($colors, danger);
+				mask-image: url(../assets/icon/delete.svg);
+				right: 50px;
+				width: 16px;
+				height: 20px;
+				top: -3px;
+				z-index: 9;
+			}
+
+			&.contact-info{
+				._icon.edit{
+					right: 0px;
+					background: #bdbdbd;
+					width: 16px;
+					height: 16px;
+					top: -2px;
+				}
+			}
+
 			&:last-child{
 				border-bottom: 0px;
 			}
 
 			&.relations{
 				border-bottom: 1px solid #eee;
-				margin-bottom: 5px;
+				margin-bottom: 15px;
 
 				.name{
 					color: color($colors, mauve);
@@ -95,7 +140,7 @@ page-detail {
 					font-weight: bold;
 				    font-size: 14px;
 				    padding-bottom: 5px;
-				    color: color($colors, mauve);
+				    color: color($colors, dark);
 				    text-transform: uppercase;
 				    border-bottom: 1px solid;
 
@@ -170,6 +215,8 @@ page-detail {
 			}
 		}
 	}
+
+
 
 	
 

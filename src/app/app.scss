@@ -21,8 +21,12 @@
 }
 
 .header{
+
+	.icon[name="menu"]:before{
+		color: #f1f1f1;
+	}
 	.toolbar-background{
-		background: color($colors, mauve);
+		background: color($colors, dark);
 	}
 
 	.title{
@@ -36,5 +40,84 @@
 		color: #fff;
 		padding-right: 0px;
 		margin-right: 0px;
+	}
+}
+
+ion-menu{
+	.header{
+		// background: inherit;
+	}
+
+	.scroll-content{
+		.item{
+
+			.item-inner{
+				border-bottom: 0;
+			}
+			
+			&:nth-child(2n+1){
+				background: #f7f7f7;
+			}
+
+			&.sign-out{
+				color: #f7f7f7;
+				background: red;
+			}
+			&.account{
+				color: #f7f7f7;
+				background: #64b5f6;
+			}
+		}
+	}
+
+
+}
+
+._icon{
+	display: table;
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+
+	&.add-contact{
+		background-color: #f7f7f7;
+		-webkit-mask-image: url(../assets/icon/add.svg);
+		mask-image: url(../assets/icon/add.svg);
+		position: absolute;
+		right: 50px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 24px;
+		height: 24px;
+	}
+
+	&.edit{
+		background-color: #f7f7f7;
+		-webkit-mask-image: url(../assets/icon/edit.svg);
+		mask-image: url(../assets/icon/edit.svg);
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 24px;
+		height: 24px;
+	}
+}
+
+.popover-content{
+	min-width: 340px!important;
+}
+
+ion-popover{
+	background-color: rgba(color($colors, dark), .5);
+	&.edit-contact{
+		.popover-content{
+			min-width: 100%!important;
+			left: 0px!important;
+			// height: 100%!important;
+			top: 0px!important;
+			// max-height: 100%;
+		}
 	}
 }
