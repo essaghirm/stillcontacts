@@ -26,6 +26,7 @@ export class LoginPage {
 	full_name: string
 	email: string
 	message: any
+	messageClass:any
 	action:string = "connect"
 	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage) {
 
@@ -63,7 +64,8 @@ export class LoginPage {
 					}, 500)
 
 				} else {
-					this.message = data
+					this.messageClass = data.status
+					this.message = data.message
 				}
 			},
 			err => {
@@ -73,7 +75,25 @@ export class LoginPage {
 	}
 
 	create(){
-
+		console.log(this.full_name, this.new_password, this.new_username, this.email)
+		this.http.post(
+			'http://127.0.0.1:8000/user/new',
+			{
+				"full_name": this.full_name,
+			    "email": this.email,
+			    "user_name": this.new_username,
+			    "password": this.new_password
+			}
+		).map(res => res.json()).subscribe(
+			data => {
+				console.log(data)
+				this.messageClass = data.status
+					this.message = data.message
+			},
+			err => {
+				console.log("Oops!")
+			}
+		)
 	}
 
 	changeAction(action){

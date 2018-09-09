@@ -34,18 +34,25 @@ page-login {
 		background: color($colors, dark);
 		position: relative;
 
-		.error{
+		.message{
 			color: #fafafa;
 			width: 300px;
 			padding: 10px;
 			text-align: center;
 			font-size: 12px;
-			background: color($colors, danger);
 			border-radius: 3px;
 			position: absolute;
 			bottom: 50px;
 			left: 50%;
 			transform: translateX(-50%);
+
+			&.error{
+				background: color($colors, danger);
+			}
+
+			&.created{
+				background: color($colors, secondary);
+			}
 		}
 	}
 	.form{
