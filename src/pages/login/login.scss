@@ -1,27 +1,60 @@
 page-login {
+
+	.btn{
+		display: table;
+		margin: 60px auto;
+		.button{
+			background: transparent;
+			border-radius: 5px;
+			margin: 0 0 0 0;			
+			box-shadow: 0px 0px 0px 1px #f7f7f7;
+			font-size: 12px;
+			padding: 0px 15px;
+			font-weight: normal;
+			text-transform: none;
+
+			&:first-child{
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+
+			&:last-child{
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+				// margin-left: -1px;
+			}
+
+			&.filled{
+				background: #f7f7f7;
+				color: color($colors, dark);
+			}
+		}
+	}
 	.content{
-		background: color($colors, mauve);
+		background: color($colors, dark);
 		position: relative;
 
 		.error{
 			color: #fafafa;
-			width: 250px;
+			width: 300px;
 			padding: 10px;
 			text-align: center;
-			background: #E53935;
+			font-size: 12px;
+			background: color($colors, danger);
 			border-radius: 3px;
 			position: absolute;
-			top: 100px;
+			bottom: 50px;
 			left: 50%;
 			transform: translateX(-50%);
 		}
 	}
 	.form{
 		width: 300px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+		margin: 0 auto;
+		// position: absolute;
+		// top: 50%;
+		// left: 50%;
+		// transform: translate(-50%, -50%);
 		.item{
 			background: transparent;
 			
@@ -50,7 +83,9 @@ page-login {
 				    padding: 10px;
 				    background: #fff;
 				    margin: 0px 8px;
-				    color: color($colors, mauve);
+					color: color($colors, dark);
+					border-radius: 5px;
+					background: lighten(color($colors, dark), 70%)
 
 				}
 			}
@@ -59,10 +94,11 @@ page-login {
 				display: table;
 				width: 100%;
 				height: 40px;
-				background: #66bb6a;
+				background: color($colors, secondary);
 				box-shadow: 0 0 0;
 				border-radius: 0px;
 				margin: 0 0 0 0;
+				border-radius: 5px;
 			}
 
 

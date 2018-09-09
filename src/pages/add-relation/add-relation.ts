@@ -20,7 +20,7 @@ export class AddRelationPage {
 	inputSearch = ""
 	contactType: any
 	contacts: any
-	occupation: any
+	occupation: string = ""
 	contact: any
 	choiced: any
 	constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {

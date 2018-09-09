@@ -18,7 +18,7 @@
         <li class="type">
             <ion-item>
                 <ion-select [(ngModel)]="type" placeholder="Type de contact">
-                    <ion-option value="contact">contact</ion-option>
+                    <ion-option value="contact">Contact</ion-option>
                     <ion-option value="company">Entreprise</ion-option>
                 </ion-select>
             </ion-item>
@@ -71,7 +71,8 @@
             <ion-input [(ngModel)]="web_site" placeholder="Site web"></ion-input>
         </li>
         <li>
-            <button class="add" ion-button (click)="saveContact()">Submit</button>
+            <button *ngIf="action == 'new'" class="add" ion-button (click)="saveContact()">Ajouter</button>
+            <button *ngIf="action == 'edit'" class="add" ion-button (click)="editContact()">Modifier</button>
 			<button class="cancel" ion-button (click)="close()">Annuler</button>
         </li>
     </ul>

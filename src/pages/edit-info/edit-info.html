@@ -8,7 +8,10 @@
 
   <ion-navbar>
     <ion-title *ngIf="info">Modifier</ion-title>
-    <ion-title  *ngIf="!info">Ajouter</ion-title>
+		<ion-title  *ngIf="!info">Ajouter</ion-title>
+		<!--  -->
+		<ion-toggle *ngIf="info && (info.type == 'Email' || info.type == 'Mobile' || info.type == 'LandLine')" [(ngModel)]="info.status"></ion-toggle>
+		<ion-toggle *ngIf="!info && (type == 'Email' || type == 'Mobile' || type == 'LandLine')" [(ngModel)]="status"></ion-toggle>
   </ion-navbar>
 
 </ion-header>

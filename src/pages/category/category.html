@@ -7,7 +7,11 @@
 <ion-header>
 
   <ion-navbar>
+      <button ion-button menuToggle right>
+          <ion-icon name="menu"></ion-icon>
+        </button>
     <ion-title>Gestion des categories</ion-title>
+    <button ion-button class="_icon add-contact" (click)="addNewCategory()"></button>
   </ion-navbar>
 
 </ion-header>
@@ -47,7 +51,28 @@
       </ion-item>
 
     </li>
+
+    <li *ngIf="category != null && action != 'add'">
+        <button ion-button class="edit" (click)="editCategory()">Modifier</button>
+        <button [disabled]="!canRemove" ion-button class="remove" (click)="removeCategory()">Supprimer</button>
+    </li>
   </ul>
+
+  <div class="form">
+    <ul *ngIf="action == 'edit' || action == 'add'">
+      <li class="messsage">
+        <p *ngIf="action == 'add'">Créer une nouvelle categorie au niveau <strong>{{ lvl }}</strong></p>
+        <p *ngIf="action == 'edit'">Modifier la categorie <strong>#{{ category }}</strong>, niveau <strong>{{ lvl - 1 }}</strong></p>
+      </li>
+      <li>
+          <ion-input [(ngModel)]="title" placeholder="Titre"></ion-input>
+      </li>
+      <li>
+        <button ion-button class="submit" (click)="submit()">Submit</button>
+        <button ion-button class="cancel" (click)="cancel()">Annuler</button>
+      </li>
+    </ul>
+  </div>
 
 
   <ion-fab right bottom>

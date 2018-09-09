@@ -67,6 +67,26 @@ page-detail {
 			margin-bottom: 10px;
 			position: relative;
 
+			&.default{
+				.label{
+					padding-left: 18px;
+					position: relative;
+					// font-family: "Ionicons";
+					// color: color($colors, secondary);
+					&:after{
+						content: "\f149";
+						color: color($colors, secondary);
+						font-family: "Ionicons";
+						width: 15px;
+						height: 15px;
+						font-size: 15px;
+						position: absolute;
+						left: 0;
+						top: 0;
+					}
+				}
+			}
+
 			._icon.edit{
 				right: 30px;
 				background: color($colors, dark);
@@ -74,6 +94,10 @@ page-detail {
 				height: 16px;
 				top: 0px;
 				transform: translateY(0%);
+
+				&.right{
+					right: 0;
+				}
 			}
 
 			._icon.delete{

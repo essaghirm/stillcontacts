@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, ViewController, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -42,7 +42,7 @@ export class DetailPage {
   lvl = 0
 
   loading: any
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public actionSheetCtrl: ActionSheetController, private clipboard: Clipboard, private toastCtrl: ToastController, public popoverCtrl: PopoverController) {
+  constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public actionSheetCtrl: ActionSheetController, private clipboard: Clipboard, private toastCtrl: ToastController, public popoverCtrl: PopoverController) {
     this.contact = this.navParams.data.contact
     this.lvl = this.navParams.data.lvl
     console.log(this.navParams.data, this.navParams.data.contact)
@@ -52,23 +52,38 @@ export class DetailPage {
 
 
   checkCanAddRelation(){
-    if((this.contact.type = 'contact' && this.relations.contacts.length < 5) || (this.contact.type = 'company'))
-    {
-      this.canAddContact= true
+    if(this.relations != null){
+      if((this.contact.type == 'contact' && this.relations.contacts.length < 5) || (this.contact.type == 'company'))
+      {
+        this.canAddContact= true
+      }else{
+        this.canAddContact = false
+      }
+
+      if((this.contact.type == 'contact' && this.relations.companies.length < 5) || (this.contact.type == 'company' && this.relations.companies.length < 10)){
+        this.canAddCompany = true
+      }else{
+        this.canAddCompany = false
+      }
     }else{
-      this.canAddContact = false
+      this.canAddCompany = true
+      this.canAddContact = true
     }
 
-    if((this.contact.type = 'contact' && this.relations.companies.length < 5) || (this.contact.type = 'company' && this.relations.companies.length < 10)){
-      this.canAddCompany = true
-    }else{
-      this.canAddCompany = false
-    }
+    
+
+    console.log("canAddCompany", this.relations.companies.length, this.canAddCompany)
+    console.log("canAddContact", this.relations.contacts.length, this.canAddContact)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
   }
+
+  // ionViewDidEnter(){
+  //   console.log("ionViewDidEnter")
+  //   this.getDetails()
+  // }
 
   allowDelete(type){
     if(type == 'contact'){
@@ -111,11 +126,11 @@ export class DetailPage {
   getDetails() {
     this.http.get(this.url + '/contact/' + this.contact.id).map(res => res.json()).subscribe(
       data => {
+        console.log('Details :', data, typeof(data.relations))
         this.contact = data.contact
         this.categories = data.categories
         this.relations = data.relations
         this.checkCanAddRelation()
-        console.log('Details :', data)
       },
       err => {
         console.log("Oops!")
@@ -313,6 +328,40 @@ export class DetailPage {
     popover.present({
     });
   }
+
+  deleteRelation(friend_id) {
+		let alert = this.alertCtrl.create({
+			title: 'Confirmeation',
+			message: 'Voulez-vous vraiment supprimer la relation ?',
+			buttons: [
+				{
+					text: 'Anuller',
+					role: 'cancel',
+					handler: () => {
+						console.log('Cancel clicked');
+					}
+				},
+				{
+					text: 'Oui je veux',
+					handler: () => {
+						this.http.delete('http://localhost:8000/contact/relation/' + this.contact.id + '/' + friend_id).map(res => res.json()).subscribe(
+							data => {
+								console.log(data)
+								this.navCtrl.push(DetailPage, {
+									contact: data.contact,
+									lvl: 0
+								})
+							},
+							err => {
+								console.log("Oops!")
+							}
+						)
+					}
+				}
+			]
+		});
+		alert.present();
+	}
 
 
 }

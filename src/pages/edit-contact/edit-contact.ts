@@ -25,7 +25,7 @@ export class EditContactPage {
     web_site: string
     notes: string
     city: string
-    category:any
+    category:any = null
 
     categories: any
     categories_2: any
@@ -34,12 +34,14 @@ export class EditContactPage {
     categories_5: any
 
     loading: any
+    action: any
     constructor(public viewCtrl: ViewController, public navCtrl: NavController, public http: Http, public navParams: NavParams, public loadingCtrl: LoadingController) {
         this.contact = this.navParams.data.contact
+        this.action = (this.navParams.data.contact == null) ? "new" : "edit"
+        console.log('action', this.action)
         if(this.contact != null){
             this.id = this.contact.id
-            this.type = "company"
-            this.category = 26
+            this.type = this.contact.type
             this.lname = this.contact.lname
             this.fname = this.contact.fname
             this.city = this.contact.city
@@ -96,11 +98,10 @@ export class EditContactPage {
     }
 
     getCategoriesByLvl(parent, lvl) {
-        console.log('func - getCategories')
         this.http.get('http://127.0.0.1:8000/category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
             data => {
                 if(data.length > 0){
-                    console.log('Result: ', data, typeof(data))
+                    console.log('Categories: ', lvl, data)
                     this['categories_' + lvl] = data
                 }
             },
@@ -113,14 +114,17 @@ export class EditContactPage {
     onChange(parent, lvl){
         this.reset(lvl)
         console.log(parent, lvl)
-        this.category = parent
+        if(lvl == 6){
+            this.category = parent
+        }
         console.log('Category choiced:', this.category)
+        
         this.getCategoriesByLvl(parent, lvl)
     }
 
     reset(lvl){
+        this.category = null
         for (let index = lvl; index <= 5; index++) {
-            console.log('categories_'+index)
             this['categories_' + index] = null
         }
     }
@@ -143,6 +147,32 @@ export class EditContactPage {
             data => {
                 this.loadingDismiss()
                 console.log('allaaa: ', data)
+                this.details(data.contact)
+            },
+            err => {
+                console.log("Oops!")
+            }
+        )
+    }
+
+    editContact(){
+        console.log('edit contact func')
+        this.presentLoading()
+        this.http.put(
+            'http://localhost:8000/contact/'+this.contact.id,
+            {
+                "fname": this.fname,
+                "lname": this.lname,
+                "web_site": this.web_site,
+                "city": this.city,
+                "notes": this.notes,
+                "type": this.type,
+                "category": this.category
+            }
+        ).map(res => res.json()).subscribe(
+            data => {
+                this.loadingDismiss()
+                console.log('good: ', data)
                 this.details(data.contact)
             },
             err => {

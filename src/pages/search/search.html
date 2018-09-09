@@ -51,29 +51,40 @@
 		<div class="row">
 			<div class="select">
 				<ion-item>
-					<!-- <ion-label></ion-label> -->
-					<ion-select #c1 interface="action-sheet" [(ngModel)]="cat_1" placeholder="Catégrie" (ionChange)="onChange(c1.value, 1)">
-						<ion-option *ngFor="let o of categories_lvl_1" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+					<ion-select #c1 interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange(c1.value, 2)">
+						<ion-option *ngFor="let c of categories" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
-				<ion-item *ngIf="categories_lvl_2">
-					<ion-select #c2 interface="action-sheet" [(ngModel)]="cat_2" placeholder="Sous-catégorie" (ionChange)="onChange(c2.value, 2)">
-						<ion-option *ngFor="let o of categories_lvl_2" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+
+				<ion-item *ngIf="categories_2">
+					<ion-select #c2 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c2.value, 3)">
+						<ion-option *ngFor="let c of categories_2" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
-				<ion-item *ngIf="categories_lvl_3">
-					<ion-select #c3 interface="action-sheet" [(ngModel)]="cat_3" placeholder="Sous-catégorie" (ionChange)="onChange(c3.value, 3)">
-						<ion-option *ngFor="let o of categories_lvl_3" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+
+				<ion-item *ngIf="categories_3">
+					<ion-select #c3 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c3.value, 4)">
+						<ion-option *ngFor="let c of categories_3" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
-				<ion-item *ngIf="categories_lvl_4">
-					<ion-select #c4 interface="action-sheet" [(ngModel)]="cat_4" placeholder="Sous-catégorie" (ionChange)="onChange(c4.value, 4)">
-						<ion-option *ngFor="let o of categories_lvl_4" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+
+				<ion-item *ngIf="categories_4">
+					<ion-select #c4 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c4.value, 5)">
+						<ion-option *ngFor="let c of categories_4" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
-				<ion-item *ngIf="categories_lvl_5">
-					<ion-select #c5 interface="action-sheet" [(ngModel)]="cat_5" placeholder="Sous-catégorie" (ionChange)="onChange(c5.value, 5)">
-						<ion-option *ngFor="let o of categories_lvl_5" value="{{ o.IdCategory }}">{{ o.CategoryName }}</ion-option>
+
+				<ion-item *ngIf="categories_5">
+					<ion-select #c5 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c5.value, 6)">
+						<ion-option *ngFor="let c of categories_5" value="{{ c.id }}">{{ c.title }}</ion-option>
+					</ion-select>
+				</ion-item>
+
+				<ion-item *ngIf="showSearchByType">
+					<ion-select #c6 interface="action-sheet" [(ngModel)]="contactType" placeholder="Type de contac" (ionChange)="changeContactType(c6.value)">
+						<ion-option value="">Tous</ion-option>
+						<ion-option value="contact">Contact</ion-option>
+						<ion-option value="company">Entreprise</ion-option>
 					</ion-select>
 				</ion-item>
 			</div>
@@ -83,29 +94,32 @@
 		<ion-list>
 			<ion-item-sliding *ngFor="let item of contacts">
 				<ion-item (click)="details(item)">
-					<h2 class="name">{{ item.LastName }} {{ item.FirstName }}
-						<span class="id">{{ item.IdContact }}</span>
-						<span class="city" *ngIf="item.City">{{ item.City }}</span>
+					<h2 class="name">{{ item.lname }} {{ item.fname }}
+						<span class="id">{{ item.id }}</span>
+						<span class="city" *ngIf="item.City">{{ item.city }}</span>
 					</h2>
-					<p class="email">{{ item.Email }}</p>
-					<p class="email" *ngIf="!item.Email">{{ item.WebSite }}</p>
-					<p class="tel" *ngIf="item.Mobile">{{ item.Mobile }}</p>
-					<p class="tel" *ngIf="!item.Mobile">{{ item.LandLine }}</p>
+					<p class="email">{{ item.email }}</p>
+					<p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
+					<p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
+					<p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
 				</ion-item>
+				<ion-item-options class="options" side="left">
+					<button ion-button class="delete" (click)="deleteContact(item.id)"></button>
+				</ion-item-options>
 				<ion-item-options class="options" side="right">
-					<button ion-button class="mail" (click)="mail(item.Email)" *ngIf="item.Email">
+					<button ion-button class="mail" (click)="mail(item.email)" *ngIf="item.email">
 						<img src="assets/icon/mail-1.svg" alt="">
 					</button>
-					<button ion-button class="sms" (click)="sms(item.Mobile)" *ngIf="item.Mobile">
+					<button ion-button class="sms" (click)="sms(item.mobile)" *ngIf="item.mobile">
 						<img src="assets/icon/sms-1.svg" alt="">
 					</button>
-					<button ion-button class="whatsapp" (click)="whatsapp(item.Mobile)" *ngIf="item.Mobile">
+					<button ion-button class="whatsapp" (click)="whatsapp(item.mobile)" *ngIf="item.mobile">
 						<img src="assets/icon/whatsapp-1.svg" alt="">
 					</button>
-					<button ion-button class="call" (click)="call(item.Mobile)" *ngIf="item.Mobile">
+					<button ion-button class="call" (click)="call(item.mobile)" *ngIf="item.mobile">
 						<img src="assets/icon/call-3.svg" alt="">
 					</button>
-					<button ion-button class="call" (click)="call(item.LandLine)" *ngIf="!item.Mobile">
+					<button ion-button class="call" (click)="call(item.landline)" *ngIf="!item.mobile">
 						<img src="assets/icon/call-3.svg" alt="">
 					</button>
 				</ion-item-options>

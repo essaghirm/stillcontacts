@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the UsersPage page.
@@ -14,12 +15,82 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'users.html',
 })
 export class UsersPage {
+  url = "http://localhost:8000"
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  users: any
+
+  constructor(private alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+    this.getUsers()
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UsersPage');
+  }
+
+  getUsers() {
+    this.http.get(this.url + '/user/').map(res => res.json()).subscribe(
+      data => {
+        console.log(data)
+        this.users = data
+      },
+      err => {
+        console.log("Oops!")
+      }
+    )
+  }
+
+  onChangeStatus(user){
+    this.users.forEach(u => {
+      if(u.id == user.id){
+        console.log(u.status, u)
+        this.http.post(this.url+'/user/changeuserstatus/'+u.id, {
+          "status": u.status
+        }).map(res => res.json()).subscribe(
+          data => {
+            if(data == true){
+              console.log(data)
+            }else{
+              console.log('error')
+            }
+          },
+          err => {
+            console.log("Oops!")
+          }
+        )
+      }
+    })
+  }
+
+  removeUser(user){
+    this.presentConfirm()
+    this.users.forEach(u => {
+      if(u.id == user.id){
+        console.log('Remove :', u)
+      }
+    })
+  }
+
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmeation',
+      message: 'Voulez-vous vraiment supprimer cet utilisateur?',
+      buttons: [
+        {
+          text: 'Anuller',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Oui je veux',
+          handler: () => {
+            console.log('Oui je veux');
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }

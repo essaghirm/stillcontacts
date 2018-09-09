@@ -15,12 +15,18 @@ import { Http } from '@angular/http';
 	templateUrl: 'category.html',
 })
 export class CategoryPage {
-	category
+	category: number = null
 	categories: any
 	categories_2: any
 	categories_3: any
 	categories_4: any
-	categories_5: any
+    categories_5: any
+
+    lvl:any = 1
+    title: string = null
+    canRemove: any = false
+    
+    action:  any = null;
 	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
 		this.getCategories()
 	}
@@ -60,7 +66,9 @@ export class CategoryPage {
 	}
 	
 	onChange(parent, lvl){
+        this.lvl = lvl
         this.reset(lvl)
+        this.action = null
         console.log(parent, lvl)
         this.category = parent
         console.log('Category choiced:', this.category)
@@ -71,6 +79,45 @@ export class CategoryPage {
         for (let index = lvl; index <= 5; index++) {
             console.log('categories_'+index)
             this['categories_' + index] = null
+        }
+    }
+
+    addNewCategory(){
+        this.action = "add"
+    }
+
+    editCategory(){
+        this.action = "edit"
+        let _array: any
+        if(this.lvl == 2){
+            _array = this.categories
+        }else{
+            _array = this['categories_' + (this.lvl - 1)]
+        }
+        setTimeout(() => {
+            _array.forEach(e => {
+                if(e.id == this.category){
+                    this.title = e.title
+                }
+            });
+        }, 500);
+        
+    }
+
+    cancel(){
+        this.action = null
+        this.title = ""
+    }
+
+    removeCategory(){
+        this.action = null
+        this.title = ""
+    }
+
+    submit(){
+        let id: number = null
+        if(this.action == "edit"){
+            id = this.category
         }
     }
 

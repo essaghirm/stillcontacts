@@ -250,6 +250,18 @@ page-search {
 					    	width: 25px;
 					    }
 					}
+
+					.delete{
+						padding: 0 15px;
+						background: color($colors, danger);
+						.button-inner{
+							width: 20px;
+							height: 25px;
+							background-color: #f7f7f7;
+							mask-image: url(../assets/icon/delete.svg);
+						}
+						
+					}
 				}
 			}
 		}

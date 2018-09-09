@@ -1,3 +1,54 @@
 page-users {
 
+    .list.users{
+
+        .item{
+            padding-left: 0;
+            position: relative;
+            padding: 5px 0;
+            border-bottom: 1px solid lighten(color($colors, dark), 60%);
+
+            .item-inner{
+                // width: 100%;
+                border-bottom: 0;
+                padding-left: 16px;
+
+                .label{
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                }
+
+                h2{
+                    font-size: 14px;
+                    color: color($colors, dark);
+                }
+                p{
+                    font-size: 13px;
+                    color: lighten(color($colors, secondary), 10%);
+                }
+            }
+
+            .toggle{
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+
+        .options{
+            .remove{
+                padding: 0 15px;
+                background: color($colors, danger);
+                .button-inner{
+                    width: 20px;
+                    height: 25px;
+                    background-color: #f7f7f7;
+                    mask-image: url(../assets/icon/delete.svg);
+                }
+                
+            }
+        }
+    }
+
 }

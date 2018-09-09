@@ -15,7 +15,12 @@
 
 <ion-content>
 
-	<ion-list class="form">
+	<div class="btn">	
+		<button [ngClass]="(action == 'connect') ? 'filled' : 'default'" ion-button (click)="changeAction('connect')">Se connecter</button>
+		<button [ngClass]="(action == 'create') ? 'filled' : 'default'" ion-button (click)="changeAction('create')">Créer un compte</button>
+	</div>
+
+	<ion-list class="form" *ngIf="action == 'connect'">
 
 		<!-- i.fatih@stillindustrial.com -->
 		<!-- rabat2020 -->
@@ -24,15 +29,43 @@
 		</ion-item>
 
 		<ion-item>
-			<ion-input [(ngModel)]="pw" type="password" placeholder="Password"></ion-input>
+			<ion-input [(ngModel)]="password" type="password" placeholder="Password"></ion-input>
 		</ion-item>
 
 		<ion-item>
 			<button ion-button (click)="checklogin()">Login</button>
-			
+
 		</ion-item>
 
 	</ion-list>
+
+	<ion-list class="form add new"  *ngIf="action == 'create'">
+
+		<!-- i.fatih@stillindustrial.com -->
+		<!-- rabat2020 -->
+		<ion-item>
+			<ion-input [(ngModel)]="full_name" type="text" value="" placeholder="Nom"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-input [(ngModel)]="username" type="text" value="" placeholder="Username"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-input [(ngModel)]="email" type="text" value="" placeholder="E-mail"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-input [(ngModel)]="pw" type="password" placeholder="Password"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<button ion-button (click)="create()">Submit</button>
+
+		</ion-item>
+
+	</ion-list>
+
 	<div *ngIf="message" class="error">
 		{{ message }}
 	</div>

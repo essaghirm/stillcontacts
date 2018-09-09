@@ -26,6 +26,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ContactServicesProvider } from '../providers/contact-services/contact-services';
 import { CategoryPage } from '../pages/category/category';
 import { UsersPage } from '../pages/users/users';
+import { DiagnosticPage } from '../pages/diagnostic/diagnostic';
 @NgModule({
   declarations: [
     MyApp,
@@ -40,7 +41,8 @@ import { UsersPage } from '../pages/users/users';
     AddRelationPage,
     EditContactPage,
     CategoryPage,
-    UsersPage
+    UsersPage,
+    DiagnosticPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import { UsersPage } from '../pages/users/users';
     AddRelationPage,
     EditContactPage,
     CategoryPage,
-    UsersPage
+    UsersPage,
+    DiagnosticPage
   ],
   providers: [
     StatusBar,

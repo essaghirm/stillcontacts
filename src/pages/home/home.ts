@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, ViewController  } from 'ionic-angular';
+import { NavController, PopoverController, ViewController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -11,6 +11,7 @@ import { CallNumber } from '@ionic-native/call-number';
 import { DetailPage } from '../detail/detail';
 import { SearchPage } from '../search/search';
 import { EditContactPage } from '../edit-contact/edit-contact';
+import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'page-home',
@@ -24,8 +25,8 @@ export class HomePage {
     canShareViaWhatsapp = false
     offset = 1
     total: any
-
-    constructor(public navCtrl: NavController, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public popoverCtrl: PopoverController) {
+    role: any
+    constructor(public navCtrl: NavController, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public popoverCtrl: PopoverController, private storage: Storage) {
         // this.searchPage()
 
         this.getAll(1)
@@ -41,11 +42,18 @@ export class HomePage {
         });
     }
 
+    ionViewDidLoad() {
+        this.storage.get('user').then((user) => {
+            this.role = user.roles
+            console.log('Role: ', user.roles)
+        })
+    }
+
     getAll(offset) {
         this.http.get(this.url + '/contact/p/' + this.offset).map(res => res.json()).subscribe(
             data => {
                 // setTimeout(() => {
-                        
+
                 // }, 5000);
 
 
@@ -160,9 +168,9 @@ export class HomePage {
         // )
     }
 
-    addNewContact(){
-        let popover = this.popoverCtrl.create(EditContactPage, {contact: null}, {'cssClass': 'edit-contact'});
-            popover.present({
+    addNewContact() {
+        let popover = this.popoverCtrl.create(EditContactPage, { contact: null }, { 'cssClass': 'edit-contact' });
+        popover.present({
         });
     }
 

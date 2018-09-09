@@ -43,7 +43,7 @@
 			<button class="_icon add" (click)="editInfo(0, contact.id)"></button>
 		</li>
 
-		<li class="contact-info" *ngFor="let i of contact.infos">
+		<li class="contact-info" *ngFor="let i of contact.infos" [ngClass]="(i.status) ? 'default' : 'no'">
 			<span class="label">{{ i.type }}</span>
 			<span class="value" (click)="presentActionSheet(i.value, i.type)">{{ i.value }}</span>
 			<button class="_icon edit" (click)="editInfo(i)"></button>
@@ -52,7 +52,7 @@
 		<li class="title">
 			<h2>Relations <span>Entreprises</span></h2>
 			<button *ngIf="canAddCompany" class="_icon add" (click)="addRelation('company', contact)"></button>
-			<button *ngIf="relations?.companies.length > 0" class="_icon edit" (click)="allowDelete('company')"></button>
+			<button *ngIf="relations?.companies.length > 0" [ngClass]="(!canAddCompany) ? 'right' : 'default'" class="_icon edit" (click)="allowDelete('company')"></button>
 		</li>
 
 		<li class="relations" *ngFor="let r of relations?.companies" (click)="details(r)">
@@ -65,7 +65,7 @@
 		<li class="title">
 			<h2>Relations <span>Contactes</span></h2>
 			<button *ngIf="canAddContact" class="_icon add" (click)="addRelation('contact', contact)"></button>
-			<button *ngIf="relations?.contacts.length > 0" class="_icon edit" (click)="allowDelete('contact')"></button>
+			<button *ngIf="relations?.contacts.length > 0" [ngClass]="(!canAddContact) ? 'right' : 'default'" class="_icon edit" (click)="allowDelete('contact')"></button>
 		</li>
 
 		<li class="relations" *ngFor="let r of relations?.contacts" (click)="details(r)">
