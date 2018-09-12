@@ -43,7 +43,7 @@ export class MyApp {
             this.user = val
             console.log('user', val)
           })
-          this.rootPage = HomePage
+          this.rootPage = CategoryPage
         } else {
           this.rootPage = LoginPage
           console.log('not connected !')

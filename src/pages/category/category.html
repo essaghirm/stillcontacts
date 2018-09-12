@@ -6,82 +6,99 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-      <button ion-button menuToggle right>
-          <ion-icon name="menu"></ion-icon>
-        </button>
-    <ion-title>Gestion des categories</ion-title>
-    <button ion-button class="_icon add-contact" (click)="addNewCategory()"></button>
-  </ion-navbar>
+	<ion-navbar>
+		<button ion-button menuToggle right>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>Gestion des categories</ion-title>
+		<button ion-button class="_icon add-contact" (click)="addNewCategory()"></button>
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <ul>
-    <li class="categoy">
-      <ion-item>
-        <ion-select #c1 interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange(c1.value, 2)">
-          <ion-option *ngFor="let c of categories" value="{{ c.id }}">{{ c.title }}</ion-option>
-        </ion-select>
-      </ion-item>
+	<ul class="categories">
+		<li class="category">
+			<ion-item>
+				<ion-select #c1 [(ngModel)]="cv_1" interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange(c1.value, 2)">
+					<ion-option *ngFor="let c of categories" value="{{ c.id }}">{{ c.title }}</ion-option>
+				</ion-select>
+			</ion-item>
+			<button ion-button class="_icon add" (click)="addNewCategory(1)"></button>
+		</li>
 
-      <ion-item *ngIf="categories_2">
-        <ion-select #c2 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c2.value, 3)">
-          <ion-option *ngFor="let c of categories_2" value="{{ c.id }}">{{ c.title }}</ion-option>
-        </ion-select>
-      </ion-item>
+		<li class="category" *ngIf="categories_2">
+			<ion-item>
+				<ion-select #c2 [(ngModel)]="cv_2" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c2.value, 3)">
+					<ion-option *ngFor="let c of categories_2" value="{{ c.id }}">{{ c.title }}</ion-option>
+				</ion-select>
+			</ion-item>
+			<button ion-button class="_icon add" (click)="addNewCategory(2)"></button>
+		</li>
 
-      <ion-item *ngIf="categories_3">
-        <ion-select #c3 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c3.value, 4)">
-          <ion-option *ngFor="let c of categories_3" value="{{ c.id }}">{{ c.title }}</ion-option>
-        </ion-select>
-      </ion-item>
+		<li class="category" *ngIf="categories_3">
+			<ion-item>
+				<ion-select #c3 [(ngModel)]="cv_3" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c3.value, 4)">
+					<ion-option *ngFor="let c of categories_3" value="{{ c.id }}">{{ c.title }}</ion-option>
+				</ion-select>
+			</ion-item>
+			<button ion-button class="_icon add" (click)="addNewCategory(3)"></button>
+		</li>
 
-      <ion-item *ngIf="categories_4">
-        <ion-select #c4 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c4.value, 5)">
-          <ion-option *ngFor="let c of categories_4" value="{{ c.id }}">{{ c.title }}</ion-option>
-        </ion-select>
-      </ion-item>
+		<li class="category" *ngIf="categories_4">
+			<ion-item>
+				<ion-select #c4 [(ngModel)]="cv_4" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c4.value, 5)">
+					<ion-option *ngFor="let c of categories_4" value="{{ c.id }}">{{ c.title }}</ion-option>
+				</ion-select>
+			</ion-item>
+			<button ion-button class="_icon add" (click)="addNewCategory(4)"></button>
+		</li>
 
-      <ion-item *ngIf="categories_5">
-        <ion-select #c5 interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c5.value, 6)">
-          <ion-option *ngFor="let c of categories_5" value="{{ c.id }}">{{ c.title }}</ion-option>
-        </ion-select>
-      </ion-item>
+		<li class="category" *ngIf="categories_5">
+			<ion-item>
+				<ion-select #c5 [(ngModel)]="cv_5" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c5.value, 6)">
+					<ion-option *ngFor="let c of categories_5" value="{{ c.id }}">{{ c.title }}</ion-option>
+				</ion-select>
+			</ion-item>
+			<button ion-button class="_icon add" (click)="addNewCategory(5)"></button>
+		</li>
 
-    </li>
+		<li *ngIf="category != null && action != 'add'">
+			<button ion-button class="edit" (click)="editCategory()">Modifier</button>
+			<button [disabled]="!canRemove" ion-button class="remove" (click)="removeCategory()">Supprimer</button>
+		</li>
+	</ul>
 
-    <li *ngIf="category != null && action != 'add'">
-        <button ion-button class="edit" (click)="editCategory()">Modifier</button>
-        <button [disabled]="!canRemove" ion-button class="remove" (click)="removeCategory()">Supprimer</button>
-    </li>
-  </ul>
+	<div class="form">
+		<ul *ngIf="action == 'edit' || action == 'add'">
+			<li class="messsage">
+				<p *ngIf="action == 'add'">Créer une nouvelle categorie au niveau <strong>{{ lvl }}</strong></p>
+				<p *ngIf="action == 'edit'">Modifier la categorie <strong>#{{ category }}</strong>, niveau <strong>{{ lvl - 1
+						}}</strong></p>
+			</li>
+			<li>
+				<ion-input [(ngModel)]="title" placeholder="Titre"></ion-input>
+			</li>
+			<li>
+				<button ion-button class="submit" (click)="submit()">Submit</button>
+				<button ion-button class="cancel" (click)="cancel()">Annuler</button>
+			</li>
+		</ul>
+	</div>
 
-  <div class="form">
-    <ul *ngIf="action == 'edit' || action == 'add'">
-      <li class="messsage">
-        <p *ngIf="action == 'add'">Créer une nouvelle categorie au niveau <strong>{{ lvl }}</strong></p>
-        <p *ngIf="action == 'edit'">Modifier la categorie <strong>#{{ category }}</strong>, niveau <strong>{{ lvl - 1 }}</strong></p>
-      </li>
-      <li>
-          <ion-input [(ngModel)]="title" placeholder="Titre"></ion-input>
-      </li>
-      <li>
-        <button ion-button class="submit" (click)="submit()">Submit</button>
-        <button ion-button class="cancel" (click)="cancel()">Annuler</button>
-      </li>
-    </ul>
-  </div>
+	<div class="infos" *ngIf="categories_total != null">
+		<p>Cet catégorie contient</p>
+		<ul>
+			<li>
+				<span class="number">{{ categories_total }}</span>
+				<span class="object">Sous-catégorie</span>
+			</li>
+			<li>
+				<span class="number">{{ contacts_total }}</span>
+				<span class="object">Contact</span>
+			</li>
+		</ul>
+	</div>
 
-
-  <ion-fab right bottom>
-    <button ion-fab color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
-    <ion-fab-list side="left">
-      <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
-      <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
-      <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
-      <button ion-fab><ion-icon name="logo-googleplus"></ion-icon></button>
-    </ion-fab-list>
-  </ion-fab>
 </ion-content>

@@ -22,6 +22,15 @@ export class CategoryPage {
 	categories_4: any
     categories_5: any
 
+    cv_1:any
+    cv_2:any
+    cv_3:any
+    cv_4:any
+    cv_5:any
+
+    contacts_total:number = null
+    categories_total:number = null
+
     lvl:any = 1
     title: string = null
     canRemove: any = false
@@ -54,10 +63,18 @@ export class CategoryPage {
         console.log('func - getCategories')
         this.http.get('http://127.0.0.1:8000/category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
             data => {
-                if(data.length > 0){
-                    console.log('Result: ', data, typeof(data))
-                    this['categories_' + lvl] = data
-                }
+                // if(data.length > 0){
+                    console.log('Result: ', data)
+                    this['categories_' + lvl] = data.categories
+                    this.contacts_total = data.details.contacts
+                    this.categories_total = data.details.categories
+                    if(this.contacts_total == 0 && this.categories_total == 0){
+                        this.canRemove = true
+                    }else{
+                        this.canRemove = false
+                    }
+                    console.log(this.canRemove)
+                // }
             },
             err => {
                 console.log("Oops!")
@@ -71,6 +88,7 @@ export class CategoryPage {
         this.action = null
         console.log(parent, lvl)
         this.category = parent
+        this['cv_' + (lvl-1)]= parent
         console.log('Category choiced:', this.category)
         this.getCategoriesByLvl(parent, lvl)
 	}
@@ -82,7 +100,8 @@ export class CategoryPage {
         }
     }
 
-    addNewCategory(){
+    addNewCategory(lvl){
+        console.log('Category to add in: ', this["cv_" + lvl]);
         this.action = "add"
     }
 
