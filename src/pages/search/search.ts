@@ -39,13 +39,38 @@ export class SearchPage {
     categories_3: any
     categories_4: any
 	categories_5: any
+
+	cv_1:any
+    cv_2:any
+    cv_3:any
+    cv_4:any
+    cv_5:any
 	
 	role:any
 	
 	constructor(private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, private storage: Storage, public popoverCtrl: PopoverController) {
-		this.getCategories()
 		console.log(this.searchOn)
+		if(this.navParams.data.fromCategory == true){
+			console.log(this.navParams.data)
+			this.categories = this.navParams.data.categories_1
+			for (let index = 2; index <= 5; index++) {
+				console.log('categories_'+index)
+				this['categories_' + index] = this.navParams.data['categories_' + index]
+			}
+			for (let index = 1; index <= 5; index++) {
+				console.log('categories_'+index)
+				this['cv_' + index] = this.navParams.data['cv_' + index]
+				if(this.navParams.data['cv_' + index] == null || index == 5){
+					this.category = this.navParams.data['cv_' + (index-1)]
+					this.searchBy(this.searchOn, this.inputSearch, 1)
+					break
+				}
+			}
+		}else{
+		this.getCategories()
 		this.searchBy(this.searchOn, this.inputSearch, 1)
+		}
+		
 
 	}
 
@@ -137,6 +162,7 @@ export class SearchPage {
         this.category = null
         for (let index = lvl; index <= 5; index++) {
             this['categories_' + index] = null
+            this['cv_' + index] = null
         }
     }
 

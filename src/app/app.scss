@@ -41,6 +41,9 @@
 		padding-right: 0px;
 		margin-right: 0px;
 	}
+	.bar-button-menutoggle[hidden]{
+		display: block!important;
+	}
 }
 
 ion-menu{

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { SearchPage } from '../search/search';
 
 /**
  * Generated class for the CategoryPage page.
@@ -15,6 +16,7 @@ import { Http } from '@angular/http';
 	templateUrl: 'category.html',
 })
 export class CategoryPage {
+    url = 'http://127.0.0.1:8000/'
 	category: number = null
 	categories: any
 	categories_2: any
@@ -61,20 +63,21 @@ export class CategoryPage {
 	
 	getCategoriesByLvl(parent, lvl) {
         console.log('func - getCategories')
+        this['categories_' + lvl] = null
         this.http.get('http://127.0.0.1:8000/category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
             data => {
-                // if(data.length > 0){
+                if(data.categories.length > 0){
                     console.log('Result: ', data)
                     this['categories_' + lvl] = data.categories
-                    this.contacts_total = data.details.contacts
-                    this.categories_total = data.details.categories
-                    if(this.contacts_total == 0 && this.categories_total == 0){
-                        this.canRemove = true
-                    }else{
-                        this.canRemove = false
-                    }
-                    console.log(this.canRemove)
-                // }
+                }
+                this.contacts_total = data.details.contacts
+                this.categories_total = data.details.categories
+                if(this.contacts_total == 0 && this.categories_total == 0){
+                    this.canRemove = true
+                }else{
+                    this.canRemove = false
+                }
+                console.log(this.canRemove)
             },
             err => {
                 console.log("Oops!")
@@ -97,26 +100,33 @@ export class CategoryPage {
         for (let index = lvl; index <= 5; index++) {
             console.log('categories_'+index)
             this['categories_' + index] = null
+            this['cv_' + index] = null
         }
     }
 
     addNewCategory(lvl){
+        this.category = this['cv_' + lvl]
+        this.title = ""
         console.log('Category to add in: ', this["cv_" + lvl]);
         this.action = "add"
     }
 
-    editCategory(){
+    editCategory(lvl){
+        console.log('category to edit:', this['cv_' + lvl], 'lvl', lvl)
         this.action = "edit"
+        
         let _array: any
-        if(this.lvl == 2){
+        if(lvl == 1){
             _array = this.categories
         }else{
-            _array = this['categories_' + (this.lvl - 1)]
+            _array = this['categories_' + lvl]
         }
         setTimeout(() => {
             _array.forEach(e => {
-                if(e.id == this.category){
+                if(e.id == this['cv_' + lvl]){
                     this.title = e.title
+                    this.lvl = lvl+1
+                    this.category = this['cv_' + lvl]
                 }
             });
         }, 500);
@@ -134,10 +144,61 @@ export class CategoryPage {
     }
 
     submit(){
-        let id: number = null
+        console.log(this.action)
+        console.log(this.category, this.title, this.url+'category/'+this.category)
         if(this.action == "edit"){
-            id = this.category
+            if(this.action == "edit"){
+                this.http.put(
+                    this.url+'category/'+this.category,
+                    {
+                        "title": this.title
+                    }
+                ).map(res => res.json()).subscribe(
+                    data => {
+                        console.log(data)
+                        this.getCategoriesByLvl(data.parent.id, data.lvl)
+                    },
+                    err => {
+                        console.log("Oops!")
+                    }
+                )
+            }
         }
+
+        if(this.action == "add"){
+            this.http.post(
+				this.url+'category/new',
+				{
+                    "title": this.title,
+                    "parent": this.category
+				}
+			).map(res => res.json()).subscribe(
+				data => {
+					console.log(data)
+					this.getCategoriesByLvl(data.parent.id, data.lvl)
+				},
+				err => {
+					console.log("Oops!")
+				}
+			)
+        }
+    }
+
+    showContacts(){
+        
+        this.navCtrl.push(SearchPage, {
+            fromCategory: true,
+            categories_1: this.categories,
+        	categories_2: this.categories_2,
+        	categories_3: this.categories_3,
+        	categories_4: this.categories_4,
+            categories_5: this.categories_5,
+            cv_1: this.cv_1,
+        	cv_2: this.cv_2,
+        	cv_3: this.cv_3,
+        	cv_4: this.cv_4,
+            cv_5: this.cv_5
+        })
     }
 
 }

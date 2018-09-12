@@ -23,33 +23,57 @@ page-category {
                 .item{
                     background-color: lighten(color($colors, mauve), 50%);
                     padding-left: 0;
-                    width: calc(100% - 40px);
                     border-right: 1px solid lighten(color($colors, mauve), 40%);
+
+                    &.default{
+                        width: 100%;
+                    }
+                    &.hasBtn{
+                        width: calc(100% - 70px);
+                    }
 
                     .item-inner{
                         padding-left: 3px;
+                        border-bottom: 0;
                     }
 
                     ion-select.select{
                         padding-left: 8px;
                         width: 100%;
                         max-width: 100%;
+
+                        .select-text{
+                            font-size: 14px;
+                            white-space: normal;
+                        }
                     }
                 }
 
 
             }
 
-            ._icon.add{
+            .button._icon.add{
                 background-color: color($colors, mauve);
                 -webkit-mask-image: url(../assets/icon/add.svg);
                 mask-image: url(../assets/icon/add.svg);
                 position: absolute;
-                right: 7px;
+                right: 10px;
                 top: 50%;
                 transform: translateY(-50%);
-                width: 24px;
-                height: 24px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .button._icon.edit{
+                background-color: color($colors, mauve);
+                -webkit-mask-image: url(../assets/icon/edit.svg);
+                mask-image: url(../assets/icon/edit.svg);
+                position: absolute;
+                right: 40px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 20px;
+                height: 20px;
             }
 
             .button{
@@ -59,9 +83,7 @@ page-category {
                     background: color($colors, secondary);
                 }
 
-                &.remove{
-                    background: color($colors, danger);
-                }
+                
             }
         }
     }
@@ -102,6 +124,11 @@ page-category {
                     &.cancel{
                         background: color($colors, danger);
                     }
+
+                    &.remove{
+                        background: color($colors, danger);
+                        float: left;
+                    }
                 }
             }
         }
@@ -125,6 +152,7 @@ page-category {
                 background: lighten(color($colors, mauve), 50%);
                 border: 1px solid lighten(color($colors, mauve), 40%);
                 border-radius: 5px;
+                position: relative;
                 &:last-child{
                     margin-right: 0;
                 }
@@ -143,6 +171,31 @@ page-category {
                 .object{
                     display: block;
                     color: lighten(color($colors, mauve), 20%);
+                }
+
+                .button.show_contacts{
+                    color: lighten(color($colors, mauve), 20%);
+                    background-color: lighten(color($colors, mauve), 50%);
+                    border: 1px solid lighten(color($colors, mauve), 40%);
+                    box-shadow:  0 0 0;
+                    height: 30px;
+                    position: absolute;
+                    bottom: -29px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    padding: 0 30px 0 10px;
+                    text-transform: none;
+                    font-weight: normal;
+
+                    &::after{
+                        content: "\f425";
+                        font-family: "Ionicons";
+                        font-size: 20px;
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
                 }
             }
         }
