@@ -16,7 +16,7 @@ import { SearchPage } from '../search/search';
 	templateUrl: 'category.html',
 })
 export class CategoryPage {
-    url = 'http://127.0.0.1:8000/'
+    url = "http://localhost:8000/"
 	category: number = null
 	categories: any
 	categories_2: any
@@ -48,7 +48,7 @@ export class CategoryPage {
 
 	getCategories() {
         console.log('func - getCategories')
-        this.http.get('http://127.0.0.1:8000/category/').map(res => res.json()).subscribe(
+        this.http.get(this.url+'category/').map(res => res.json()).subscribe(
             data => {
                 if(data.length > 0){
                     console.log('Result: ', data)
@@ -64,7 +64,7 @@ export class CategoryPage {
 	getCategoriesByLvl(parent, lvl) {
         console.log('func - getCategories')
         this['categories_' + lvl] = null
-        this.http.get('http://127.0.0.1:8000/category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
+        this.http.get(this.url+'category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
             data => {
                 if(data.categories.length > 0){
                     console.log('Result: ', data)

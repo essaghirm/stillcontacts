@@ -13,7 +13,6 @@
     <button ion-button class="_icon add-contact" *ngIf="role == 'admin' || role == 'editor'" (click)="addNewContact()"></button>
 	<label *ngIf="total > 0" class="total">{{ total }}</label>
 	</ion-navbar>
-
 </ion-header>
 
 
@@ -94,7 +93,47 @@
 			</div>
 		</div>
 	</div>
+
+
 	<div *ngIf="searchOn != 'triangle'" class="result">
+		<ion-list>
+			<ion-item-sliding *ngFor="let item of mostViewed">
+				<ion-item (click)="details(item.contact)">
+					<h2 class="name">{{ item.contact.lname }} {{ item.contact.fname }}
+						<span class="id">{{ item.contact.id }} - {{ item.index }}</span>
+						<span class="city" *ngIf="item.contact.city">{{ item.contact.city }}</span>
+					</h2>
+					<p class="email">{{ item.contact.email }}</p>
+					<p class="email" *ngIf="!item.contact.email">{{ item.contact.webSite }}</p>
+					<p class="tel" *ngIf="item.contact.mobile">{{ item.contact.mobile }}</p>
+					<p class="tel" *ngIf="!item.contact.mobile">{{ item.contact.landline }}</p>
+				</ion-item>
+				<ion-item-options class="options" side="left">
+					<button ion-button class="delete" (click)="deleteContact(item.contact.id)"></button>
+				</ion-item-options>
+				<ion-item-options class="options" side="right">
+					<button ion-button class="mail" (click)="mail(item.contact.email)" *ngIf="item.contact.email">
+						<img src="assets/icon/mail-1.svg" alt="">
+					</button>
+					<button ion-button class="sms" (click)="sms(item.contact.mobile)" *ngIf="item.contact.mobile">
+						<img src="assets/icon/sms-1.svg" alt="">
+					</button>
+					<button ion-button class="whatsapp" (click)="whatsapp(item.contact.mobile)" *ngIf="item.contact.mobile">
+						<img src="assets/icon/whatsapp-1.svg" alt="">
+					</button>
+					<button ion-button class="call" (click)="call(item.contact.mobile)" *ngIf="item.contact.mobile">
+						<img src="assets/icon/call-3.svg" alt="">
+					</button>
+					<button ion-button class="call" (click)="call(item.contact.landline)" *ngIf="!item.contact.mobile">
+						<img src="assets/icon/call-3.svg" alt="">
+					</button>
+				</ion-item-options>
+			</ion-item-sliding>
+		</ion-list>
+	</div>
+
+	
+	<div *ngIf="searchOn != 'triangle' && 0==1" class="result">
 		<ion-list>
 			<ion-item-sliding *ngFor="let item of contacts">
 				<ion-item (click)="details(item)">

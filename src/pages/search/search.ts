@@ -23,9 +23,10 @@ import { EditContactPage } from '../edit-contact/edit-contact';
 	templateUrl: 'search.html',
 })
 export class SearchPage {
-	url = "http://127.0.0.1:8000/"
+	url = "http://localhost:8000/"
 	offset = 1
 	contacts = []
+	mostViewed: any = []
 	total: any
 	inputSearch = ""
 	searchOn = "name"
@@ -68,10 +69,9 @@ export class SearchPage {
 			}
 		}else{
 		this.getCategories()
+		this.getMostViewed()
 		this.searchBy(this.searchOn, this.inputSearch, 1)
 		}
-		
-
 	}
 
 
@@ -210,6 +210,7 @@ export class SearchPage {
 	}
 
 	details(contact) {
+		this.setMostViewed(contact)
 		this.navCtrl.push(DetailPage, {
 			contact: contact
 		})
@@ -298,5 +299,49 @@ export class SearchPage {
 		});
 		alert.present();
 	}
+
+	setMostViewed(contact){
+		let mostViewed = []
+		let alreadyExist = false
+		this.storage.get('mostViewed').then((val) => {
+			if(val == null){
+				mostViewed.concat({'index': 1, 'contact': contact})
+			}else{
+				mostViewed = val
+				mostViewed.forEach(e => {
+					if(e.contact.id == contact.id){
+						e.index = e.index + 1
+						alreadyExist = true
+					}
+				});
+				if(alreadyExist == false){
+					mostViewed.push({'index': 1, 'contact': contact})
+				}
+			}
+			this.mostViewed = mostViewed
+			this.storage.set('mostViewed', mostViewed)
+			console.log('mostViewed val',mostViewed)
+		})
+		// console.log('mostViewed',this.storage.get('mostViewed'))
+		// this.storage.remove('mostViewed')
+	}
+
+	getMostViewed(){
+		this.storage.get('mostViewed').then((val) => {
+			console.log('getMostViewed', val)
+			this.mostViewed = val
+			this.mostViewed.sort(function(a,b) {return (a.index < b.index) ? 1 : ((b.index < a.index) ? -1 : 0);} ); 
+		})
+	}
+
+	compare(a,b) {
+		if (a.last_nom < b.last_nom)
+		  return -1;
+		if (a.last_nom > b.last_nom)
+		  return 1;
+		return 0;
+	  }
+	  
+
 
 }
