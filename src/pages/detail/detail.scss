@@ -62,6 +62,57 @@ page-detail {
 			}
 		}
 
+		li.avatar{
+			min-height: 100px;
+			position: relative;
+			.img{
+				display: block;
+				height: 100%;
+				min-height: 100px;
+				width: 100%;
+				border-radius: 5px;
+				background: lighten(color($colors, mauve), 50%);
+			}
+			.btns{
+				position: absolute;
+				display: table;
+				width: 100%;
+				bottom: 0;
+				right: 15px;
+				opacity: .3;
+				.camera{
+					background: transparent;
+					box-shadow: 0 0 0;
+					width: 40px;
+					height: 40px;
+					float: right;
+					&:after{
+						content: "\f3f6";
+						width: 40px;
+						height: 40px;
+						font-family: "Ionicons";
+						font-size: 30px;
+						margin-left: 10px;
+					}
+				}
+				.image{
+					background: transparent;
+					box-shadow: 0 0 0;
+					width: 40px;
+					height: 40px;
+					float: right;
+					&:after{
+						content: "\f30e";
+						width: 40px;
+						height: 40px;
+						font-family: "Ionicons";
+						font-size: 30px;
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+
 		li{
 			list-style: none;
 			margin-bottom: 10px;

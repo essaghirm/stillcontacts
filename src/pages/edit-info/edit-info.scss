@@ -46,6 +46,19 @@ page-edit-info {
 					background: color($colors, danger);
 				}
 			}
+
+			.input-mask-text-holder {
+				position: relative;
+				// font-size: 14px;
+				// font-family: Roboto, "Helvetica Neue", sans-serif;
+			}
+			
+			.input-mask-carret.no-blink {
+				position: absolute;
+				top: 50%;
+    			transform: translateY(-50%);
+			}
+
 		}
 	}
 }

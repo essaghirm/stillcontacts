@@ -329,6 +329,10 @@ export class SearchPage {
 	getMostViewed(){
 		this.storage.get('mostViewed').then((val) => {
 			console.log('getMostViewed', val)
+			if(val == null){
+				this.mostViewed = []
+				return false
+			}
 			this.mostViewed = val
 			this.mostViewed.sort(function(a,b) {return (a.index < b.index) ? 1 : ((b.index < a.index) ? -1 : 0);} ); 
 		})

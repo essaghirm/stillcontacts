@@ -23,14 +23,14 @@
 		<li>
 			<ion-select [(ngModel)]="info.type" placeholder="Type d'information">
 			    <ion-option value="Mobile">Mobile</ion-option>
-			    <ion-option value="LandLine">LandLine</ion-option>
-			    <ion-option value="Fix">Fix</ion-option>
 			    <ion-option value="Address">Adress</ion-option>
 			    <ion-option value="Email">Email</ion-option>
 			</ion-select>
 		</li>
 		<li><ion-input [(ngModel)]="info.label" type="text" placeholder="Label"></ion-input></li>
-		<li><ion-input [(ngModel)]="info.value" type="text" placeholder="Valeur"></ion-input></li>
+		<li><ion-input  *ngIf="info.type != 'Mobile'" [(ngModel)]="info.value" type="text" placeholder="Valeur"></ion-input></li>
+		<!-- <li><ion-input *ngIf="info.type == 'Mobile'" [(ngModel)]="info.value" type="text" placeholder="Valeur" [brmasker]="{phone: true}"></ion-input></li> -->
+		<li><input-mask *ngIf="info.type == 'Mobile'" [(ngModel)]="info.value" type="text" placeholder="(+___) ___ ___ ___" mask="(+___) ___ ___ ___" allowedChars="0-9 " type="tel" maskCharacter="_" tabindex="0"></input-mask></li>
 		<li>
 			<button class="edit" ion-button (click)="submit('edit')">Modifier</button>
 			<button class="cancel" ion-button (click)="close()">Annuler</button>
@@ -49,7 +49,8 @@
 			</ion-select>
 		</li>
 		<li><ion-input [(ngModel)]="label" type="text" placeholder="Label"></ion-input></li>
-		<li><ion-input [(ngModel)]="value" type="text" placeholder="Valeur"></ion-input></li>
+		<li><input-mask *ngIf="type == 'Mobile'" [(ngModel)]="value" type="text" placeholder="(+___) ___ ___ ___" mask="(+___) ___ ___ ___" allowedChars="0-9 " type="tel" maskCharacter="_" tabindex="0"></input-mask></li>
+		<li><ion-input *ngIf="type != 'Mobile'" [(ngModel)]="value" type="text" placeholder="Valeur"></ion-input></li>
 		<li>
 			<button class="edit" *ngIf="!info" ion-button (click)="submit('add')">Ajouter</button>
 			<button class="cancel" ion-button (click)="close()">Annuler</button>

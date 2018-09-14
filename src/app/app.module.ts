@@ -27,6 +27,11 @@ import { ContactServicesProvider } from '../providers/contact-services/contact-s
 import { CategoryPage } from '../pages/category/category';
 import { UsersPage } from '../pages/users/users';
 import { DiagnosticPage } from '../pages/diagnostic/diagnostic';
+import { Camera } from '@ionic-native/camera';
+import { BrMaskerModule } from 'brmasker-ionic-3';
+import { InputMaskModule } from 'ionic-input-mask';
+import { TextMaskModule } from 'angular2-text-mask';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -47,6 +52,9 @@ import { DiagnosticPage } from '../pages/diagnostic/diagnostic';
   imports: [
     BrowserModule,
     HttpModule,
+    BrMaskerModule,
+    InputMaskModule,
+    TextMaskModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
@@ -74,7 +82,8 @@ import { DiagnosticPage } from '../pages/diagnostic/diagnostic';
     CallNumber,
     Clipboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ContactServicesProvider
+    ContactServicesProvider,
+    Camera
   ]
 })
 export class AppModule {}

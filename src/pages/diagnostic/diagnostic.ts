@@ -14,12 +14,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'diagnostic.html',
 })
 export class DiagnosticPage {
-
+  type:any
+  contacts:any = []
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DiagnosticPage');
+  }
+  onChange(){
+
   }
 
 }

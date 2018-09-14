@@ -1,3 +1,18 @@
 page-diagnostic {
+    .item{
+        background-color: lighten(color($colors, mauve), 50%);
+        padding-left: 0;
+        border-right: 1px solid lighten(color($colors, mauve), 40%);
 
+        ion-select.select{
+            padding-left: 8px;
+            width: 100%;
+            max-width: 100%;
+
+            .select-text{
+                font-size: 14px;
+                white-space: normal;
+            }
+        }
+    }
 }

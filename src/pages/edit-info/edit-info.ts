@@ -23,6 +23,7 @@ export class EditInfoPage {
 	label: any
 	value: any
 	status: any
+	masks:any
 
 	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
 		this.info = this.navParams.data.info
@@ -31,6 +32,10 @@ export class EditInfoPage {
 
 		}
 		console.log('info', this.info)
+
+		this.masks = {
+            phoneNumber: ['(+', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/]
+        };
 
 	}
 

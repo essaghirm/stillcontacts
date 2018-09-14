@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 import { CategoryPage } from '../pages/category/category';
 import { UsersPage } from '../pages/users/users';
 import { DiagnosticPage } from '../pages/diagnostic/diagnostic';
+import { DetailPage } from '../pages/detail/detail';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +19,7 @@ import { DiagnosticPage } from '../pages/diagnostic/diagnostic';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any //= LoginPage;
+  rootPage: any = DiagnosticPage;
 
   pages: Array<{ title: string, class: string, component: any }>;
   user: any
@@ -43,9 +44,9 @@ export class MyApp {
             this.user = val
             console.log('user', val)
           })
-          this.rootPage = SearchPage
+          this.rootPage = DiagnosticPage
         } else {
-          this.rootPage = LoginPage
+          // this.rootPage = LoginPage
           console.log('not connected !')
         }
       });

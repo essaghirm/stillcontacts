@@ -10,7 +10,7 @@
 		<button ion-button menuToggle right>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-		<ion-title>{{ contact.fname }} {{ contact.lname }}</ion-title>
+		<!-- <ion-title>{{ contact.fname }} {{ contact.lname }}</ion-title> -->
 		<button *ngIf="lvl > 3" (click)="homePage()" class="homepage" ion-button><img src="assets/icon/homepage.svg" alt=""></button>
 		<button ion-button class="_icon edit" (click)="editContact(contact)"></button>
 	</ion-navbar>
@@ -20,6 +20,25 @@
 
 <ion-content>
 	<ul class="infos">
+		<li class="avatar">
+			<div class="img">
+					<!-- *ngIf="contact.avatar" -->
+				<img  [src]="contact.avatar" alt="">
+			</div>
+			<div class="btns">
+				<button class="camera" (click)="openCamera()"></button>
+				<button class="image" (click)="upload('vv')"></button>
+			</div>
+		</li>
+		<li *ngIf="contact.fname || contact.lname">
+			<span class="label">Nome</span>
+			<span class="value">{{ contact.fname }} {{ contact.lname }}</span>
+		</li>
+		<li *ngIf="contact.type">
+			<span class="label">Type</span>
+			<span *ngIf="contact.type == 'contact'" class="value">Personne</span>
+			<span *ngIf="contact.type == 'company'" class="value">Entreprise</span>
+		</li>
 		<li *ngIf="contact.city">
 			<span class="label">Ville</span>
 			<span class="value">{{ contact.city }}</span>
@@ -32,9 +51,10 @@
 			<span class="label">E-mail</span>
 			<span class="value">{{ contact.email }}</span>
 		</li>
-		<li *ngIf="contact.notes">
+		<li>
 			<span class="label">Notes</span>
-			{{ contact.notes }}
+			<span *ngIf="contact.notes" class="value">{{ contact.notes }}</span>
+			<!-- <span *ngIf="!contact.notes" class="value empty">Aucune notes !</span> -->
 			<ion-textarea hidden class="note-input" rows="5" placeholder="Ajouter des notes"></ion-textarea>
 			<button hidden ion-button class="add-btn">Envoyer</button>
 		</li>
@@ -52,7 +72,8 @@
 		<li class="title">
 			<h2>Relations <span>Entreprises</span></h2>
 			<button *ngIf="canAddCompany" class="_icon add" (click)="addRelation('company', contact)"></button>
-			<button *ngIf="relations?.companies.length > 0" [ngClass]="(!canAddCompany) ? 'right' : 'default'" class="_icon edit" (click)="allowDelete('company')"></button>
+			<button *ngIf="relations?.companies.length > 0" [ngClass]="(!canAddCompany) ? 'right' : 'default'" class="_icon edit"
+			 (click)="allowDelete('company')"></button>
 		</li>
 
 		<li class="relations" *ngFor="let r of relations?.companies" (click)="details(r)">
@@ -65,7 +86,8 @@
 		<li class="title">
 			<h2>Relations <span>Contactes</span></h2>
 			<button *ngIf="canAddContact" class="_icon add" (click)="addRelation('contact', contact)"></button>
-			<button *ngIf="relations?.contacts.length > 0" [ngClass]="(!canAddContact) ? 'right' : 'default'" class="_icon edit" (click)="allowDelete('contact')"></button>
+			<button *ngIf="relations?.contacts.length > 0" [ngClass]="(!canAddContact) ? 'right' : 'default'" class="_icon edit"
+			 (click)="allowDelete('contact')"></button>
 		</li>
 
 		<li class="relations" *ngFor="let r of relations?.contacts" (click)="details(r)">
