@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
+import { SearchPage } from '../search/search';
+import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
 /**
  * Generated class for the LoginPage page.
  *
@@ -18,7 +19,7 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage {
 
-	url = "http://127.0.0.1:8000/"
+	url = "http://cmma.agence360.ma/stillsf/public/"
 	username: any
 	password: any
 	new_username: string
@@ -28,7 +29,7 @@ export class LoginPage {
 	message: any
 	messageClass:any
 	action:string = "connect"
-	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage, private cp: ContactServicesProvider) {
 
 		// // Or to get a key/value pair
 		// setTimeout(() => {
@@ -50,7 +51,7 @@ export class LoginPage {
 	}
 
 	checklogin() {
-		this.http.post(this.url + 'user/login', {
+		this.http.post(this.cp.url + 'user/login', {
 			"user_name": this.username,
     		"password": this.password
 		}).map(res => res.json()).subscribe(
@@ -60,7 +61,7 @@ export class LoginPage {
 					this.storage.set('status', 'connected');
 					this.storage.set('user', data.user);
 					setTimeout(() => {
-						this.navCtrl.setRoot(HomePage)
+						this.navCtrl.setRoot(SearchPage)
 					}, 500)
 
 				} else {
@@ -77,7 +78,7 @@ export class LoginPage {
 	create(){
 		console.log(this.full_name, this.new_password, this.new_username, this.email)
 		this.http.post(
-			'http://127.0.0.1:8000/user/new',
+			this.cp.url+'user/new',
 			{
 				"full_name": this.full_name,
 			    "email": this.email,

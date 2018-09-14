@@ -19,7 +19,7 @@ import { DetailPage } from '../pages/detail/detail';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = DiagnosticPage;
+  rootPage: any = SearchPage;
 
   pages: Array<{ title: string, class: string, component: any }>;
   user: any
@@ -44,9 +44,9 @@ export class MyApp {
             this.user = val
             console.log('user', val)
           })
-          this.rootPage = DiagnosticPage
+          this.rootPage = SearchPage
         } else {
-          // this.rootPage = LoginPage
+          this.rootPage = LoginPage
           console.log('not connected !')
         }
       });

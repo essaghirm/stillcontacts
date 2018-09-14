@@ -40,10 +40,43 @@ page-search {
 		}
 	}
 
+	.searchbat_container {
+		position: relative;
+		button.reset_search, button.save_search{
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: transparent;
+			box-shadow: 0 0 0;
+			height: 30px;
+			width: 30px;
+			margin: 0 0;
+			&::before{
+				content: "\f49c";
+				position: absolute;
+				font-family: "Ionicons";
+				font-size: 30px;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			&.save_search{
+				right: 40px;
+				&::before{
+					content: "\f12e";
+					font-size: 20px;
+				}
+			}
+		}
+	}
+
+
 	.searchbar{
 		background-color: lighten(color($colors, dark), 5%);
 		input.searchbar-input{
-			background: lighten(color($colors, dark), 15%);
+		width: calc(100% - 70px);
+		background: lighten(color($colors, dark), 15%);
 			box-shadow: 0 0 0;
 			padding: 6px 55px 6px 10px;
 			color: #f1f1f1;
@@ -186,11 +219,29 @@ page-search {
     					transform: translateY(-50%);
 					}
 				}
+				&.btn_move{
+					.button{
+						background-color: color($colors, secondary);
+						box-shadow: 0 0 0;
+						width: calc(100% - 5px);
+						min-height: 35px;
+					}
+				}
 			}
 		}
 	}
 
 	.result{
+		&.mostViewed{
+			.title{
+				font-size: 16px;
+				padding: 10px 15px;
+				margin: 0 0;
+				background: color($colors, orange);
+				color: darken(color($colors, orange), 20%);
+				font-size: 14px;
+			}
+		}
 		.list{
 			
 			.item-wrapper{
@@ -296,6 +347,66 @@ page-search {
 						}
 						
 					}
+				}
+			}
+		}
+
+		.check_item{
+			padding-left: 0;
+			border-bottom: 1px solid #F5F5F5;
+			.checkbox {
+				margin: 9px 20px 9px 15px;
+			}
+			.item-inner{
+				border-bottom: 0;
+
+				h2.name {
+					color: color($colors, dark);
+					/* font-weight:  bold; */
+					height: 20px;
+					font-size: 16px;
+					position: relative;
+					
+					span{
+						float: right;
+						margin-left: 5px;
+						border: 1px solid;
+						padding: 1px 5px;
+						font-size: 13px;
+						line-height: 13px;
+						color: #9E9E9E;
+						border-radius: 3px;
+					}
+
+					.city{
+
+					}
+
+					.id{
+						background: color($colors, dark);
+						color: #fafafa;
+						border: 1px solid color($colors, dark);
+					}
+
+				}
+
+				p.email {
+					font-size: 14px;
+					display: inline-block;
+					float: left;
+					width: calc(100% - 160px);
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				p.tel {
+					font-size: 14px;
+					display: inline-block;
+					float: right;
+					width: 140px;
+					text-align:  right;
+					font-weight: bold;
 				}
 			}
 		}

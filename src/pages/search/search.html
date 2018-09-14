@@ -10,16 +10,21 @@
 		<button ion-button menuToggle right>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-    <button ion-button class="_icon add-contact" *ngIf="role == 'admin' || role == 'editor'" (click)="addNewContact()"></button>
-	<label *ngIf="total > 0" class="total">{{ total }}</label>
+		<button ion-button class="_icon add-contact" *ngIf="role == 'admin' || role == 'editor'" (click)="addNewContact()"></button>
+		<label *ngIf="total > 0" class="total">{{ total }}</label>
 	</ion-navbar>
 </ion-header>
 
 
 <ion-content>
+	<div class="searchbat_container">
 		<ion-searchbar [(ngModel)]="inputSearch" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)"
-		(ionCancel)="onCancel($event)" type="{{ inputType }}">
-	   </ion-searchbar>
+		 (ionCancel)="onCancel($event)" type="{{ inputType }}">
+		</ion-searchbar>
+		<button ion-button class="reset_search" (click)="resetSearch()"></button>
+		<button ion-button class="save_search" (click)="saveSearch()"></button>
+	</div>
+
 	<div class="filter">
 		<div class="row">
 			<div class="check">
@@ -44,7 +49,7 @@
 						<ion-label>&#9661;</ion-label>
 						<ion-radio (ionSelect)="radioChecked('id', type='text')" value="triangle"></ion-radio>
 					</ion-item>
-					
+
 				</ion-list>
 			</div>
 			<!-- <button class="more-options">
@@ -83,24 +88,28 @@
 					</ion-select>
 				</ion-item>
 
-				<ion-item *ngIf="showSearchByType">
+				<ion-item *ngIf="showSearchByType && !selectToMove">
 					<ion-select #c6 interface="action-sheet" [(ngModel)]="contactType" placeholder="Type de contac" (ionChange)="changeContactType(c6.value)">
-						<ion-option value="">Tous</ion-option>
+						<ion-option value="">Contact/Entreprise</ion-option>
 						<ion-option value="contact">Contact</ion-option>
 						<ion-option value="company">Entreprise</ion-option>
 					</ion-select>
+				</ion-item>
+				<ion-item class="btn_move" *ngIf="showSearchByType && selectToMove">
+					<button ion-button (click)="moveContact()">Déplacer les elements sélectionnés</button>
 				</ion-item>
 			</div>
 		</div>
 	</div>
 
 
-	<div *ngIf="searchOn != 'triangle'" class="result">
+	<div *ngIf="searchOn != 'triangle' && reset_search == true" class="result mostViewed">
+		<h2 class="title">Les plus consultés</h2>
 		<ion-list>
-			<ion-item-sliding *ngFor="let item of mostViewed">
-				<ion-item (click)="details(item.contact)">
+			<ion-item-sliding *ngFor="let item of mostViewed; let i=index">
+				<ion-item *ngIf="i<15" (click)="details(item.contact)">
 					<h2 class="name">{{ item.contact.lname }} {{ item.contact.fname }}
-						<span class="id">{{ item.contact.id }} - {{ item.index }}</span>
+						<span class="id">{{ item.contact.id }}</span>
 						<span class="city" *ngIf="item.contact.city">{{ item.contact.city }}</span>
 					</h2>
 					<p class="email">{{ item.contact.email }}</p>
@@ -108,10 +117,10 @@
 					<p class="tel" *ngIf="item.contact.mobile">{{ item.contact.mobile }}</p>
 					<p class="tel" *ngIf="!item.contact.mobile">{{ item.contact.landline }}</p>
 				</ion-item>
-				<ion-item-options class="options" side="left">
+				<ion-item-options *ngIf="i<15" class="options" side="left">
 					<button ion-button class="delete" (click)="deleteContact(item.contact.id)"></button>
 				</ion-item-options>
-				<ion-item-options class="options" side="right">
+				<ion-item-options *ngIf="i<15" class="options" side="right">
 					<button ion-button class="mail" (click)="mail(item.contact.email)" *ngIf="item.contact.email">
 						<img src="assets/icon/mail-1.svg" alt="">
 					</button>
@@ -132,48 +141,67 @@
 		</ion-list>
 	</div>
 
-	
-	<div *ngIf="searchOn != 'triangle' && 0==1" class="result">
+
+	<div *ngIf="searchOn != 'triangle' && reset_search == false" class="result normal">
 		<ion-list>
-			<ion-item-sliding *ngFor="let item of contacts">
-				<ion-item (click)="details(item)">
-					<h2 class="name">{{ item.lname }} {{ item.fname }}
-						<span class="id">{{ item.id }}</span>
-						<span class="city" *ngIf="item.city">{{ item.city }}</span>
-					</h2>
-					<p class="email">{{ item.email }}</p>
-					<p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
-					<p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
-					<p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
+			<div *ngIf="!selectToMove">
+				<ion-item-sliding *ngFor="let item of contacts" ion-long-press [interval]="400" (onPressing)="active()">
+					<ion-item (click)="details(item)">
+						<h2 class="name">{{ item.lname }} {{ item.fname }}
+							<span class="id">{{ item.id }}</span>
+							<span class="city" *ngIf="item.city">{{ item.city }}</span>
+						</h2>
+						<p class="email">{{ item.email }}</p>
+						<p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
+						<p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
+						<p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
+					</ion-item>
+					<ion-item-options class="options" side="left">
+						<button ion-button class="delete" (click)="deleteContact(item.id)"></button>
+					</ion-item-options>
+					<ion-item-options class="options" side="right">
+						<button ion-button class="mail" (click)="mail(item.email)" *ngIf="item.email">
+							<img src="assets/icon/mail-1.svg" alt="">
+						</button>
+						<button ion-button class="sms" (click)="sms(item.mobile)" *ngIf="item.mobile">
+							<img src="assets/icon/sms-1.svg" alt="">
+						</button>
+						<button ion-button class="whatsapp" (click)="whatsapp(item.mobile)" *ngIf="item.mobile">
+							<img src="assets/icon/whatsapp-1.svg" alt="">
+						</button>
+						<button ion-button class="call" (click)="call(item.mobile)" *ngIf="item.mobile">
+							<img src="assets/icon/call-3.svg" alt="">
+						</button>
+						<button ion-button class="call" (click)="call(item.landline)" *ngIf="!item.mobile">
+							<img src="assets/icon/call-3.svg" alt="">
+						</button>
+					</ion-item-options>
+				</ion-item-sliding>
+			</div>
+
+
+			<div *ngIf="selectToMove">
+				<ion-item *ngFor="let item of contacts" class="check_item">
+					<ion-label>
+						<h2 class="name">{{ item.lname }} {{ item.fname }}
+							<span class="id">{{ item.id }}</span>
+							<span class="city" *ngIf="item.city">{{ item.city }}</span>
+						</h2>
+						<p class="email">{{ item.email }}</p>
+						<p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
+						<p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
+						<p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
+					</ion-label>
+					<ion-checkbox [(ngModel)]="item.checked" (click)="selectMember(item)" [disabled]="max_selected == true && item.checked == false"></ion-checkbox>
 				</ion-item>
-				<ion-item-options class="options" side="left">
-					<button ion-button class="delete" (click)="deleteContact(item.id)"></button>
-				</ion-item-options>
-				<ion-item-options class="options" side="right">
-					<button ion-button class="mail" (click)="mail(item.email)" *ngIf="item.email">
-						<img src="assets/icon/mail-1.svg" alt="">
-					</button>
-					<button ion-button class="sms" (click)="sms(item.mobile)" *ngIf="item.mobile">
-						<img src="assets/icon/sms-1.svg" alt="">
-					</button>
-					<button ion-button class="whatsapp" (click)="whatsapp(item.mobile)" *ngIf="item.mobile">
-						<img src="assets/icon/whatsapp-1.svg" alt="">
-					</button>
-					<button ion-button class="call" (click)="call(item.mobile)" *ngIf="item.mobile">
-						<img src="assets/icon/call-3.svg" alt="">
-					</button>
-					<button ion-button class="call" (click)="call(item.landline)" *ngIf="!item.mobile">
-						<img src="assets/icon/call-3.svg" alt="">
-					</button>
-				</ion-item-options>
-			</ion-item-sliding>
+			</div>
 		</ion-list>
 	</div>
 
 
 
 
-	<div *ngIf="searchOn == 'triangle' && contacts.length > 0" class="result triangle">
+	<div *ngIf="searchOn == 'triangle' && contacts.length > 0 && reset_search == false" class="result triangle">
 		<ion-list>
 			<div class="_item" *ngFor="let item of contacts">
 				<ion-item-sliding class="parent">
@@ -249,7 +277,7 @@
 		</ion-list>
 	</div>
 
-	<ion-infinite-scroll *ngIf="(searchOn != 'triangle') && (total > contacts.length)" (ionInfinite)="doInfinite($event)">
+	<ion-infinite-scroll *ngIf="(searchOn != 'triangle') && (total > contacts.length) && reset_search == false" (ionInfinite)="doInfinite($event)">
 		<ion-infinite-scroll-content></ion-infinite-scroll-content>
 	</ion-infinite-scroll>
 </ion-content>

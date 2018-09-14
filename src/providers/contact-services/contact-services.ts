@@ -16,7 +16,7 @@ import { LoadingController } from 'ionic-angular';
   */
 @Injectable()
 export class ContactServicesProvider {
-	url: string = "http://still.agence360.ma/?"
+	url: string = "http://cmma.agence360.ma/stillsf/public/"
 	loading: any
 
 	constructor(public http: HttpClient) {
@@ -25,24 +25,24 @@ export class ContactServicesProvider {
 
 	
 
-	private catchError(error: Response | any) {
-		console.log('catchError: ', error);
-		return Observable.throw(error.json().error || "Server error");
-	}
+	// private catchError(error: Response | any) {
+	// 	console.log('catchError: ', error);
+	// 	return Observable.throw(error.json().error || "Server error");
+	// }
 
-	private logResponse(res: Response) {
-		console.log('Do: ', res.json());
-	}
+	// private logResponse(res: Response) {
+	// 	console.log('Do: ', res.json());
+	// }
 
-	private extractResponse(res: Response) {
-		return res.json();
-	}
+	// private extractResponse(res: Response) {
+	// 	return res.json();
+	// }
 
-	exemple(id, limit) {
-		return this.http.get(this.url + '?function=articlesByAuthor&id=' + id + '&limit=' + limit)
-			.do(this.logResponse)
-			.map(this.extractResponse)
-			.catch(this.catchError)
-	}
+	// exemple(id, limit) {
+	// 	return this.http.get(this.url + '?function=articlesByAuthor&id=' + id + '&limit=' + limit)
+	// 		.do(this.logResponse)
+	// 		.map(this.extractResponse)
+	// 		.catch(this.catchError)
+	// }
 
 }

@@ -31,6 +31,8 @@ import { Camera } from '@ionic-native/camera';
 import { BrMaskerModule } from 'brmasker-ionic-3';
 import { InputMaskModule } from 'ionic-input-mask';
 import { TextMaskModule } from 'angular2-text-mask';
+import { LongPressModule } from 'ionic-long-press';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -52,9 +54,11 @@ import { TextMaskModule } from 'angular2-text-mask';
   imports: [
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     BrMaskerModule,
     InputMaskModule,
     TextMaskModule,
+    LongPressModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],

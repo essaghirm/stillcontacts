@@ -58,12 +58,12 @@ page-login {
 	.form{
 		width: 300px;
 		margin: 0 auto;
-		// position: absolute;
-		// top: 50%;
-		// left: 50%;
-		// transform: translate(-50%, -50%);
+		margin-top: 100px;
+
 		.item{
 			background: transparent;
+			padding-left: 0px;
+			width: 100%;
 			
 			&.item-input.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
 			&.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
@@ -81,8 +81,10 @@ page-login {
 
 			.item-inner{
 				border-bottom: 0px;
+				padding-right: 0px;
 				.label{
 					color: #fff;
+					margin: 0 0;
 				}
 				input{
 					height: 40px;
@@ -92,7 +94,9 @@ page-login {
 				    margin: 0px 8px;
 					color: color($colors, dark);
 					border-radius: 5px;
-					background: lighten(color($colors, dark), 70%)
+					background: lighten(color($colors, dark), 70%);
+					width: 100%;
+					margin: 0 0;
 
 				}
 			}
@@ -106,6 +110,12 @@ page-login {
 				border-radius: 0px;
 				margin: 0 0 0 0;
 				border-radius: 5px;
+			}
+
+			.create, .connect{
+				background: transparent;
+				color: #f7f7f7;
+				text-decoration: underline;
 			}
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, PopoverController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -9,6 +9,7 @@ import { DetailPage } from '../detail/detail';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { EditContactPage } from '../edit-contact/edit-contact';
+import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
 
 /**
  * Generated class for the SearchPage page.
@@ -23,13 +24,13 @@ import { EditContactPage } from '../edit-contact/edit-contact';
 	templateUrl: 'search.html',
 })
 export class SearchPage {
-	url = "http://localhost:8000/"
+	url = "http://cmma.agence360.ma/stillsf/public/"
 	offset = 1
 	contacts = []
 	mostViewed: any = []
 	total: any
 	inputSearch = ""
-	searchOn = "name"
+	searchOn:any
 	inputType = "text"
 	contactType: string = null
 	showSearchByType: any = false
@@ -48,9 +49,14 @@ export class SearchPage {
     cv_5:any
 	
 	role:any
+	reset_search:any=true
+	selectToMove = false
+	contacts_to_move:any = []
+	max_selected : any = false
 	
-	constructor(private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, private storage: Storage, public popoverCtrl: PopoverController) {
+	constructor(private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, private storage: Storage, public popoverCtrl: PopoverController, private toastCtrl: ToastController, private cp: ContactServicesProvider) {
 		console.log(this.searchOn)
+		console.log('ContactServicesProvider.url', this.cp.url)
 		if(this.navParams.data.fromCategory == true){
 			console.log(this.navParams.data)
 			this.categories = this.navParams.data.categories_1
@@ -70,16 +76,40 @@ export class SearchPage {
 		}else{
 		this.getCategories()
 		this.getMostViewed()
-		this.searchBy(this.searchOn, this.inputSearch, 1)
+		// this.searchBy(this.searchOn, this.inputSearch, 1)
 		}
 	}
 
 
 	ionViewDidLoad() {
-        this.storage.get('user').then((user) => {
+        
+	}
+
+	ionViewDidEnter(){
+		console.log('ionViewDidEnter')
+		this.getMostViewed()
+	}
+
+	ionViewCanEnter(){
+		//Runs before the view can enter. This can be used as a sort of "guard" in authenticated views where you need to check permissions before the view can enter
+		this.storage.get('user').then((user) => {
             this.role = user.roles
             console.log('Role: ', user.roles)
         })
+	}
+
+	resetSearch(){
+		this.reset_search = true
+		this.selectToMove = false
+		this.searchOn = null
+		this.inputSearch = ""
+		console.log(this.reset_search)
+		this.category = null
+		for (let index = 1; index <= 5; index++) {
+			console.log('categories_'+index)
+			this['categories_' + index] = null
+		}
+		this.getMostViewed()
 	}
 	
 	addNewContact() {
@@ -94,6 +124,7 @@ export class SearchPage {
 		this.offset = 1
 		if(this.inputSearch.length >= 3){
 			this.searchBy(this.searchOn, this.inputSearch, 1)
+			this.reset_search = false
 		}
 	}
 
@@ -111,7 +142,7 @@ export class SearchPage {
 
 	getCategories() {
         console.log('func - getCategories')
-        this.http.get(this.url+'category/').map(res => res.json()).subscribe(
+        this.http.get(this.cp.url+'category/').map(res => res.json()).subscribe(
             data => {
                 if(data.length > 0){
                     console.log('Result: ', data)
@@ -123,33 +154,41 @@ export class SearchPage {
             }
         )
 	}
+
+
 	
 	getCategoriesByLvl(parent, lvl) {
+		
+		console.log('getCategoriesByLvl', parent, lvl)
 		this.offset = 1
-        this.http.get(this.url+'category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
+        this.http.get(this.cp.url+'category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
             data => {
-                if(data.length > 0){
+                if(data.categories.length > 0){
                     console.log('Categories: ', lvl, data)
-                    this['categories_' + lvl] = data
+                    this['categories_' + lvl] = data.categories
                 }
             },
             err => {
-                console.log("Oops!")
+                console.log("Oops!", err)
             }
         )
     }
 
 	onChange(parent, lvl){
+		console.log('onChange', parent, lvl)
         this.reset(lvl)
 		this.category = parent
 		this.offset = 1
+		this.reset_search = false
 		this.getCategoriesByLvl(parent, lvl)
 		if(lvl == 6){
 			this.showSearchByType = true
 		}else{
 			this.showSearchByType = false
 		}
-		this.searchBy(this.searchOn, this.inputSearch, 1)
+		if(this.selectToMove == false){
+			this.searchBy(this.searchOn, this.inputSearch, 1)
+		}
 	}
 
 	changeContactType(type){
@@ -169,6 +208,7 @@ export class SearchPage {
 	radioChecked(value, type) {
 		this.inputType = type
 		this.offset = 1
+		this.reset_search = false
 		this.contacts = []
 		this.searchBy(this.searchOn, this.inputSearch, 1)
 		console.log(value, type)
@@ -182,7 +222,7 @@ export class SearchPage {
 		}else if(this.searchOn == 'triangle' && this.inputSearch.length >= 5){
 			offset = 1
 		}
-		this.http.post(this.url + 'contact/searchcontact/' + this.searchOn + '/' + offset, {
+		this.http.post(this.cp.url + 'contact/searchcontact/' + this.searchOn + '/' + offset, {
 			"value": this.inputSearch,
 			"category_id" : this.category,
 			"type" : this.contactType
@@ -192,9 +232,15 @@ export class SearchPage {
 					if(this.searchOn == 'triangle'){
 						this.contacts = data
 						this.total = 0
+						this.contacts.forEach((e) => {
+							e['checked'] = false
+						})
 					}else{
 						this.contacts = data.contacts
 						this.total = data.total
+						this.contacts.forEach((e) => {
+							e['checked'] = false
+						})
 					}
 					
 				} else {
@@ -331,21 +377,61 @@ export class SearchPage {
 			console.log('getMostViewed', val)
 			if(val == null){
 				this.mostViewed = []
+				this.reset_search = false
+				this.searchOn = "name"
+				this.searchBy(this.searchOn, this.inputSearch, 1)
 				return false
 			}
+			this.mostViewed = []
 			this.mostViewed = val
 			this.mostViewed.sort(function(a,b) {return (a.index < b.index) ? 1 : ((b.index < a.index) ? -1 : 0);} ); 
 		})
 	}
+	
+	selectMember(item){			
+		if (item.checked == true) {
+			this.contacts_to_move.push(item);
+			if(this.contacts_to_move.length == 5){
+				this.max_selected = true
+			}
+		} else {
+			let newArray = this.contacts_to_move.filter(function(el) {
+				return el.id !== item.id;
+			});
+			this.contacts_to_move = newArray;
+			this.max_selected = false
+		}
+		console.log('contacts_to_move', this.contacts_to_move);	 
+	}
 
-	compare(a,b) {
-		if (a.last_nom < b.last_nom)
-		  return -1;
-		if (a.last_nom > b.last_nom)
-		  return 1;
-		return 0;
-	  }
-	  
+	moveContact(){
+		let array = []
+		this.contacts_to_move.forEach(e => {
+			array.push(e.id)
+		});
+		console.log('moveContact', array)
 
+		this.http.post(this.cp.url + 'contact/move/'+this.category, array).map(res => res.json()).subscribe(
+			data => {
+				console.log('moveContact response:', data)
+				if(data.message == true){
+					this.selectToMove = false
+					this.contacts.filter(function(el) {
+						return array.indexOf(el.id) == -1
+					})
+				}
+			},
+			err => {
+				console.log("Oops!", err)
+			}
+		)
+	}
 
+	active(){
+		this.selectToMove = true
+	}
+
+	saveSearch(){
+		console.log('saveSearch')
+	}
 }

@@ -15,10 +15,10 @@
 
 <ion-content>
 
-	<div class="btn">	
+	<!-- <div class="btn">	
 		<button [ngClass]="(action == 'connect') ? 'filled' : 'default'" ion-button (click)="changeAction('connect')">Se connecter</button>
 		<button [ngClass]="(action == 'create') ? 'filled' : 'default'" ion-button (click)="changeAction('create')">Créer un compte</button>
-	</div>
+	</div> -->
 
 	<ion-list class="form" *ngIf="action == 'connect'">
 
@@ -34,7 +34,9 @@
 
 		<ion-item>
 			<button ion-button (click)="checklogin()">Login</button>
-
+		</ion-item>
+		<ion-item>
+			<button class="create" (click)="changeAction('create')">Créer un compte</button>
 		</ion-item>
 
 	</ion-list>
@@ -61,7 +63,9 @@
 
 		<ion-item>
 			<button ion-button (click)="create()">Submit</button>
-
+		</ion-item>
+		<ion-item>
+			<button class="connect" (click)="changeAction('connect')">Se connecter</button>
 		</ion-item>
 
 	</ion-list>
