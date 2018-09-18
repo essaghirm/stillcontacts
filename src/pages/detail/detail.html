@@ -12,15 +12,15 @@
 		</button>
 		<!-- <ion-title>{{ contact.fname }} {{ contact.lname }}</ion-title> -->
 		<button *ngIf="lvl > 3" (click)="homePage()" class="homepage" ion-button><img src="assets/icon/homepage.svg" alt=""></button>
-		<button ion-button class="_icon edit" (click)="editContact(contact)"></button>
+		<button *ngIf="action != 'add'" ion-button class="_icon edit" (click)="editContact(contact)"></button>
 	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<ul class="infos">
-		<li class="avatar">
+	<ul class="infos" [ngClass]="(action != null) ? 'action' : 'show'">
+		<li *ngIf="action == null" class="avatar">
 			<div class="img">
 					<!-- *ngIf="contact.avatar" -->
 				<img  [src]="contact.avatar" alt="">
@@ -30,33 +30,33 @@
 				<button class="image" (click)="openGallery('vv')"></button>
 			</div>
 		</li>
-		<li *ngIf="contact.fname || contact.lname">
+		<li>
 			<span class="label">Nom</span>
-			<span *ngIf="action != 'edit'" class="value">{{ contact.fname }} {{ contact.lname }}</span>
-            <ion-input *ngIf="action == 'edit' && type != 'company'" [(ngModel)]="fname" placeholder="Prènom"></ion-input>
-            <ion-input *ngIf="action == 'edit'" [(ngModel)]="lname" placeholder="Nom"></ion-input>
+			<span *ngIf="(action != 'add')" class="id">{{ contact.id }}</span>
+			<span *ngIf="(action == null)" class="value">{{ contact.fname }} {{ contact.lname }}</span>
+            <ion-input *ngIf="action != null && type != 'company'" [(ngModel)]="fname" placeholder="Prènom"></ion-input>
+            <ion-input *ngIf="action != null" [(ngModel)]="lname" placeholder="Nom"></ion-input>
 		</li>
-		<li *ngIf="contact.type">
+		<li>
 			<span class="label">Type</span>
-			<span *ngIf="contact.type == 'contact' && action != 'edit'" class="value">Personne</span>
-			<span *ngIf="contact.type == 'company' && action != 'edit'" class="value">Entreprise</span>
-			<ion-item *ngIf="action == 'edit'">
+			<span *ngIf="contact.type == 'contact' && action == null" class="value">Personne</span>
+			<span *ngIf="contact.type == 'company' && action == null" class="value">Entreprise</span>
+			<ion-item *ngIf="action != null">
 				<ion-select [(ngModel)]="type" placeholder="Type de contact">
 					<ion-option value="contact">Contact</ion-option>
 					<ion-option value="company">Entreprise</ion-option>
 				</ion-select>
 			</ion-item>
 		</li>
-		<li *ngIf="contact.city">
+		<li>
 			<span class="label">Ville</span>
-			<span *ngIf="action != 'edit'" class="value">{{ contact.city }}</span>
-            <ion-input *ngIf="action == 'edit'" [(ngModel)]="city" placeholder="Ville"></ion-input>
+			<span *ngIf="action == null" class="value">{{ contact.city }}</span>
+            <ion-input *ngIf="action != null" [(ngModel)]="city" placeholder="Ville"></ion-input>
 		</li>
-		<li *ngIf="contact.webSite" (click)="presentActionSheet(contact.webSite, 'webSite')">
+		<li (click)="presentActionSheet(contact.webSite, 'webSite')">
 			<span class="label">Site web</span>
-			<span *ngIf="action != 'edit'" class="value">{{ contact.webSite }}</span>
-            <ion-input *ngIf="action == 'edit'" [(ngModel)]="notes" placeholder="Notes"></ion-input>
-            <ion-input *ngIf="action == 'edit'" [(ngModel)]="web_site" placeholder="Site web"></ion-input>
+			<span *ngIf="action == null" class="value">{{ contact.webSite }}</span>
+            <ion-input *ngIf="action != null" [(ngModel)]="web_site" placeholder="Site web"></ion-input>
 		</li>
 		<!-- <li *ngIf="contact.email" (click)="presentActionSheet(contact.email, 'email')">
 			<span class="label">E-mail</span>
@@ -64,8 +64,13 @@
 		</li> -->
 		<li>
 			<span class="label">Notes</span>
-			<span *ngIf="contact.notes && action != 'edit'" class="value">{{ contact.notes }}</span>
-			<ion-textarea *ngIf="action == 'edit'" [(ngModel)]="notes" class="note-input" rows="5" placeholder="Notes"></ion-textarea>
+			<span *ngIf="action == null" class="value">{{ contact.notes }}</span>
+			<ion-textarea *ngIf="action != null" [(ngModel)]="notes" class="note-input" rows="5" placeholder="Notes"></ion-textarea>
+		</li>
+		<li class="actions">
+			<button *ngIf="action == 'add'" class="add" ion-button (click)="saveContact('add')">Ajouter</button>
+            <button *ngIf="action == 'edit'" class="add" ion-button (click)="saveContact('edit')">Modifier</button>
+			<button *ngIf="action != null" class="close" ion-button (click)="close()">Annuler</button>
 		</li>
 		<li class="title">
 			<h2>Informations</h2>

@@ -7,10 +7,10 @@
 
     <ion-content>
         <ion-list>
-            <button *ngFor="let p of pages" [ngClass]="p.class" menuClose ion-item (click)="openPage(p)">
-                {{ p.title }}
-            </button>
-            <button  class="sign-out" menuClose ion-item (click)="signOut()">Déconnexion</button>
+            <button class="category" menuClose ion-item (click)="openPage(CategoryPage)">Gestion des categories</button>
+            <button class="users" menuClose ion-item (click)="openPage(UsersPage)">Gestion des utilisateurs</button>
+            <button class="diagnostic" menuClose ion-item (click)="openPage(DiagnosticPage)">Diagnostic</button>
+            <button class="sign-out" menuClose ion-item (click)="signOut()">Déconnexion</button>
         </ion-list>
     </ion-content>
 
@@ -24,3 +24,9 @@
 
 
 <!-- <ion-nav [root]="rootPage"></ion-nav> -->
+
+<!-- { title: 'Contactes', class: 'contact', component: HomePage },
+      { title: 'Gestion des categories', class: 'category', component: CategoryPage },
+      { title: 'gestion des utilisateurs', class: 'users', component: UsersPage },
+      { title: 'Diagnostic', class: 'diagnostic', component: DiagnosticPage },
+      { title: 'Mon compte', class: 'account', component: SearchPage } -->

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
 
 /**
  * Generated class for the UsersPage page.
@@ -15,11 +16,9 @@ import { Http } from '@angular/http';
   templateUrl: 'users.html',
 })
 export class UsersPage {
-  url = "http://localhost:8000"
-
   users: any
 
-  constructor(private alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams, private cp: ContactServicesProvider) {
     this.getUsers()
   }
 
@@ -28,7 +27,7 @@ export class UsersPage {
   }
 
   getUsers() {
-    this.http.get(this.url + '/user/').map(res => res.json()).subscribe(
+    this.http.get(this.cp.url + 'user/').map(res => res.json()).subscribe(
       data => {
         console.log(data)
         this.users = data

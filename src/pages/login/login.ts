@@ -19,7 +19,6 @@ import { ContactServicesProvider } from '../../providers/contact-services/contac
 })
 export class LoginPage {
 
-	url = "http://cmma.agence360.ma/stillsf/public/"
 	username: any
 	password: any
 	new_username: string

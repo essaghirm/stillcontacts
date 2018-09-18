@@ -145,7 +145,7 @@
 	<div *ngIf="searchOn != 'triangle' && reset_search == false" class="result normal">
 		<ion-list>
 			<div *ngIf="!selectToMove">
-				<ion-item-sliding *ngFor="let item of contacts" ion-long-press [interval]="400" (onPressing)="active()">
+				<ion-item-sliding *ngFor="let item of contacts" ion-long-press [interval]="400" (onPressing)="active(item)">
 					<ion-item (click)="details(item)">
 						<h2 class="name">{{ item.lname }} {{ item.fname }}
 							<span class="id">{{ item.id }}</span>
@@ -154,7 +154,6 @@
 						<p class="email">{{ item.email }}</p>
 						<p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
 						<p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
-						<p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
 					</ion-item>
 					<ion-item-options class="options" side="left">
 						<button ion-button class="delete" (click)="deleteContact(item.id)"></button>
@@ -172,9 +171,6 @@
 						<button ion-button class="call" (click)="call(item.mobile)" *ngIf="item.mobile">
 							<img src="assets/icon/call-3.svg" alt="">
 						</button>
-						<button ion-button class="call" (click)="call(item.landline)" *ngIf="!item.mobile">
-							<img src="assets/icon/call-3.svg" alt="">
-						</button>
 					</ion-item-options>
 				</ion-item-sliding>
 			</div>
@@ -190,7 +186,6 @@
 						<p class="email">{{ item.email }}</p>
 						<p class="email" *ngIf="!item.email">{{ item.webSite }}</p>
 						<p class="tel" *ngIf="item.mobile">{{ item.mobile }}</p>
-						<p class="tel" *ngIf="!item.mobile">{{ item.landline }}</p>
 					</ion-label>
 					<ion-checkbox [(ngModel)]="item.checked" (click)="selectMember(item)" [disabled]="max_selected == true && item.checked == false"></ion-checkbox>
 				</ion-item>
@@ -213,7 +208,6 @@
 						<p class="email">{{ item.contact.email }}</p>
 						<p class="email" *ngIf="!item.contact.email">{{ item.contact.webSite }}</p>
 						<p class="tel" *ngIf="item.contact.mobile">{{ item.contact.mobile }}</p>
-						<p class="tel" *ngIf="!item.contact.mobile">{{ item.contact.landline }}</p>
 					</ion-item>
 					<ion-item-options class="options" side="left">
 						<button ion-button class="delete" (click)="deleteContact(item.contact.id)"></button>
@@ -229,9 +223,6 @@
 							<img src="assets/icon/whatsapp-1.svg" alt="">
 						</button>
 						<button ion-button class="call" (click)="call(item.contact.mobile)" *ngIf="item.contact.mobile">
-							<img src="assets/icon/call-3.svg" alt="">
-						</button>
-						<button ion-button class="call" (click)="call(item.contact.landline)" *ngIf="!item.contact.mobile">
 							<img src="assets/icon/call-3.svg" alt="">
 						</button>
 					</ion-item-options>

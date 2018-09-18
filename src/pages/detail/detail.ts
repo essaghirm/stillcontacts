@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, ViewController, AlertController, LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -44,7 +44,7 @@ export class DetailPage {
 	url = "http://cmma.agence360.ma/stillsf/public/"
 	lvl = 0
 
-	action:string=''
+	action:string=null
 	id: number
     type: string
     fname: string
@@ -55,17 +55,47 @@ export class DetailPage {
     category:any = null
 
 	loading: any
-	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public actionSheetCtrl: ActionSheetController, private clipboard: Clipboard, private toastCtrl: ToastController, public popoverCtrl: PopoverController, private camera: Camera, private cp: ContactServicesProvider) {
+	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public actionSheetCtrl: ActionSheetController, private clipboard: Clipboard, private toastCtrl: ToastController, public popoverCtrl: PopoverController, private camera: Camera, public loadingCtrl: LoadingController, private cp: ContactServicesProvider) {
 		this.contact = this.navParams.data.contact
+		if(this.contact == 0){
+			this.action = 'add'
+		}else{
+			this.lvl = this.navParams.data.lvl
+			console.log(this.navParams.data, this.navParams.data.contact)
+			this.getDetails()
+		}
 		// this.contact = { "id": 1, "fname": null, "lname": "CIM Maroc", "webSite": "www.cim.ma", "city": "Casablanca", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 1, "type": "Address", "label": "Siège", "value": "45, bd Gandhi, rÃ©sid. Yasmine - magasin 12", "contact": null, "status": false }, { "id": 2, "type": "LandLine", "label": "Siège", "value": "(+212) 522 943 130", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "avatar": null }
 		// this.relations = { "contacts": [{ "id": 2, "fname": "Yassine", "lname": "Gueddar", "webSite": null, "city": null, "notes": null, "type": "contact", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137199 }, "infos": [{ "id": 3, "type": "Mobile", "label": "Personnel", "value": "(+212) 661 172 561", "contact": null, "status": false }, { "id": 4, "type": "Email", "label": "Perso", "value": "y.gueddar@cim.ma", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }], "companies": [{ "id": 102, "fname": null, "lname": "Armstong", "webSite": "www.armstrong.fr", "city": "Europe", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 291, "type": "Address", "label": "Siège", "value": "SiÃ©ge", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }, { "id": 126, "fname": null, "lname": "Eurocoustic", "webSite": "www.eurocoustic.com", "city": "Europe", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 316, "type": "Address", "label": "Siège", "value": "SiÃ©ge", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }, { "id": 131, "fname": null, "lname": "Gerflex", "webSite": "www.gerflor.fr", "city": "Europe", "notes": "Geflex", "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1524966182 }, "infos": [{ "id": 325, "type": "Address", "label": "Siège", "value": "SiÃ©ge", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }, { "id": 145, "fname": null, "lname": "Rockfon", "webSite": "www.rockfon.fr", "city": "Europe", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 349, "type": "Address", "label": "Europe", "value": "Europe", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }, { "id": 166, "fname": null, "lname": "Lafarge", "webSite": "www.lafarge.ma", "city": "Europe", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 371, "type": "Address", "label": "Europe", "value": "Europe", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }, { "id": 167, "fname": null, "lname": "Krono", "webSite": "www.kronofrance.fr", "city": "Europe", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 372, "type": "Address", "label": "Europe", "value": "Europe", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }] }
 		// this.categories = [{ "id": 5, "title": "Contractants de BTP", "lft": 1733, "rgt": 2154, "lvl": 1, "oldId": 5, "oldParent": null }, { "id": 31, "title": "CatÃ©gories gÃ©nÃ©rales", "lft": 1734, "rgt": 1789, "lvl": 2, "oldId": 25, "oldParent": null }, { "id": 137, "title": "TCE", "lft": 1735, "rgt": 1778, "lvl": 3, "oldId": 92, "oldParent": null }, { "id": 491, "title": "00.20 Travaux intégrateurs Second Å“uvre", "lft": 1742, "rgt": 1747, "lvl": 4, "oldId": 307, "oldParent": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }, { "id": 1080, "title": "Grandes et moyennes entreprises", "lft": 1743, "rgt": 1744, "lvl": 5, "oldId": 421, "oldParent": null, "__initializer__": null, "__cloner__": null, "__isInitialized__": true }]
 
-		this.lvl = this.navParams.data.lvl
-		console.log(this.navParams.data, this.navParams.data.contact)
-		this.getDetails()
+		
 	}
 
+	ionViewDidEnter(){
+		console.log('ionViewDidEnter')
+		if(this.contact == 0){
+			// this.action = 'add'
+		}else{
+			this.getDetails()
+		}
+		
+	}
+
+	presentLoading() {
+		this.loading = this.loadingCtrl.create({
+			content: 'Please wait...'
+		});
+
+		this.loading.present();
+
+		setTimeout(() => {
+			this.loading.dismiss();
+		}, 15000);
+	}
+
+	loadingDismiss(){
+		this.loading.dismiss()
+    }
 
 	checkCanAddRelation() {
 		if (this.relations != null) {
@@ -94,11 +124,6 @@ export class DetailPage {
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad DetailPage');
 	}
-
-	// ionViewDidEnter(){
-	//   console.log("ionViewDidEnter")
-	//   this.getDetails()
-	// }
 
 	allowDelete(type) {
 		if (type == 'contact') {
@@ -201,30 +226,6 @@ export class DetailPage {
 
 
 		switch (type) {
-			case "LandLine":
-				buttons = buttons.concat([
-					{
-						text: 'Appel',
-						icon: 'ios-call',
-						cssClass: 'call',
-						handler: () => {
-							this.call(value)
-							console.log('Appel clicked');
-						}
-					},
-					{
-						text: 'Copie',
-						icon: 'md-copy',
-						cssClass: 'copy',
-						handler: () => {
-							this.copy(value)
-							console.log('Copie clicked');
-						}
-					}
-
-				])
-				break;
-
 			case "Email":
 				buttons = buttons.concat([
 					{
@@ -307,15 +308,11 @@ export class DetailPage {
 	}
 
 	editInfo(info, contact_id) {
-		let popover = this.popoverCtrl.create(EditInfoPage, { info: info, contact_id: contact_id });
-		popover.present({
-		});
+		this.navCtrl.push(EditInfoPage, { info: info, contact_id: contact_id })
 	}
 
 	addRelation(type, contact) {
-		this.loading = this.popoverCtrl.create(AddRelationPage, { type: type, contact: contact });
-		this.loading.present({
-		});
+		this.navCtrl.push(AddRelationPage, { type: type, contact: contact })
 	}
 
 	close() {
@@ -323,9 +320,6 @@ export class DetailPage {
 	}
 
 	editContact(contact) {
-		// let popover = this.popoverCtrl.create(EditContactPage, { contact: contact }, { 'cssClass': 'edit-contact' });
-		// popover.present({
-		// });
 		this.id = this.contact.id
 		this.type = this.contact.type
 		this.lname = this.contact.lname
@@ -441,6 +435,90 @@ export class DetailPage {
 			}
 		)
 	}
+
+	saveContact(type) {
+		if(type == 'add'){
+			console.log('haaaaa')
+			this.presentLoading()
+			this.http.post(
+				this.cp.url+'contact/',
+				{
+					"fname": this.fname,
+					"lname": this.lname,
+					"web_site": this.web_site,
+					"city": this.city,
+					"notes": this.notes,
+					"type": this.type,
+					"category": this.category
+				}
+			).map(res => res.json()).subscribe(
+				data => {
+					this.loadingDismiss()
+					console.log('allaaa: ', data)
+					this.action = null
+					this.contact = data.contact
+					this.getDetails()
+				},
+				err => {
+					console.log("Oops!")
+				}
+			)
+		}
+
+		if(type == 'edit'){
+			console.log('edit contact func')
+			this.presentLoading()
+			this.http.put(
+				this.cp.url+'contact/'+this.contact.id,
+				{
+					"fname": this.fname,
+					"lname": this.lname,
+					"web_site": this.web_site,
+					"city": this.city,
+					"notes": this.notes,
+					"type": this.type,
+					"category": this.category
+				}
+			).map(res => res.json()).subscribe(
+				data => {
+					this.loadingDismiss()
+					console.log('good: ', data)
+					this.action = null
+					this.getDetails()
+				},
+				err => {
+					console.log("Oops!")
+				}
+			)
+		}
+        
+    }
+
+    // editContact(){
+    //     console.log('edit contact func')
+    //     this.presentLoading()
+    //     this.http.put(
+    //         'http://localhost:8000/contact/'+this.contact.id,
+    //         {
+    //             "fname": this.fname,
+    //             "lname": this.lname,
+    //             "web_site": this.web_site,
+    //             "city": this.city,
+    //             "notes": this.notes,
+    //             "type": this.type,
+    //             "category": this.category
+    //         }
+    //     ).map(res => res.json()).subscribe(
+    //         data => {
+    //             this.loadingDismiss()
+    //             console.log('good: ', data)
+    //             this.details(data.contact)
+    //         },
+    //         err => {
+    //             console.log("Oops!")
+    //         }
+    //     )
+    // }
 
 
 }

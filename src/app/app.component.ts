@@ -24,6 +24,10 @@ export class MyApp {
   pages: Array<{ title: string, class: string, component: any }>;
   user: any
 
+  CategoryPage:any
+  UsersPage:any
+  DiagnosticPage:any
+
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage) {
 
     this.pages = [
@@ -33,6 +37,10 @@ export class MyApp {
       { title: 'Diagnostic', class: 'diagnostic', component: DiagnosticPage },
       { title: 'Mon compte', class: 'account', component: SearchPage }
     ];
+
+    this.CategoryPage = CategoryPage
+    this.UsersPage = UsersPage
+    this.DiagnosticPage = DiagnosticPage
 
     // Or to get a key/value pair
     setTimeout(() => {
@@ -69,10 +77,10 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
+  openPage(component) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(component);
   }
 
   signOut(){

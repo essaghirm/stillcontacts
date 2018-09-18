@@ -113,9 +113,7 @@ export class SearchPage {
 	}
 	
 	addNewContact() {
-        let popover = this.popoverCtrl.create(EditContactPage, { contact: null }, { 'cssClass': 'edit-contact' });
-        popover.present({
-        });
+		this.navCtrl.push(DetailPage, { contact: 0 })        
     }
 
 	onInput(e) {
@@ -232,9 +230,9 @@ export class SearchPage {
 					if(this.searchOn == 'triangle'){
 						this.contacts = data
 						this.total = 0
-						this.contacts.forEach((e) => {
-							e['checked'] = false
-						})
+						// this.contacts.forEach((e) => {
+						// 	e['checked'] = false
+						// })
 					}else{
 						this.contacts = data.contacts
 						this.total = data.total
@@ -400,6 +398,9 @@ export class SearchPage {
 			});
 			this.contacts_to_move = newArray;
 			this.max_selected = false
+			if(this.contacts_to_move.length == 0){
+				this.selectToMove = false
+			}
 		}
 		console.log('contacts_to_move', this.contacts_to_move);	 
 	}
@@ -427,8 +428,11 @@ export class SearchPage {
 		)
 	}
 
-	active(){
+	active(item){
 		this.selectToMove = true
+		item.checked = true
+		this.contacts_to_move.push(item)
+
 	}
 
 	saveSearch(){

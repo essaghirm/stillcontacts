@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { SearchPage } from '../search/search';
+import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
 
 /**
  * Generated class for the CategoryPage page.
@@ -16,7 +17,7 @@ import { SearchPage } from '../search/search';
 	templateUrl: 'category.html',
 })
 export class CategoryPage {
-    url = "http://localhost:8000/"
+	url = "http://cmma.agence360.ma/stillsf/public/"
 	category: number = null
 	categories: any
 	categories_2: any
@@ -38,7 +39,7 @@ export class CategoryPage {
     canRemove: any = false
     
     action:  any = null;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider) {
 		this.getCategories()
 	}
 
@@ -48,7 +49,7 @@ export class CategoryPage {
 
 	getCategories() {
         console.log('func - getCategories')
-        this.http.get(this.url+'category/').map(res => res.json()).subscribe(
+        this.http.get(this.cp.url+'category/').map(res => res.json()).subscribe(
             data => {
                 if(data.length > 0){
                     console.log('Result: ', data)
@@ -64,7 +65,7 @@ export class CategoryPage {
 	getCategoriesByLvl(parent, lvl) {
         console.log('func - getCategories')
         this['categories_' + lvl] = null
-        this.http.get(this.url+'category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
+        this.http.get(this.cp.url+'category/'+parent+'/'+lvl).map(res => res.json()).subscribe(
             data => {
                 if(data.categories.length > 0){
                     console.log('Result: ', data)
@@ -145,11 +146,11 @@ export class CategoryPage {
 
     submit(){
         console.log(this.action)
-        console.log(this.category, this.title, this.url+'category/'+this.category)
+        console.log(this.category, this.title, this.cp.url+'category/'+this.category)
         if(this.action == "edit"){
             if(this.action == "edit"){
                 this.http.put(
-                    this.url+'category/'+this.category,
+                    this.cp.url+'category/'+this.category,
                     {
                         "title": this.title
                     }
@@ -167,7 +168,7 @@ export class CategoryPage {
 
         if(this.action == "add"){
             this.http.post(
-				this.url+'category/new',
+				this.cp.url+'category/new',
 				{
                     "title": this.title,
                     "parent": this.category

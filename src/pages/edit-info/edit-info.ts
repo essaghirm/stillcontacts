@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { DetailPage } from '../detail/detail';
+import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
 
 /**
  * Generated class for the EditInfoPage page.
@@ -16,6 +17,7 @@ import { DetailPage } from '../detail/detail';
 	templateUrl: 'edit-info.html',
 })
 export class EditInfoPage {
+	url = "http://cmma.agence360.ma/stillsf/public/"
 	info: any
 	contact_id: any
 	id: number
@@ -25,7 +27,7 @@ export class EditInfoPage {
 	status: any
 	masks:any
 
-	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider) {
 		this.info = this.navParams.data.info
 		this.contact_id = this.navParams.data.contact_id
 		if (this.info === 0) {
@@ -52,7 +54,7 @@ export class EditInfoPage {
 		if(type == 'add'){
 			console.log(this.status)
 			this.http.post(
-				'http://127.0.0.1:8000/info/new',
+				this.cp.url+'info/new',
 				{
 					"type": this.type,
 					"label": this.label,
@@ -63,10 +65,12 @@ export class EditInfoPage {
 			).map(res => res.json()).subscribe(
 				data => {
 					console.log(data)
-					this.navCtrl.push(DetailPage, {
-						contact: data.contact,
-						lvl: 0
-					})
+					this.navCtrl.pop()
+					// this.close()
+					// this.navCtrl.push(DetailPage, {
+					// 	contact: data.contact,
+					// 	lvl: 0
+					// })
 				},
 				err => {
 					console.log("Oops!")
@@ -77,7 +81,7 @@ export class EditInfoPage {
 		if(type == 'edit'){
 			console.log(this.info.status)
 			this.http.put(
-				'http://127.0.0.1:8000/info/'+this.info.id,
+				this.cp.url+'info/'+this.info.id,
 				{
 					"type": this.info.type,
 					"label": this.info.label,
@@ -87,10 +91,12 @@ export class EditInfoPage {
 			).map(res => res.json()).subscribe(
 				data => {
 					console.log(data)
-					this.navCtrl.push(DetailPage, {
-						contact: data.contact,
-						lvl: 0
-					})
+					this.navCtrl.pop()
+					// this.close()
+					// this.navCtrl.push(DetailPage, {
+					// 	contact: data.contact,
+					// 	lvl: 0
+					// })
 				},
 				err => {
 					console.log("Oops!")
@@ -114,7 +120,7 @@ export class EditInfoPage {
 				{
 					text: 'Oui je veux',
 					handler: () => {
-						this.http.delete('http://localhost:8000/info/' + this.info.id).map(res => res.json()).subscribe(
+						this.http.delete(this.cp.url+'info/' + this.info.id).map(res => res.json()).subscribe(
 							data => {
 								console.log(data)
 								this.navCtrl.push(DetailPage, {
