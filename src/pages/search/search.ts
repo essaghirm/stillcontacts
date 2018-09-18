@@ -375,7 +375,7 @@ export class SearchPage {
 							data => {
 								if(data == true){
 									this.contacts = this.contacts.filter(function (el) {
-										return el.id !== id;
+										return el.id != id;
 									})
 								}
 								this.loadingDismiss()

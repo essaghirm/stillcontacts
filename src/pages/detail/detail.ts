@@ -97,7 +97,7 @@ export class DetailPage {
 
 		setTimeout(() => {
 			this.loading.dismiss();
-		}, 15000);
+		}, 150000);
 	}
 
 	loadingDismiss(){
@@ -387,7 +387,7 @@ export class DetailPage {
 			let base64Image = 'data:image/jpeg;base64,' + imageData;
 			console.log('imageData', imageData)
 			console.log('base64Image', base64Image)
-			this.contact.avatar = base64Image
+			// this.contact.avatar = base64Image
 			this.upload(base64Image)
 		}, (err) => {
 			// Handle error
@@ -411,7 +411,7 @@ export class DetailPage {
 			let base64Image = 'data:image/jpeg;base64,' + imageData;
 			console.log('imageData', imageData)
 			console.log('base64Image', base64Image)
-			this.contact.avatar = base64Image
+			// this.contact.avatar = base64Image
 			this.upload(base64Image)
 		}, (err) => {
 			// Handle error
