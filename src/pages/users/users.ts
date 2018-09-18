@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
 
@@ -17,14 +17,47 @@ import { ContactServicesProvider } from '../../providers/contact-services/contac
 })
 export class UsersPage {
   users: any
-
-  constructor(private alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams, private cp: ContactServicesProvider) {
+  loading: any
+  constructor(private alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams, private cp: ContactServicesProvider, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
     this.getUsers()
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UsersPage');
   }
+
+  presentLoading() {
+		this.loading = this.loadingCtrl.create({
+			content: 'Please wait...'
+		});
+
+		this.loading.present();
+
+		setTimeout(() => {
+			this.loading.dismiss();
+		}, 15000);
+	}
+
+	loadingDismiss(){
+		this.loading.dismiss()
+    }
+
+    presentToast(msg, pos, cls) {
+      let toast = this.toastCtrl.create({
+        message: msg,
+        duration: 105000,
+        position: pos,
+        cssClass: cls,
+        showCloseButton : true,
+        closeButtonText: 'Fermer'
+      });
+  
+      toast.onDidDismiss(() => {
+        console.log('Dismissed toast');
+      });
+  
+      toast.present();
+    }
 
   getUsers() {
     this.http.get(this.cp.url + 'user/').map(res => res.json()).subscribe(
@@ -42,14 +75,16 @@ export class UsersPage {
     this.users.forEach(u => {
       if(u.id == user.id){
         console.log(u.status, u)
-        this.http.post(this.url+'/user/changeuserstatus/'+u.id, {
+        this.http.post(this.cp.url+'/user/changeuserstatus/'+u.id, {
           "status": u.status
         }).map(res => res.json()).subscribe(
           data => {
             if(data == true){
               console.log(data)
+              this.presentToast('Le status à été changé avec succès', 'bottom', 'secondary')
             }else{
               console.log('error')
+              u.status = (user.status == true) ? false : true
             }
           },
           err => {
@@ -61,15 +96,15 @@ export class UsersPage {
   }
 
   removeUser(user){
-    this.presentConfirm()
     this.users.forEach(u => {
       if(u.id == user.id){
         console.log('Remove :', u)
-      }
+        this.confirmDelete(u.id)
+  }
     })
   }
 
-  presentConfirm() {
+  confirmDelete(id) {
     let alert = this.alertCtrl.create({
       title: 'Confirmeation',
       message: 'Voulez-vous vraiment supprimer cet utilisateur?',
@@ -78,7 +113,18 @@ export class UsersPage {
           text: 'Anuller',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            this.presentLoading()
+						this.http.delete(this.cp.url+'user/' + id).map(res => res.json()).subscribe(
+							data => {
+								if(data.message == true){
+                  this.getUsers()
+                  this.loadingDismiss()
+                }
+							},
+							err => {
+								console.log("Oops!")
+							}
+						)
           }
         },
         {

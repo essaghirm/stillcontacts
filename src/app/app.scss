@@ -124,3 +124,13 @@ ion-popover{
 		}
 	}
 }
+
+ion-toast{
+	&.danger .toast-wrapper{
+		background: color($colors, danger)
+	}
+
+	&.secondary .toast-wrapper{
+		background: color($colors, secondary)
+	}
+}

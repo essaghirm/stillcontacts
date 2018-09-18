@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController, LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { DetailPage } from '../detail/detail';
 import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
@@ -27,7 +27,9 @@ export class EditInfoPage {
 	status: any
 	masks:any
 
-	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider) {
+	loading: any
+
+	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider, public loadingCtrl: LoadingController) {
 		this.info = this.navParams.data.info
 		this.contact_id = this.navParams.data.contact_id
 		if (this.info === 0) {
@@ -50,7 +52,24 @@ export class EditInfoPage {
 		console.log('ionViewDidLoad EditInfoPage');
 	}
 
+	presentLoading() {
+		this.loading = this.loadingCtrl.create({
+			content: 'Please wait...'
+		});
+
+		this.loading.present();
+
+		setTimeout(() => {
+			this.loading.dismiss();
+		}, 15000);
+	}
+
+	loadingDismiss(){
+		this.loading.dismiss()
+    }
+
 	submit(type) {
+		this.presentLoading()
 		if(type == 'add'){
 			console.log(this.status)
 			this.http.post(
@@ -65,12 +84,8 @@ export class EditInfoPage {
 			).map(res => res.json()).subscribe(
 				data => {
 					console.log(data)
+					this.loadingDismiss()
 					this.navCtrl.pop()
-					// this.close()
-					// this.navCtrl.push(DetailPage, {
-					// 	contact: data.contact,
-					// 	lvl: 0
-					// })
 				},
 				err => {
 					console.log("Oops!")
@@ -91,12 +106,8 @@ export class EditInfoPage {
 			).map(res => res.json()).subscribe(
 				data => {
 					console.log(data)
+					this.loadingDismiss()
 					this.navCtrl.pop()
-					// this.close()
-					// this.navCtrl.push(DetailPage, {
-					// 	contact: data.contact,
-					// 	lvl: 0
-					// })
 				},
 				err => {
 					console.log("Oops!")
@@ -120,13 +131,12 @@ export class EditInfoPage {
 				{
 					text: 'Oui je veux',
 					handler: () => {
+						this.presentLoading()
 						this.http.delete(this.cp.url+'info/' + this.info.id).map(res => res.json()).subscribe(
 							data => {
 								console.log(data)
-								this.navCtrl.push(DetailPage, {
-									contact: data.contact,
-									lvl: 0
-								})
+								this.loadingDismiss()
+								this.navCtrl.pop()
 							},
 							err => {
 								console.log("Oops!")
@@ -136,6 +146,7 @@ export class EditInfoPage {
 				}
 			]
 		});
+		
 		alert.present();
 	}
 

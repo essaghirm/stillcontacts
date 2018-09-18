@@ -22,7 +22,11 @@
 		 (ionCancel)="onCancel($event)" type="{{ inputType }}">
 		</ion-searchbar>
 		<button ion-button class="reset_search" (click)="resetSearch()"></button>
-		<button ion-button class="save_search" (click)="saveSearch()"></button>
+		<button ion-button class="save_search" (click)="saveSearch(0)"></button>
+	</div>
+	<div class="searchName" *ngIf="canSaveFilter">
+		<ion-input [(ngModel)]="searchName" type="text" placeholder="Nom de filtre"></ion-input>
+		<button ion-button class="save_search" (click)="saveSearch(1)">Sauvegarder</button>
 	</div>
 
 	<div class="filter">
@@ -139,6 +143,19 @@
 				</ion-item-options>
 			</ion-item-sliding>
 		</ion-list>
+
+		<h2 class="title">Filtre sauvegardés</h2>
+		<ion-list class="filters_saved">
+			<ion-item-sliding *ngFor="let f of filters_saved; let i=index" class="">
+				<ion-item (click)="setFilterToSearch(f)">
+					{{ f.searchName }}
+				</ion-item>
+				<ion-item-options class="options" side="left">
+					<button ion-button class="delete" (click)="deleteFilter(f, i)"></button>
+				</ion-item-options>
+			</ion-item-sliding>
+		</ion-list>
+
 	</div>
 
 
@@ -268,7 +285,8 @@
 		</ion-list>
 	</div>
 
-	<ion-infinite-scroll *ngIf="(searchOn != 'triangle') && (total > contacts.length) && reset_search == false" (ionInfinite)="doInfinite($event)">
+	<ion-infinite-scroll *ngIf="(searchOn != 'triangle') && (total > contacts.length) && reset_search == false"
+	 (ionInfinite)="doInfinite($event)">
 		<ion-infinite-scroll-content></ion-infinite-scroll-content>
 	</ion-infinite-scroll>
 </ion-content>
