@@ -106,9 +106,9 @@ export class CategoryPage {
     }
 
     addNewCategory(lvl){
-        this.category = this['cv_' + lvl]
+        this.category = (lvl == 1) ? null : this['cv_' + (lvl-1)]
         this.title = ""
-        console.log('Category to add in: ', this["cv_" + lvl]);
+        console.log('Category to add in: ', this.category);
         this.action = "add"
     }
 
@@ -147,6 +147,7 @@ export class CategoryPage {
     submit(){
         console.log(this.action)
         console.log(this.category, this.title, this.cp.url+'category/'+this.category)
+        
         if(this.action == "edit"){
             if(this.action == "edit"){
                 this.http.put(

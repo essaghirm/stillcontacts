@@ -6,31 +6,38 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <button ion-button menuToggle right>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Gestion des utilisateurs</ion-title>
-    <button ion-button class="_icon add-contact" (click)="addNewCategory()"></button>
-  </ion-navbar>
+    <ion-navbar>
+        <button ion-button menuToggle right>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Gestion des utilisateurs</ion-title>
+        <button ion-button class="_icon add-contact" (click)="addNewCategory()"></button>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <ion-list class="users">
-    <ion-item-sliding *ngFor="let u of users">
-      <ion-item>
-          <ion-label>
-            <h2>{{u.fullName}}</h2>
-            <p>{{u.email}}</p>
-          </ion-label>
-          <ion-toggle [(ngModel)]="u.status" (ionChange)="onChangeStatus(u)"></ion-toggle>
-      </ion-item>
-      <ion-item-options class="options" side="righr">
-        <button ion-button class="remove" (click)="removeUser(u)">
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+    <ion-list class="users">
+        <ion-item-sliding *ngFor="let u of users">
+            <ion-item>
+                <ion-label>
+                    <h2>{{u.fullName}}<span class="role">{{u.roles}}</span></h2>
+                    <p>{{u.email}}</p>
+                </ion-label>
+
+                <ion-select #rol class="select" [(ngModel)]="u.roles" (ionChange)="changeRole(rol.value, u.id)">
+                    <ion-option value="admin">Admin</ion-option>
+                    <ion-option value="editor">Editeur</ion-option>
+                    <ion-option value="user">Utilisateur</ion-option>
+                </ion-select>
+
+                <ion-toggle [(ngModel)]="u.status" (ionChange)="onChangeStatus(u)"></ion-toggle>
+            </ion-item>
+            <ion-item-options class="options" side="righr">
+                <button ion-button class="remove" (click)="removeUser(u)">
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>

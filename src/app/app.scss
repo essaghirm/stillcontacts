@@ -18,6 +18,16 @@
 
 .app-root{
 	background: color($colors, mauve);
+
+	.select-alert{
+		.alert-head{
+			display: none;
+		}
+
+		.alert-radio-group{
+			padding-top: 10px;
+		}
+	}
 }
 
 .header{

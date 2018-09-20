@@ -27,6 +27,7 @@ export class MyApp {
   CategoryPage:any
   UsersPage:any
   DiagnosticPage:any
+  SearchPage:any
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage) {
 
@@ -41,6 +42,7 @@ export class MyApp {
     this.CategoryPage = CategoryPage
     this.UsersPage = UsersPage
     this.DiagnosticPage = DiagnosticPage
+    this.SearchPage = SearchPage
 
     // Or to get a key/value pair
     setTimeout(() => {

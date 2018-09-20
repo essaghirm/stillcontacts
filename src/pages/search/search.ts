@@ -53,6 +53,7 @@ export class SearchPage {
 	reset_search: any = true
 	selectToMove = false
 	contacts_to_move: any = []
+	canShowBtnMove: boolean = false
 	filters_saved: any = []
 	max_selected: any = false
 	canSaveFilter: boolean = false
@@ -64,6 +65,7 @@ export class SearchPage {
 		console.log('ContactServicesProvider.url', this.cp.url)
 		if (this.navParams.data.fromCategory == true) {
 			console.log(this.navParams.data)
+			this.reset_search = false
 			this.categories = this.navParams.data.categories_1
 			for (let index = 2; index <= 5; index++) {
 				console.log('categories_' + index)
@@ -142,6 +144,11 @@ export class SearchPage {
 		this.selectToMove = false
 		this.inputSearch = ""
 		this.canSaveFilter = false
+		this.inputSearch = ""
+		this.searchOn = "name"
+		this.contacts_to_move = []
+		this.max_selected = false
+		this.showSearchByType = false
 		console.log(this.reset_search)
 		this.category = null
 		for (let index = 1; index <= 5; index++) {
@@ -159,7 +166,7 @@ export class SearchPage {
 		// console.log(e)
 		console.log(this.inputSearch, this.inputSearch.length)
 		this.offset = 1
-		if (this.inputSearch.length >= 3) {
+		if (this.inputSearch.length >= 3 || this.searchOn == 'id') {
 			this.searchBy(this.searchOn, this.inputSearch, 1)
 			this.reset_search = false
 		}
@@ -212,19 +219,31 @@ export class SearchPage {
 	}
 
 	onChange(parent, lvl) {
+		console.log('onChange type of: ', parent, typeof(parent))
+		if(this.selectToMove == true){
+			this.canShowBtnMove = true
+		}
+
+		if(typeof(parent) == 'string'){
+			this.category = parent
+			this.getCategoriesByLvl(parent, lvl)
+
+			if (lvl == 6) {
+				this.showSearchByType = true
+			} else {
+				this.showSearchByType = false
+			}
+		}
 		console.log('onChange', parent, lvl)
 		this.reset(lvl)
-		this.category = parent
 		this.offset = 1
 		this.reset_search = false
-		this.getCategoriesByLvl(parent, lvl)
-		if (lvl == 6) {
-			this.showSearchByType = true
-		} else {
-			this.showSearchByType = false
-		}
+		
 		if (this.selectToMove == false) {
-			this.searchBy(this.searchOn, this.inputSearch, 1)
+			// setTimeout(() => {
+				this.searchBy(this.searchOn, this.inputSearch, 1)
+			// }, 5000);
+			
 		}
 	}
 
@@ -235,13 +254,24 @@ export class SearchPage {
 	}
 
 	reset(lvl) {
-		this.category = null
-		this.inputSearch = ""
-		this.searchOn = "name"
 		for (let index = lvl; index <= 5; index++) {
 			this['categories_' + index] = null
 			this['cv_' + index] = null
 		}
+	}
+
+	onCancel(lvl) {
+		this.showSearchByType = false
+		if(lvl == 1){
+			this.cv_1 = null
+			this.category = null
+		}else{
+			for (let index = lvl; index <= 5; index++) {
+				this['cv_' + index] = null
+			}
+			this.category = this['cv_' + (lvl - 1)]
+		}
+		console.log('after cancel', this.category, 'lvl', lvl)		
 	}
 
 	radioChecked(value, type) {
@@ -251,11 +281,20 @@ export class SearchPage {
 		this.contacts = []
 		this.searchBy(this.searchOn, this.inputSearch, 1)
 		console.log(value, type)
+		
+		// this.contacts_to_move = []
+		// this.selectToMove = false
+		// this.max_selected = false
 	}
 
 	searchBy(by, value, offset) {
+		if(this.contacts_to_move.length == 0){
+			this.contacts_to_move = []
+			this.selectToMove = false
+			this.max_selected = false
+		}
 		console.log('this.inputSearch.length', this.inputSearch.length)
-		console.log('searchBy', this.searchOn, this.category, this.inputSearch.length)
+		console.log('searchBy: '+ this.searchOn+' category: ' + this.category)
 		if (this.searchOn == 'triangle' && this.inputSearch.length < 5) {
 			this.total = 0
 			return false
@@ -373,10 +412,24 @@ export class SearchPage {
 						this.presentLoading()
 						this.http.delete(this.cp.url+'contact/' + id).map(res => res.json()).subscribe(
 							data => {
-								if(data == true){
+								if(data == 'ok'){
 									this.contacts = this.contacts.filter(function (el) {
-										return el.id != id;
+										return el.id !== id;
 									})
+
+									this.storage.get('mostViewed').then((val) => {
+										console.log('val', val.length)
+										if(val != null && val.length > 0){
+											this.mostViewed = this.mostViewed.filter(function (el) {
+												return el.contact.id !== id;
+											});
+											setTimeout(() => {
+												this.storage.set('mostViewed', this.mostViewed)
+											}, 2000);
+											
+										}
+									})
+									
 								}
 								this.loadingDismiss()
 							},
@@ -454,6 +507,7 @@ export class SearchPage {
 	}
 
 	moveContact() {
+		this.presentLoading()
 		let array = []
 		this.contacts_to_move.forEach(e => {
 			array.push(e.id)
@@ -465,9 +519,10 @@ export class SearchPage {
 				console.log('moveContact response:', data)
 				if (data.message == true) {
 					this.selectToMove = false
-					this.contacts.filter(function (el) {
-						return array.indexOf(el.id) == -1
-					})
+					this.canShowBtnMove = false
+					this.contacts_to_move = []
+					this.searchBy(this.searchOn, this.inputSearch, 1)
+					this.loadingDismiss()
 				}
 			},
 			err => {
@@ -480,7 +535,6 @@ export class SearchPage {
 		this.selectToMove = true
 		item.checked = true
 		this.contacts_to_move.push(item)
-
 	}
 
 	saveSearch(action) {

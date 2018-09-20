@@ -21,10 +21,33 @@ page-users {
                 h2{
                     font-size: 14px;
                     color: color($colors, dark);
+                    font-weight: bold;
+                    .role{
+                        display: table;
+                        margin-left: 10px;
+                        color: color($colors, dark);
+                        display: inline-block;
+                        font-weight: normal;
+                        border: 1px solid;
+                        border-radius: 5px;
+                        padding: 0px 5px;
+                        font-size: 13px;
+                        line-height: 15px;
+
+                    }
                 }
                 p{
                     font-size: 13px;
                     color: lighten(color($colors, secondary), 10%);
+
+                    
+                }
+
+                .select{
+                    position: absolute;
+                    right: 70px;
+                    top: 50%;
+                    transform: translateY(-50%);
                 }
             }
 

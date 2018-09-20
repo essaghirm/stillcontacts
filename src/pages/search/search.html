@@ -63,31 +63,31 @@
 		<div class="row">
 			<div class="select">
 				<ion-item>
-					<ion-select #c1 [(ngModel)]="cv_1" interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange(c1.value, 2)">
+					<ion-select #c1 [(ngModel)]="cv_1" interface="action-sheet" placeholder="Catégorie" (ionCancel)="onCancel(1)" (ionChange)="onChange(c1.value, 2)">
 						<ion-option *ngFor="let c of categories" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item *ngIf="categories_2">
-					<ion-select #c2 [(ngModel)]="cv_2" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c2.value, 3)">
+					<ion-select #c2 [(ngModel)]="cv_2" interface="action-sheet" placeholder="Sous-catégorie" (ionCancel)="onCancel(2)" (ionChange)="onChange(c2.value, 3)">
 						<ion-option *ngFor="let c of categories_2" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item *ngIf="categories_3">
-					<ion-select #c3 [(ngModel)]="cv_3" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c3.value, 4)">
+					<ion-select #c3 [(ngModel)]="cv_3" interface="action-sheet" placeholder="Sous-catégorie" (ionCancel)="onCancel(3)" (ionChange)="onChange(c3.value, 4)">
 						<ion-option *ngFor="let c of categories_3" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item *ngIf="categories_4">
-					<ion-select #c4 [(ngModel)]="cv_4" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c4.value, 5)">
+					<ion-select #c4 [(ngModel)]="cv_4" interface="action-sheet" placeholder="Sous-catégorie" (ionCancel)="onCancel(4)" (ionChange)="onChange(c4.value, 5)">
 						<ion-option *ngFor="let c of categories_4" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item *ngIf="categories_5">
-					<ion-select #c5 [(ngModel)]="cv_5" interface="action-sheet" placeholder="Sous-catégorie" (ionChange)="onChange(c5.value, 6)">
+					<ion-select #c5 [(ngModel)]="cv_5" interface="action-sheet" placeholder="Sous-catégorie" (ionCancel)="onCancel(5)" (ionChange)="onChange(c5.value, 6)">
 						<ion-option *ngFor="let c of categories_5" value="{{ c.id }}">{{ c.title }}</ion-option>
 					</ion-select>
 				</ion-item>
@@ -99,7 +99,7 @@
 						<ion-option value="company">Entreprise</ion-option>
 					</ion-select>
 				</ion-item>
-				<ion-item class="btn_move" *ngIf="showSearchByType && selectToMove">
+				<ion-item class="btn_move" *ngIf="showSearchByType && selectToMove && canShowBtnMove">
 					<button ion-button (click)="moveContact()">Déplacer les elements sélectionnés</button>
 				</ion-item>
 			</div>
