@@ -17,6 +17,7 @@ import { LoadingController } from 'ionic-angular';
 @Injectable()
 export class ContactServicesProvider {
 	url: string = "http://cmma.agence360.ma/stillsf/public/"
+	// url: string = "http://localhost:8000/"
 	loading: any
 
 	constructor(public http: HttpClient) {

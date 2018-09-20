@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { SearchPage } from '../search/search';
 import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
@@ -39,13 +39,30 @@ export class CategoryPage {
     canRemove: any = false
     
     action:  any = null;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider) {
+    loading:any
+	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider, public loadingCtrl: LoadingController) {
 		this.getCategories()
 	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad CategoryPage');
-	}
+    }
+    
+    presentLoading() {
+        this.loading = this.loadingCtrl.create({
+            content: 'Please wait...'
+        });
+
+        this.loading.present();
+
+        setTimeout(() => {
+            this.loading.dismiss();
+        }, 15000);
+    }
+
+    loadingDismiss() {
+        this.loading.dismiss()
+    }
 
 	getCategories() {
         console.log('func - getCategories')
@@ -139,11 +156,6 @@ export class CategoryPage {
         this.title = ""
     }
 
-    removeCategory(){
-        this.action = null
-        this.title = ""
-    }
-
     submit(){
         console.log(this.action)
         console.log(this.category, this.title, this.cp.url+'category/'+this.category)
@@ -201,6 +213,22 @@ export class CategoryPage {
         	cv_4: this.cv_4,
             cv_5: this.cv_5
         })
+    }
+
+    removeCategory(){
+        // this.action = null
+        // this.title = ""
+        console.log(this.category, this.lvl)
+
+        this.http.delete(this.cp.url+'category/'+this.category).map(res => res.json()).subscribe(
+            data => {
+                // if()
+            },
+            err => {
+                console.log("Oops!")
+            }
+        )
+
     }
 
 }
