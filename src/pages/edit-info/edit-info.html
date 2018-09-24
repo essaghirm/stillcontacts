@@ -10,8 +10,8 @@
     <ion-title *ngIf="info">Modifier</ion-title>
 		<ion-title  *ngIf="!info">Ajouter</ion-title>
 		<!--  -->
-		<ion-toggle *ngIf="info && (info.type == 'Email' || info.type == 'Mobile' || info.type == 'LandLine')" [(ngModel)]="info.status"></ion-toggle>
-		<ion-toggle *ngIf="!info && (type == 'Email' || type == 'Mobile' || type == 'LandLine')" [(ngModel)]="status"></ion-toggle>
+		<ion-toggle *ngIf="info && (info.type == 'Email' || info.type == 'Phone')" [(ngModel)]="info.status"></ion-toggle>
+		<ion-toggle *ngIf="!info && (type == 'Email' || type == 'Phone')" [(ngModel)]="status"></ion-toggle>
   </ion-navbar>
 
 </ion-header>
@@ -41,7 +41,7 @@
 	<ul *ngIf="!info">
 		<li>
 			<ion-select [(ngModel)]="type" placeholder="Type d'information">
-			    <ion-option value="Phone">Mobile</ion-option>
+			    <ion-option value="Phone">Téléphone</ion-option>
 			    <ion-option value="Address">Address</ion-option>
 			    <ion-option value="Email">Email</ion-option>
 			</ion-select>

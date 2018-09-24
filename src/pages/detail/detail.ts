@@ -71,7 +71,7 @@ export class DetailPage {
 			this.lvl = this.navParams.data.lvl
 			console.log(this.navParams.data, this.navParams.data.contact)
 			this.getDetails()
-			this.fullName = this.contact.fname + ' ' + this.contact.lname
+			this.fullName = (this.contact.fname == null) ? this.contact.lname : this.contact.fname + ' ' + this.contact.lname
 		}
 		this.getCategories()
 		// this.contact = { "id": 1, "fname": null, "lname": "CIM Maroc", "webSite": "www.cim.ma", "city": "Casablanca", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 1, "type": "Address", "label": "Siège", "value": "45, bd Gandhi, rÃ©sid. Yasmine - magasin 12", "contact": null, "status": false }, { "id": 2, "type": "LandLine", "label": "Siège", "value": "(+212) 522 943 130", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "avatar": null }
@@ -386,7 +386,7 @@ export class DetailPage {
 
 	openCamera() {
 		const options: CameraOptions = {
-			quality: 100,
+			quality: 70,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
 			mediaType: this.camera.MediaType.PICTURE,
@@ -411,20 +411,19 @@ export class DetailPage {
 
 	openGallery() {
 		const options: CameraOptions = {
-			quality: 100,
+			quality: 70,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
 			mediaType: this.camera.MediaType.PICTURE,
-			sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-			correctOrientation: true
+			sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
 		}
 
 		this.camera.getPicture(options).then((imageData) => {
 			// imageData is either a base64 encoded string or a file URI
 			// If it's base64 (DATA_URL):
 			let base64Image = 'data:image/jpeg;base64,' + imageData;
-			console.log('imageData', imageData)
-			console.log('base64Image', base64Image)
+			// console.log('imageData', imageData)
+			// console.log('base64Image', base64Image)
 			// this.contact.avatar = base64Image
 			this.upload(base64Image)
 		}, (err) => {

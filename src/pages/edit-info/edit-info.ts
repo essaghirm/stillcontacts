@@ -24,7 +24,7 @@ export class EditInfoPage {
 	type: any
 	label: any
 	value: any
-	status: any
+	status: boolean = false
 	masks:any
 
 	loading: any
@@ -79,7 +79,7 @@ export class EditInfoPage {
 					"label": this.label,
 					"value": this.value,
 					"status": this.status,
-					"contact_id": this.contact_id
+					"contact": this.contact_id
 				}
 			).map(res => res.json()).subscribe(
 				data => {

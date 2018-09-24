@@ -59,13 +59,13 @@
 			</div>
 			<div class="btns">
 				<button class="camera" (click)="openCamera()"></button>
-				<button class="image" (click)="openGallery('vv')"></button>
+				<button class="image" (click)="openGallery()"></button>
 			</div>
 		</li>
 		<li>
 			<span class="label">Nom</span>
 			<span *ngIf="(action != 'add')" class="id">{{ contact.id }}</span>
-			<span *ngIf="(action == null)" class="value" (click)="presentActionSheet(fullName, 'Autre')">{{ contact.fname }} {{ contact.lname }}</span>
+			<span *ngIf="(action == null)" class="value" ion-long-press [interval]="400" (onPressing)="presentActionSheet(fullName, 'Autre')">{{ contact.fname }} {{ contact.lname }}</span>
 			<ion-input *ngIf="action != null && type != 'company'" [(ngModel)]="fname" placeholder="Prènom"></ion-input>
 			<ion-input *ngIf="action != null" [(ngModel)]="lname" placeholder="Nom"></ion-input>
 		</li>
@@ -82,18 +82,18 @@
 		</li>
 		<li>
 			<span class="label">Ville</span>
-			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.city, 'Autre')">{{ contact.city }}</span>
+			<span *ngIf="action == null" class="value" ion-long-press [interval]="400" (onPressing)="presentActionSheet(contact.city, 'Autre')">{{ contact.city }}</span>
 			<ion-input *ngIf="action != null" [(ngModel)]="city" placeholder="Ville"></ion-input>
 		</li>
-		<li (click)="presentActionSheet(contact.webSite, 'webSite')">
+		<li>
 			<span class="label">Site web</span>
-			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.webSite, 'Autre')">{{ contact.webSite
+			<span *ngIf="action == null" class="value" ion-long-press [interval]="400" (onPressing)="presentActionSheet(contact.webSite, 'Autre')">{{ contact.webSite
 				}}</span>
 			<ion-input *ngIf="action != null" [(ngModel)]="web_site" placeholder="Site web"></ion-input>
 		</li>
 		<li>
 			<span class="label">Notes</span>
-			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.notes, 'Autre')">{{ contact.notes }}</span>
+			<span *ngIf="action == null" class="value" ion-long-press [interval]="400" (onPressing)="presentActionSheet(contact.notes, 'Autre')">{{ contact.notes }}</span>
 			<ion-textarea *ngIf="action != null" [(ngModel)]="notes" class="note-input" rows="5" placeholder="Notes"></ion-textarea>
 		</li>
 		<li class="actions">
@@ -108,7 +108,7 @@
 
 		<li class="contact-info" *ngFor="let i of contact.infos" [ngClass]="(i.status) ? 'default' : 'no'">
 			<span class="label">{{ i.type }}</span>
-			<span class="value" (click)="presentActionSheet(i.value, i.type)">{{ i.value }}</span>
+			<span class="value" ion-long-press [interval]="400" (onPressing)="presentActionSheet(i.value, i.type)">{{ i.value }}</span>
 			<button class="_icon edit" (click)="editInfo(i)"></button>
 		</li>
 
