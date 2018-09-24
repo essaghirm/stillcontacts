@@ -67,19 +67,28 @@ export class SearchPage {
 			console.log(this.navParams.data)
 			this.reset_search = false
 			this.categories = this.navParams.data.categories_1
+			this.cv_1 = this.navParams.data.cv_1
 			for (let index = 2; index <= 5; index++) {
 				console.log('categories_' + index)
 				this['categories_' + index] = this.navParams.data['categories_' + index]
-			}
-			for (let index = 1; index <= 5; index++) {
-				console.log('categories_' + index)
-				this['cv_' + index] = this.navParams.data['cv_' + index]
-				if (this.navParams.data['cv_' + index] == null || index == 5) {
-					this.category = this.navParams.data['cv_' + (index - 1)]
-					this.searchBy(this.searchOn, this.inputSearch, 1)
+				if (this.navParams.data['cv_' + index] != null) {
+					this['cv_' + index] = this.navParams.data['cv_' + index]
+					this.category = this.navParams.data['cv_' + index]
+				}else{
 					break
 				}
 			}
+			this.searchBy(this.searchOn, this.inputSearch, 1)
+
+			// for (let index = 1; index <= 5; index++) {
+			// 	console.log('categories_' + index)
+			// 	this['cv_' + index] = this.navParams.data['cv_' + index]
+			// 	if (this.navParams.data['cv_' + index] == null || index == 5) {
+			// 		this.category = this.navParams.data['cv_' + (index - 1)]
+			// 		this.searchBy(this.searchOn, this.inputSearch, 1)
+			// 		break
+			// 	}
+			// }
 		} else {
 			this.getCategories()
 			this.getMostViewed()

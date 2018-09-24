@@ -58,7 +58,9 @@ export class DetailPage {
     categories_2: any
     categories_3: any
     categories_4: any
-    categories_5: any
+	categories_5: any
+	
+	fullName: string
 
 	loading: any
 	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private socialSharing: SocialSharing, private callNumber: CallNumber, public actionSheetCtrl: ActionSheetController, private clipboard: Clipboard, private toastCtrl: ToastController, public popoverCtrl: PopoverController, private camera: Camera, public loadingCtrl: LoadingController, private cp: ContactServicesProvider) {
@@ -69,6 +71,7 @@ export class DetailPage {
 			this.lvl = this.navParams.data.lvl
 			console.log(this.navParams.data, this.navParams.data.contact)
 			this.getDetails()
+			this.fullName = this.contact.fname + ' ' + this.contact.lname
 		}
 		this.getCategories()
 		// this.contact = { "id": 1, "fname": null, "lname": "CIM Maroc", "webSite": "www.cim.ma", "city": "Casablanca", "notes": null, "type": "company", "created": { "timezone": { "name": "UTC", "transitions": [{ "ts": -9223372036854776000, "time": "-292277022657-01-27T08:29:52+0000", "offset": 0, "isdst": false, "abbr": "UTC" }], "location": { "country_code": "??", "latitude": 0, "longitude": 0, "comments": "" } }, "offset": 0, "timestamp": 1523137291 }, "infos": [{ "id": 1, "type": "Address", "label": "Siège", "value": "45, bd Gandhi, rÃ©sid. Yasmine - magasin 12", "contact": null, "status": false }, { "id": 2, "type": "LandLine", "label": "Siège", "value": "(+212) 522 943 130", "contact": null, "status": false }], "email": null, "mobile": null, "landline": null, "avatar": null }
@@ -297,18 +300,29 @@ export class DetailPage {
 					}
 				])
 				break;
+			
+				
+			default:
+				buttons = buttons.concat([
+					{
+						text: 'Copie',
+						icon: 'md-copy',
+						cssClass: 'copy',
+						handler: () => {
+							this.copy(value)
+							console.log('Copie clicked');
+						}
+					}
+
+				])
+				break;
 		}
 
 		setTimeout(() => {
 			const actionSheet = this.actionSheetCtrl.create({
-				// title: 'Modify your album',
 				buttons: buttons
 			});
-			if (type === "Address" || type === "WebSite" || type === "Fax") {
-				return false
-			} else {
-				actionSheet.present()
-			}
+			actionSheet.present()
 
 		}, 200)
 

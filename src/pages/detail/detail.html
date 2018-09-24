@@ -65,7 +65,7 @@
 		<li>
 			<span class="label">Nom</span>
 			<span *ngIf="(action != 'add')" class="id">{{ contact.id }}</span>
-			<span *ngIf="(action == null)" class="value">{{ contact.fname }} {{ contact.lname }}</span>
+			<span *ngIf="(action == null)" class="value" (click)="presentActionSheet(fullName, 'Autre')">{{ contact.fname }} {{ contact.lname }}</span>
 			<ion-input *ngIf="action != null && type != 'company'" [(ngModel)]="fname" placeholder="Prènom"></ion-input>
 			<ion-input *ngIf="action != null" [(ngModel)]="lname" placeholder="Nom"></ion-input>
 		</li>
@@ -82,18 +82,18 @@
 		</li>
 		<li>
 			<span class="label">Ville</span>
-			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.city, 'Email')">{{ contact.city }}</span>
+			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.city, 'Autre')">{{ contact.city }}</span>
 			<ion-input *ngIf="action != null" [(ngModel)]="city" placeholder="Ville"></ion-input>
 		</li>
 		<li (click)="presentActionSheet(contact.webSite, 'webSite')">
 			<span class="label">Site web</span>
-			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.webSite, 'Email')">{{ contact.webSite
+			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.webSite, 'Autre')">{{ contact.webSite
 				}}</span>
 			<ion-input *ngIf="action != null" [(ngModel)]="web_site" placeholder="Site web"></ion-input>
 		</li>
 		<li>
 			<span class="label">Notes</span>
-			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.notes, 'Email')">{{ contact.notes }}</span>
+			<span *ngIf="action == null" class="value" (click)="presentActionSheet(contact.notes, 'Autre')">{{ contact.notes }}</span>
 			<ion-textarea *ngIf="action != null" [(ngModel)]="notes" class="note-input" rows="5" placeholder="Notes"></ion-textarea>
 		</li>
 		<li class="actions">

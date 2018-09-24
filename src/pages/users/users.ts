@@ -120,9 +120,11 @@ export class UsersPage {
                         this.http.delete(this.cp.url + 'user/' + id).map(res => res.json()).subscribe(
                             data => {
                                 this.users = data
+                                this.loadingDismiss()
                             },
                             err => {
                                 console.log("Oops!")
+                                this.loadingDismiss()
                             }
                         )
                     }

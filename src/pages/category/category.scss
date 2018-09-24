@@ -26,7 +26,7 @@ page-category {
                     border-right: 1px solid lighten(color($colors, mauve), 40%);
 
                     &.default{
-                        width: 100%;
+                        width: calc(100% - 40px);
                     }
                     &.hasBtn{
                         width: calc(100% - 70px);
