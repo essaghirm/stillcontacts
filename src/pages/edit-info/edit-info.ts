@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController, L
 import { Http } from '@angular/http';
 import { DetailPage } from '../detail/detail';
 import { ContactServicesProvider } from '../../providers/contact-services/contact-services';
+import { sprintf } from 'sprintf-js'
 
 /**
  * Generated class for the EditInfoPage page.
@@ -21,16 +22,20 @@ export class EditInfoPage {
 	info: any
 	contact_id: any
 	id: number
-	type: any
+	type: any = 'Phone'
 	label: any
 	value: any
 	status: boolean = false
-	masks:any
+	masks: any
 
 	loading: any
 
 	constructor(private alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public http: Http, private cp: ContactServicesProvider, public loadingCtrl: LoadingController) {
-		this.info = this.navParams.data.info
+		let _info = this.navParams.data.info
+		if (this.navParams.data.info && this.navParams.data.info.type == 'Phone') {
+			_info.value = this.maskPhone(_info.value)
+		}
+		this.info = _info
 		this.contact_id = this.navParams.data.contact_id
 		if (this.info === 0) {
 
@@ -38,8 +43,8 @@ export class EditInfoPage {
 		console.log('info', this.info)
 
 		this.masks = {
-            phoneNumber: ['(+', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/]
-        };
+			phoneNumber: ['(+', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/]
+		};
 
 	}
 
@@ -64,9 +69,41 @@ export class EditInfoPage {
 		}, 15000);
 	}
 
-	loadingDismiss(){
+	loadingDismiss() {
 		this.loading.dismiss()
-    }
+	}
+
+	onInput(e) {
+		if (this.info) {
+			this.info.value = this.maskPhone(this.info.value)
+		} else {
+			this.value = this.maskPhone(this.value)
+		}
+
+	}
+
+	maskPhone(value) {
+		let _val = value.replace(/[^0-9]/g, '')
+		_val = _val.substr(0, 12)
+		let val
+		if (_val.length <= 11) {
+			val = sprintf('(+%s) %s %s %s',
+				_val.substr(0, 2),
+				_val.substr(2, 3),
+				_val.substr(5, 3),
+				_val.substr(8, 3)
+			)
+		} else if (_val.length > 11) {
+			val = sprintf('(+%s) %s %s %s',
+				_val.substr(0, 3),
+				_val.substr(3, 3),
+				_val.substr(6, 3),
+				_val.substr(9, 3)
+			)
+		}
+		console.log(val)
+		return val
+	}
 
 	submit(type) {
 		this.presentLoading()
@@ -132,7 +169,7 @@ export class EditInfoPage {
 					text: 'Oui je veux',
 					handler: () => {
 						this.presentLoading()
-						this.http.delete(this.cp.url+'info/' + this.info.id).map(res => res.json()).subscribe(
+						this.http.delete(this.cp.url + 'info/' + this.info.id).map(res => res.json()).subscribe(
 							data => {
 								console.log(data)
 								this.loadingDismiss()
@@ -146,7 +183,7 @@ export class EditInfoPage {
 				}
 			]
 		});
-		
+
 		alert.present();
 	}
 

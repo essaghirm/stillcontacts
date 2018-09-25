@@ -51,7 +51,7 @@ export class SearchPage {
 
 	role: any
 	reset_search: any = true
-	selectToMove = false
+	selectToMove: boolean = false
 	contacts_to_move: any = []
 	canShowBtnMove: boolean = false
 	filters_saved: any = []
@@ -120,11 +120,11 @@ export class SearchPage {
 
 	ionViewDidEnter() {
 		console.log('ionViewDidEnter')
-		this.getMostViewed()
 	}
 
 	ionViewCanEnter() {
 		//Runs before the view can enter. This can be used as a sort of "guard" in authenticated views where you need to check permissions before the view can enter
+		this.getMostViewed()
 		this.storage.get('user').then((user) => {
 			this.role = user.roles
 			console.log('Role: ', user.roles)
@@ -149,6 +149,7 @@ export class SearchPage {
 	}
 
 	resetSearch() {
+		this.total = 0
 		this.reset_search = true
 		this.selectToMove = false
 		this.inputSearch = ""
@@ -464,6 +465,7 @@ export class SearchPage {
 				mostViewed.forEach(e => {
 					if (e.contact.id == contact.id) {
 						e.index = e.index + 1
+						e.contact = contact
 						alreadyExist = true
 					}
 				});
