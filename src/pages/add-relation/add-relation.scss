@@ -5,10 +5,27 @@ page-add-relation {
 
 	.searchbar{
 		width: calc(100% - 40px);
+
+		.searchbar-input{
+			box-shadow: 0 0 0;
+			padding-left: 16px;
+			padding-right: 16px;
+			background: lighten(color($colors, dark), 10%);
+			color: #f7f7f7;
+		}
+
+		.searchbar-search-icon{
+			display: none;
+		}
+
+		.searchbar-clear-icon{
+			display: none;
+		}
 	}
 
 	.close{
 		font-size: 20px;
+		color: #f7f7f7;
 		position: absolute;
 	    right: 10px;
 	    width: 20px;
@@ -27,6 +44,19 @@ page-add-relation {
 
 		.item{
 			border-bottom: 1px solid lighten(color($colors, mauve), 40%);
+
+
+			&:first-child{
+				border-bottom: 0;
+				padding-right: 8px;
+				padding-top: 15px;
+				padding-bottom: 5px;
+
+				.input{
+					border: 1px solid lighten(color($colors, mauve), 40%);
+					border-radius: 5px;
+				}
+			}
 			.item-inner{
 				border-bottom: 0;
 			}

@@ -117,7 +117,7 @@
 		</li>
 
 		<li class="contact-info" *ngFor="let i of contact.infos" [ngClass]="(i.status) ? 'default' : 'no'">
-			<span class="label">{{ i.type }}</span>
+			<span class="label">{{ i.type }} - {{ i.label }}</span>
 			<span class="value" ion-long-press [interval]="400" (onPressing)="presentActionSheet(i.value, i.type)">{{ i.value }}</span>
 			<button class="_icon edit" (click)="editInfo(i)"></button>
 		</li>
@@ -129,9 +129,9 @@
 			 (click)="allowDelete('company')"></button>
 		</li>
 
-		<li class="relations" *ngFor="let r of relations?.companies" (click)="details(r)">
-			<p class="name">{{ r.lname }} {{ r.fname }}</p>
-			<span class="id">{{ r.id }}</span>
+		<li class="relations" *ngFor="let r of relations?.companies" (click)="details(r.contact)">
+			<p class="name">{{ r.contact.lname }} {{ r.contact.fname }}</p>
+			<span class="id">{{ r.contact.id }}</span>
 			<button *ngIf="canDeleteCompany == true" class="_icon delete" (click)="deleteRelation(r.id)"></button>
 			<span class="occupation">{{ r.occupation }}</span>
 		</li>
@@ -143,9 +143,9 @@
 			 (click)="allowDelete('contact')"></button>
 		</li>
 
-		<li class="relations" *ngFor="let r of relations?.contacts" (click)="details(r)">
-			<p class="name">{{ r.lname }} {{ r.fname }}</p>
-			<span class="id">{{ r.id }}</span>
+		<li class="relations" *ngFor="let r of relations?.contacts" (click)="details(r).contact">
+			<p class="name">{{ r.lname }} {{ r.contact.fname }}</p>
+			<span class="id">{{ r.contact.id }}</span>
 			<button *ngIf="canDeleteContact == true" class="_icon delete" (click)="deleteRelation(r.id)"></button>
 			<span class="occupation">{{ r.occupation }}</span>
 		</li>

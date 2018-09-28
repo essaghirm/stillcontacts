@@ -29,7 +29,6 @@ export class AddRelationPage {
 		console.log(this.navParams.data)
 		this.contactType = this.navParams.data.type
 		this.contact = this.navParams.data.contact
-
 	}
 
 	ionViewDidLoad() {
@@ -38,7 +37,7 @@ export class AddRelationPage {
 
 	onInput(e) {
 		console.log(this.inputSearch)
-		this.http.get(this.cp.url+'contact/search/' + this.contactType + '/' + this.inputSearch).map(res => res.json()).subscribe(
+		this.http.get(this.cp.url+'contact/search/' + this.contact.id + '/' + this.contactType + '/' + this.inputSearch).map(res => res.json()).subscribe(
 			data => {
 					console.log('Result: ', data)
 					this.contacts = data
