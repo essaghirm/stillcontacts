@@ -19,6 +19,14 @@ page-edit-info {
 			display: table;
 			width: 100%;
 
+			.item{
+				padding-left: 0;
+				.item-inner{
+					padding-right: 0px!important;
+					border-bottom: 0px!important;
+				}
+			}
+
 			ion-select.select{
 				padding-left: 10px;
 				max-width: 100%;

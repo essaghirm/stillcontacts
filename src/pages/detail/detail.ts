@@ -488,17 +488,18 @@ export class DetailPage {
 		if(type == 'edit'){
 			console.log('edit contact func')
 			this.presentLoading()
+			console.log(this.category, this.fname, this.lname, this.web_site, this.city, this.type)
 			this.http.put(
-				this.cp.url+'contact/'+this.contact.id,
-				{
-					"fname": this.fname,
-					"lname": this.lname,
-					"web_site": this.web_site,
-					"city": this.city,
-					"notes": this.notes,
-					"type": this.type,
-					"category": this.category
-				}
+			this.cp.url+'contact/'+this.contact.id,
+			{
+				"fname": this.fname,
+				"lname": this.lname,
+				"web_site": this.web_site,
+				"city": this.city,
+				"notes": this.notes,
+				"type": this.type,
+				"category": this.category
+			}
 			).map(res => res.json()).subscribe(
 				data => {
 					this.loadingDismiss()

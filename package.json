@@ -44,7 +44,7 @@
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-plugin-x-socialsharing": "^5.4.1",
     "es6-promise-plugin": "^4.2.2",
-    "ionic-angular": "3.9.2",
+    "ionic-angular": "^3.9.2-201807062122",
     "ionic-input-mask": "^1.0.1",
     "ionic-long-press": "^1.5.0",
     "ionic3-input-mask": "^0.20.5",

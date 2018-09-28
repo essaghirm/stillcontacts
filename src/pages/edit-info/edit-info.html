@@ -19,7 +19,6 @@
 
 <ion-content>
 	<ul *ngIf="info">
-		<li hidden><ion-input [(ngModel)]="info.IdInfoContact" type="number" placeholder="Number Input with no label"></ion-input></li>
 		<li>
 			<ion-select [(ngModel)]="info.type" placeholder="Type d'information">
 			    <ion-option value="Phone">Téléphone</ion-option>
@@ -27,9 +26,12 @@
 			    <ion-option value="Email">Email</ion-option>
 			</ion-select>
 		</li>
-		<li><ion-input [(ngModel)]="info.label" type="text" placeholder="Label"></ion-input></li>
-		<li><ion-input *ngIf="info.type == 'Phone'" [(ngModel)]="info.value" type="text" placeholder="Valeur" (input)='onInput($event)'></ion-input></li>
-		<li><ion-input  *ngIf="info.type != 'Phone'" [(ngModel)]="info.value" type="text" placeholder="Valeur"></ion-input></li>
+		<li>
+			<ion-item><ion-input [(ngModel)]="info.label" type="text" placeholder="Label"></ion-input></ion-item></li>
+		<li>
+			<ion-item *ngIf="info.type == 'Phone'"><ion-input [(ngModel)]="info.value" type="text" placeholder="Valeur" (input)='onInput($event)'></ion-input></ion-item></li>
+		<li>
+			<ion-item *ngIf="info.type != 'Phone'"><ion-input  [(ngModel)]="info.value" type="text" placeholder="Valeur"></ion-input></ion-item></li>
 		<!-- <li><ion-input *ngIf="info.type == 'Phone'" [(ngModel)]="info.value" type="text" placeholder="Valeur" [brmasker]="{phone: true}"></ion-input></li> -->
 		<!-- <li><input-mask *ngIf="info.type == 'Phone'" [(ngModel)]="info.value" type="text" placeholder="(+___) ___ ___ ___" mask="(+___) ___ ___ ___" allowedChars="0-9 " type="text" maskCharacter="_" tabindex="100"></input-mask></li> -->
 		<li>
@@ -47,11 +49,11 @@
 			    <ion-option value="Email">Email</ion-option>
 			</ion-select>
 		</li>
-		<li><ion-input [(ngModel)]="label" type="text" placeholder="Label"></ion-input></li>
+		<li><ion-item><ion-input [(ngModel)]="label" type="text" placeholder="Label"></ion-input></ion-item></li>
 		<!-- <li><input-mask *ngIf="type == 'Phone'" [(ngModel)]="value" type="text" placeholder="(+___) ___ ___ ___" mask="(+___) ___ ___ ___" allowedChars="0-9 " type="text" maskCharacter="_" tabindex="100"></input-mask></li> -->
 		<!-- <li><ion-input *ngIf="type == 'Phone'" [(ngModel)]="value" type="text" placeholder="Valeur"></ion-input></li> -->
-		<li><ion-input *ngIf="type == 'Phone'" [(ngModel)]="value" type="text" placeholder="Valeur" (input)='onInput($event)'></ion-input></li>
-		<li><ion-input *ngIf="type != 'Phone'" [(ngModel)]="value" type="text" placeholder="Valeur"></ion-input></li>
+		<li><ion-item *ngIf="type == 'Phone'"><ion-input [(ngModel)]="value" type="text" placeholder="Valeur" (input)='onInput($event)'></ion-input></ion-item></li>
+		<li><ion-item *ngIf="type != 'Phone'"><ion-input [(ngModel)]="value" type="text" placeholder="Valeur"></ion-input></ion-item></li>
 		<li>
 			<button class="edit" *ngIf="!info" ion-button (click)="submit('add')">Ajouter</button>
 			<button class="cancel" ion-button (click)="close()">Annuler</button>
