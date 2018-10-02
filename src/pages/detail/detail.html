@@ -54,13 +54,22 @@
 		</li>
 		<li *ngIf="action == null" class="avatar">
 			<div class="img">
-				<!-- *ngIf="contact.avatar" -->
 				<img [src]="contact.avatar" alt="">
 			</div>
 			<div class="btns">
+				<button *ngIf="contact.avatar != null" class="delete" (click)="deletAvatar()"></button>
 				<button class="camera" (click)="openCamera()"></button>
 				<button class="image" (click)="openGallery()"></button>
 			</div>
+		</li>
+		<li *ngIf="action != null">
+			<span class="label">Type</span>
+			<ion-item>
+				<ion-select [(ngModel)]="type" interface="action-sheet" placeholder="Type de contact">
+					<ion-option value="contact">Contact</ion-option>
+					<ion-option value="company">Entreprise</ion-option>
+				</ion-select>
+			</ion-item>
 		</li>
 		<li>
 			<span class="label">Nom</span>
@@ -73,16 +82,10 @@
 				<ion-input [(ngModel)]="lname" placeholder="Nom"></ion-input>
 			</ion-item>
 		</li>
-		<li>
+		<li *ngIf="action == null">
 			<span class="label">Type</span>
-			<span *ngIf="contact.type == 'contact' && action == null" class="value">Personne</span>
-			<span *ngIf="contact.type == 'company' && action == null" class="value">Entreprise</span>
-			<ion-item *ngIf="action != null">
-				<ion-select [(ngModel)]="type" placeholder="Type de contact">
-					<ion-option value="contact">Contact</ion-option>
-					<ion-option value="company">Entreprise</ion-option>
-				</ion-select>
-			</ion-item>
+			<span *ngIf="contact.type == 'contact'" class="value">Personne</span>
+			<span *ngIf="contact.type == 'company'" class="value">Entreprise</span>
 		</li>
 		<li>
 			<span class="label">Ville</span>

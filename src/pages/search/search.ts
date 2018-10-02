@@ -345,7 +345,7 @@ export class SearchPage {
 	}
 
 	details(contact) {
-		this.setMostViewed(contact)
+		// this.setMostViewed(contact)
 		this.navCtrl.push(DetailPage, {
 			contact: contact
 		})
@@ -392,17 +392,17 @@ export class SearchPage {
 		});
 	}
 
-	_deleteContact(id) {
-		this.http.delete('http://localhost:8000/contact/' + id).map(res => res.json()).subscribe(
-			data => {
-				console.log(data)
-				this.navCtrl.setRoot(HomePage)
-			},
-			err => {
-				console.log("Oops!")
-			}
-		)
-	}
+	// _deleteContact(id) {
+	// 	this.http.delete('http://localhost:8000/contact/' + id).map(res => res.json()).subscribe(
+	// 		data => {
+	// 			console.log(data)
+	// 			this.navCtrl.setRoot(HomePage)
+	// 		},
+	// 		err => {
+	// 			console.log("Oops!")
+	// 		}
+	// 	)
+	// }
 
 	deleteContact(id) {
 		let alert = this.alertCtrl.create({
@@ -454,32 +454,32 @@ export class SearchPage {
 		alert.present();
 	}
 
-	setMostViewed(contact) {
-		let mostViewed = []
-		let alreadyExist = false
-		this.storage.get('mostViewed').then((val) => {
-			if (val == null) {
-				mostViewed.concat({ 'index': 1, 'contact': contact })
-			} else {
-				mostViewed = val
-				mostViewed.forEach(e => {
-					if (e.contact.id == contact.id) {
-						e.index = e.index + 1
-						e.contact = contact
-						alreadyExist = true
-					}
-				});
-				if (alreadyExist == false) {
-					mostViewed.push({ 'index': 1, 'contact': contact })
-				}
-			}
-			this.mostViewed = mostViewed
-			this.storage.set('mostViewed', mostViewed)
-			console.log('mostViewed val', mostViewed)
-		})
-		// console.log('mostViewed',this.storage.get('mostViewed'))
-		// this.storage.remove('mostViewed')
-	}
+	// setMostViewed(contact) {
+	// 	let mostViewed = []
+	// 	let alreadyExist = false
+	// 	this.storage.get('mostViewed').then((val) => {
+	// 		if (val == null) {
+	// 			mostViewed.concat({ 'index': 1, 'contact': contact })
+	// 		} else {
+	// 			mostViewed = val
+	// 			mostViewed.forEach(e => {
+	// 				if (e.contact.id == contact.id) {
+	// 					e.index = e.index + 1
+	// 					e.contact = contact
+	// 					alreadyExist = true
+	// 				}
+	// 			});
+	// 			if (alreadyExist == false) {
+	// 				mostViewed.push({ 'index': 1, 'contact': contact })
+	// 			}
+	// 		}
+	// 		this.mostViewed = mostViewed
+	// 		this.storage.set('mostViewed', mostViewed)
+	// 		console.log('mostViewed val', mostViewed)
+	// 	})
+	// 	// console.log('mostViewed',this.storage.get('mostViewed'))
+	// 	// this.storage.remove('mostViewed')
+	// }
 
 	getMostViewed() {
 		this.storage.get('mostViewed').then((val) => {
@@ -501,7 +501,7 @@ export class SearchPage {
 		console.log(typeof (this.contacts_to_move))
 		if (item.checked == true) {
 			this.contacts_to_move.push(item);
-			if (this.contacts_to_move.length == 5) {
+			if (this.contacts_to_move.length == 30) {
 				this.max_selected = true
 			}
 		} else {

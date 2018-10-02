@@ -20,7 +20,7 @@
 <ion-content>
 	<ul *ngIf="info">
 		<li>
-			<ion-select [(ngModel)]="info.type" placeholder="Type d'information">
+			<ion-select [(ngModel)]="info.type" interface="action-sheet" placeholder="Type d'information">
 			    <ion-option value="Phone">Téléphone</ion-option>
 			    <ion-option value="Address">Adress</ion-option>
 			    <ion-option value="Email">Email</ion-option>
@@ -43,7 +43,7 @@
 
 	<ul *ngIf="!info">
 		<li>
-			<ion-select [(ngModel)]="type" placeholder="Type d'information">
+			<ion-select [(ngModel)]="type" interface="action-sheet" placeholder="Type d'information">
 			    <ion-option value="Phone">Téléphone</ion-option>
 			    <ion-option value="Address">Address</ion-option>
 			    <ion-option value="Email">Email</ion-option>

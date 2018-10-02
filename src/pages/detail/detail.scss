@@ -76,6 +76,18 @@ page-detail {
 			}
 		}
 
+		// & > li.type{
+		// 	display: table;
+		// 	.label, .value{
+		// 		display: table;
+		// 		float: left;
+		// 	}
+
+		// 	.label{
+		// 		margin-right: 15px;
+		// 	}
+		// }
+
 		.input{
 			box-shadow: inset 0 0 0px 1px lighten(color($colors, dark), 60%);
 				border-radius: 5px;
@@ -127,14 +139,14 @@ page-detail {
 				width: 100%;
 				bottom: 0;
 				right: 15px;
-				opacity: .3;
 				.camera{
 					background: transparent;
 					box-shadow: 0 0 0;
 					width: 40px;
 					height: 40px;
 					float: right;
-					&:after{
+				opacity: .3;
+				&:after{
 						content: "\f3f6";
 						width: 40px;
 						height: 40px;
@@ -144,7 +156,8 @@ page-detail {
 					}
 				}
 				.image{
-					background: transparent;
+				opacity: .3;
+				background: transparent;
 					box-shadow: 0 0 0;
 					width: 40px;
 					height: 40px;
@@ -156,6 +169,24 @@ page-detail {
 						font-family: "Ionicons";
 						font-size: 30px;
 						margin-left: 10px;
+					}
+				}
+				.delete{
+					background: transparent;
+					box-shadow: 0 0 0;
+					width: 30px;
+					height: 30px;
+					position: absolute;
+					left: 26px;
+					color: #f7f7f7;
+					background: color($colors, danger);
+					border-radius: 15px;
+					&:after{
+						content: "\f4c4";
+						width: 30px;
+						height: 30px;
+						font-family: "Ionicons";
+						font-size: 24px;
 					}
 				}
 			}
