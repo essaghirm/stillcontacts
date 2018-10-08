@@ -87,6 +87,8 @@ export class CategoryPage {
                 if (data.categories.length > 0) {
                     console.log('Result: ', data)
                     this['categories_' + lvl] = data.categories
+                }else{
+                    this['categories_' + (lvl)] = []
                 }
                 this.contacts_total = data.details.contacts
                 this.categories_total = data.details.categories
