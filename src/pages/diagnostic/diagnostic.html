@@ -6,27 +6,38 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+	<ion-navbar>
 		<button ion-button menuToggle right>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-    <ion-title>Diagnostic</ion-title>
-  </ion-navbar>
+		<ion-title>Diagnostic</ion-title>
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-    <ion-item>
-				<ion-select #diag [(ngModel)]="type" interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange()">
-					<ion-option value="contact_without_company">Contact sans entreprise</ion-option>
-					<ion-option value="contact_without_category_five">Contact sans categorie 5</ion-option>
-					<ion-option value="contact_with_categoryfive_incoherent">Contacts avec catégories niveau 5 incohérente avec niveau 1</ion-option>
-					<ion-option value="contacts_double_name">Contact avec meme nom et prénom ou inversé</ion-option>
-					<ion-option value="company_double_name">Entreprises avec meme noms</ion-option>
-					<ion-option value="contact_double_email">Contacts avec meme email</ion-option>
-					<ion-option value="contact_double_phone">Contact avec meme télephone</ion-option>
-					<ion-option value="contact_category_incoherent_with_their_companies">Contact avec Catégorie incompatible avec leurs entreprises</ion-option>
-				</ion-select>
-			</ion-item>
+	<ion-list>
+		<ion-item>
+			<ion-select #diag [(ngModel)]="type" interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange()">
+				<ion-option value="contact_without_company">Contact sans entreprise</ion-option>
+				<ion-option value="contact_without_category_five">Contact sans categorie 5</ion-option>
+				<ion-option value="contact_with_categoryfive_incoherent">Contacts avec catégories niveau 5 incohérente avec niveau
+					1</ion-option>
+				<ion-option value="contacts_double_name">Contact avec meme nom et prénom ou inversé</ion-option>
+				<ion-option value="company_double_name">Entreprises avec meme noms</ion-option>
+				<ion-option value="contact_double_email">Contacts avec meme email</ion-option>
+				<ion-option value="contact_double_phone">Contact avec meme télephone</ion-option>
+				<ion-option value="contact_category_incoherent_with_their_companies">Contact avec Catégorie incompatible avec leurs
+					entreprises</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item class="hasButton"><button ion-button block>Affecter au contact la catégorie d'entreprise</button></ion-item>
+	</ion-list>
+
+	<ion-list>
+		<ion-item *ngFor="let c of contacts">
+			{{ c.lname }} {{ c.fname }}
+		</ion-item>
+	</ion-list>
 </ion-content>

@@ -63,19 +63,43 @@ export class MyApp {
 
         }, 100)
 
+        platform.ready().then(() => {
+            platform.registerBackButtonAction(() => {
 
-        // platform.ready().then(() => {
-        //   // Okay, so the platform is ready and our plugins are available.
-        //   // Here you can do any higher level native things you might need.
+                let nav = app.getActiveNavs()[0];
+                let activeView = nav.getActive();                
 
-        //   // statusBar.styleDefault();
+                if(activeView.name === "SearchPage") {
 
+                    if (nav.canGoBack()){ //Can we go back?
+                        nav.pop();
+                    } else {
+                        const alert = this.alertCtrl.create({
+                            title: 'Arrêt de l\'application',
+                            message: 'Voulez-vous fermer l\'application?',
+                            buttons: [{
+                                text: 'Annuler',
+                                role: 'cancel',
+                                handler: () => {
+                                    console.log('Application exit prevented!');
+                                }
+                            },{
+                                text: 'Fermer',
+                                handler: () => {
+                                    this.platform.exitApp(); // Close this application
+                                }
+                            }]
+                        });
+                        alert.present();
+                    }
+                }else{
+                    if (nav.canGoBack()){ //Can we go back?
+                        nav.pop();
+                    }
+                }
+            });
+        });
 
-        //   // let status bar overlay webview
-        //   statusBar.overlaysWebView(true);
-        //   // set status bar to white
-        //   splashScreen.hide();
-        // });
     }
 
     initializeApp() {
@@ -88,39 +112,7 @@ export class MyApp {
             this.splashScreen.hide();
         });
 
-        this.platform.registerBackButtonAction(() => {
-            console.log('registerBackButtonAction__________')
-            // Catches the active view
-            let nav = this.app.getActiveNavs()[0];
-            let activeView = nav.getActive();
-            // Checks if can go back before show up the alert
-            if (activeView.name === 'SearchPage') {
-                if (nav.canGoBack()) {
-                    nav.pop();
-                } else {
-                    const alert = this.alertCtrl.create({
-                        title: 'Confirmation',
-                        message: 'Voulez vous vraiment quitter l\'application',
-                        buttons: [{
-                            text: 'Annuler',
-                            role: 'cancel',
-                            handler: () => {
-                                this.nav.setRoot('SearchPage');
-                                console.log('** Annuler! **');
-                            }
-                        }, {
-                            text: 'Oui',
-                            handler: () => {
-                                this.platform.exitApp();
-                            }
-                        }]
-                    });
-                    alert.present();
-                }
-            }else{
-                console.log('tarararararra')
-            }
-        })
+
 
     }
 

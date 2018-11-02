@@ -4,6 +4,13 @@ page-diagnostic {
         padding-left: 0;
         border-right: 1px solid lighten(color($colors, mauve), 40%);
 
+        &.hasButton{
+            padding-left: 16px;
+            .button{
+                height: 40px;
+            }
+        }
+
         ion-select.select{
             padding-left: 8px;
             width: 100%;
