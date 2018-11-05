@@ -21,7 +21,7 @@
 		<ion-item>
 			<ion-select #diag [(ngModel)]="type" interface="action-sheet" placeholder="Catégorie" (ionChange)="onChange()">
 				<ion-option value="contact_without_company">Contact sans entreprise</ion-option>
-				<ion-option value="contact_without_category_five">Contact sans categorie 5</ion-option>
+				<!-- <ion-option value="contact_without_category_five">Contact sans categorie 5</ion-option> -->
 				<ion-option value="contact_with_categoryfive_incoherent">Contacts avec catégories niveau 5 incohérente avec niveau
 					1</ion-option>
 				<ion-option value="contacts_double_name">Contact avec meme nom et prénom ou inversé</ion-option>
@@ -35,9 +35,19 @@
 		<ion-item class="hasButton"><button ion-button block>Affecter au contact la catégorie d'entreprise</button></ion-item>
 	</ion-list>
 
-	<ion-list>
-		<ion-item *ngFor="let c of contacts">
-			{{ c.lname }} {{ c.fname }}
+	<ion-list class="result">
+		<div *ngIf="type == 'contact_double_email' || type == 'contact_double_phone'">
+			<ion-item *ngFor="let item of contacts" (click)="details(item.contact)">
+			<span class="name">{{ item.contact.lname }} {{ item.contact.fname }}</span>
+			<span class="info">{{ item.info }}</span>
 		</ion-item>
+		</div>
+
+		<div *ngIf="type != 'contact_double_email' && type != 'contact_double_phone'">
+				<ion-item *ngFor="let item of contacts" (click)="details(item)">
+				<span class="name">{{ item.lname }} {{ item.fname }}</span>
+			</ion-item>
+			</div>
+		
 	</ion-list>
 </ion-content>
